@@ -16,5 +16,22 @@ function App() {
     </>
   );
 }
+export function Agent() {
+  return (
+    <>
+    {/* replace navbar with agent  navbar*/}
+   <Navbar/> 
+   {/* <Login/>
+   <Signup/> */}
+   <Outlet/>
 
-export default App;
+   {/* replace footer with agent footer */}
+   <Footer/>
+    </>
+  );
+}
+
+
+
+
+export default App
