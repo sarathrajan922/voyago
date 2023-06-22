@@ -1,4 +1,4 @@
-import { Formik, Form, Field, ErrorMessage, useFormikContext } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
@@ -8,6 +8,7 @@ interface FormValues {
     firstName: string;
     lastName: string;
     email: string;
+    mobile: any;
     password: string;
     idProof_img?: File |null;  
 }
@@ -23,25 +24,31 @@ const validationSchema: Yup.Schema<FormValues>  = Yup.object({
 
 
 export default function AgentLoginForm() {
-    const formikcontext = useFormikContext();
+   
     const [file, setFile] = useState<File | null>(null);
     const navigate = useNavigate()
   // Validation schema using Yup
   
 
   // Form submission handler
-  const handleSubmit = (values: FormValues ) => {
-   
-      values.idProof_img = file
-      console.log(values)
-      const formData = new FormData();
+  const handleSubmit = async (values: FormValues ) => {
+    const formData = new FormData();
+    if(file){
+        formData.append('idProof_img', file);
+    }
+    
+    //   console.log(values)
+      
       formData.append('firstName', values.firstName);
       formData.append('lastName', values.lastName);
       formData.append('email', values.email);
       formData.append('password', values.password);
-      if(values.idProof_img){
-          formData.append('idProof_img', values.idProof_img);
-      }
+      formData.append('mobile', values.mobile)
+     
+          
+      
+
+      
   
 
 
@@ -56,14 +63,29 @@ export default function AgentLoginForm() {
         localStorage.setItem('agentAccessToken',token)
         parsedData?.status ? navigate('/') : navigate('/agent/signup')
     })
+    // try {
+    //     const response = await axios.post('http://localhost:8000/agent/signup', formData);
+    //     const parsedData = response.data;
+    //     console.log(parsedData);
+    //     const token = parsedData?.token;
+    //     localStorage.setItem('agentAccessToken', token);
+    //     parsedData?.status ? navigate('/') : navigate('/agent/signup');
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
     
   };
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>)=>{
-    if(event.target.files){
-        const file = event?.target?.files[0]
-        setFile(file)
-    }
-  }
+//   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>)=>{
+//     if(event.target.files){
+//         const file = event?.target?.files[0]
+
+//         setFile(file)
+//     }
+//   }
+const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    setFile(file);
+  };
 
   return (
     <>

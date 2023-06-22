@@ -6,6 +6,7 @@ import { CloudinaryStorage } from 'multer-storage-cloudinary';
 interface CloudinaryStorageOptions {
   cloudinary: any; // Adjust the type as needed for the cloudinary object
   params: {
+    folder: string;
     resource_type: string;
     allowed_formats: string[];
     public_id: (req: Request, file: Express.Multer.File) => string;
@@ -23,7 +24,9 @@ cloudinary.config({
 const storageOptions: CloudinaryStorageOptions = {
   cloudinary: cloudinary,
   params: {
+    
     resource_type: 'auto',
+    folder: 'voyago',
     allowed_formats: ['jpg', 'jpeg', 'png','webp'],
     public_id: (req: Request, file: Express.Multer.File): string => {
       const fileName = file.originalname.split('.').slice(0, -1).join('.');
