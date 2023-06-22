@@ -1,12 +1,23 @@
-import express,{Request,Response} from "express";
+import express from "express";
+import { authService } from "../../services/authService";
+import { AuthServiceInterface, authServiceInterface } from "../../../application/services/authServiceInterface";
+import { adminDbRepository } from "../../../application/repository/adminDBrepository";
+import { adminRepossitoryMongoDB } from "../../database/mongodb/repositories/adminRepoMongoDB";
+import adminController from "../../../adapters/controller/adminController";
+
 
 const adminRouter = ()=>{
-    const route = express.Router()
+    const router = express.Router()
 
-    route.get('/',(req:Request, res:Response)=>{
-        res.send('hello this id from localhost:8000/admin(adminRouter)')
-    })
-return route
+    const controller = adminController(
+        authServiceInterface,
+        authService,
+        adminDbRepository,
+        adminRepossitoryMongoDB
+    )
+
+    router.post('/login', controller.adminLogin)
+    return router
 
 }
 
