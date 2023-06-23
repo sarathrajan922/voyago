@@ -56,3 +56,14 @@ export const adminBlockUserUseCase = async(
     }
     return adminBlockUser
 }
+
+export const adminBlockAgentUseCase = async (
+    adminDbRepository: ReturnType<AdminDbInterface>,
+    ojbId: string
+)=> {
+ const adminBlockAgent = await adminDbRepository.blockAgent(ojbId)
+    if(!adminBlockAgent){
+        throw new AppError('Operation failed', HttpStatus.NOT_MODIFIED)
+    }
+    return adminBlockAgent
+}

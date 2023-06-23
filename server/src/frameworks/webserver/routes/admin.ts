@@ -21,6 +21,7 @@ const adminRouter = ()=>{
     router.get('/get-all-users', authenticationMiddleware, controller.adminGetAllUsers)
     router.get('/get-all-agents', authenticationMiddleware, controller.adminGetAllAgents)
     router.post('/block&unblockuser/:id', authenticationMiddleware, controller.adminBlockUser)
+    router.post('/block&unblockagent/:id', authenticationMiddleware, controller.adminBlockAgent)
     return router
 
 }

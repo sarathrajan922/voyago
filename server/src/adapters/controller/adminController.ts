@@ -2,7 +2,7 @@ import { AuthServiceInterface, authServiceInterface } from "../../application/se
 import { AuthService } from "../../frameworks/services/authService";
 import { AdminDbInterface } from "../../application/repository/adminDBrepository";
 import { AdminRepossitoryMongoDB } from "../../frameworks/database/mongodb/repositories/adminRepoMongoDB";
-import { adminBlockUserUseCase, adminGetAllAgentsUseCase, adminLoginUseCase  } from "../../application/useCase/auth/adminAuth";
+import { adminBlockAgentUseCase, adminBlockUserUseCase, adminGetAllAgentsUseCase, adminLoginUseCase  } from "../../application/useCase/auth/adminAuth";
 import { AdminInterface } from "../../types/admin";
 import { Request,Response} from 'express'
 import { adminGetAllUsersUseCase } from "../../application/useCase/auth/adminAuth";
@@ -49,8 +49,18 @@ const adminController = (
 
     const adminBlockUser = asyncHandler(async(req: Request,res: Response)=>{
         const userId = req.params.id
-        console.log(userId, 'user id ')
+        
         const result = await adminBlockUserUseCase(dbRepositoryAdmin, userId)
+
+        res.json({
+            status: 'success',
+            result
+        })
+    })
+
+    const adminBlockAgent = asyncHandler(async (req: Request, res: Response)=>{
+        const agentId = req.params.id
+        const result = await adminBlockAgentUseCase(dbRepositoryAdmin,agentId)
 
         res.json({
             status: 'success',
@@ -64,7 +74,8 @@ const adminController = (
         adminLogin,
         adminGetAllUsers,
         adminGetAllAgents,
-        adminBlockUser
+        adminBlockUser,
+        adminBlockAgent
     }
 }
 

@@ -15,12 +15,14 @@ export const adminDbRepository = (repository: ReturnType<AdminRepossitoryMongoDB
     }
 
     const blockUser= async (ojbId: string)=> await repository.blockUser(ojbId)
+    const blockAgent = async (ojbId: string)=> await repository.blockAgent(ojbId)
 
     return {
         getAdminByEmail,
         getAllUsers,
         getAllAgents,
-        blockUser
+        blockUser,
+        blockAgent
     }
 }
 

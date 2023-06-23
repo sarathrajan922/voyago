@@ -30,6 +30,17 @@ export const adminRepossitoryMongoDB = ()=>{
         return result
     }
 
+    const blockAgent = async (objId: string)=>{
+        const id = new Types.ObjectId(objId)
+        const agent = await Agent.findById(id)
+        const status = (!agent?.isActive)
+        const result = await Agent.findOneAndUpdate(
+            {"_id": id},
+            {$set: {"isActive": status}}
+        )
+        return result;
+    }
+
 
 
 
@@ -37,7 +48,8 @@ export const adminRepossitoryMongoDB = ()=>{
         getAdminByEmail,
         getAllusers,
         getAllAgents,
-        blockUser
+        blockUser,
+        blockAgent
     }
 }
 
