@@ -1,9 +1,10 @@
 import { HttpStatus } from "../../../types/httpStatus";
-import { AgentRegisterInterface } from "../../../types/agent";
+import { AgentAddCategoryInterface, AgentRegisterInterface } from "../../../types/agent";
 import AppError from "../../../utils/appError";
 import { AuthServiceInterface } from "../../services/authServiceInterface";
 import { AgentDbInterface } from "../../repository/agentDBrepository";
 import { AgentInterface } from "../../../types/agent";
+import Category from "../../../frameworks/database/mongodb/models/categoryModel";
 
 export const agentRegisterUseCase = async (
     agent : AgentRegisterInterface,
@@ -43,3 +44,18 @@ export const agentLoginUseCase = async (
         const token = authService.generateToken(agent?._id?.toString() ?? '')
         return token
     }
+
+export const agentAddCategoryUseCase = async (
+    category: AgentAddCategoryInterface,
+    agentRepository: ReturnType<AgentDbInterface> ,
+
+)=>{
+
+//! check category is already exist
+//     category.name = category.name
+//     console.log(category)
+//     const isNameExist = await agentRepository.
+
+const result = await agentRepository.addCategory(category)
+return result
+ }

@@ -18,3 +18,9 @@ export interface AgentInterface {
     email?: string,
     password?: string
 }
+
+
+export interface AgentAddCategoryInterface {
+    name?: String,
+    agentId?: string
+}

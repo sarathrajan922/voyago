@@ -4,8 +4,8 @@ import { AgentDbInterface } from "../../application/repository/agentDBrepository
 import { AgentRepositoryMongoDB } from "../../frameworks/database/mongodb/repositories/agentRepoMongoDB";
 import asyncHandler from "express-async-handler";
 import { Request,Response } from "express";
-import { agentLoginUseCase, agentRegisterUseCase } from "../../application/useCase/auth/agentAuth";
-import { AgentRegisterInterface, AgentInterface } from "../../types/agent";
+import { agentAddCategoryUseCase, agentLoginUseCase, agentRegisterUseCase } from "../../application/useCase/auth/agentAuth";
+import { AgentRegisterInterface, AgentInterface, AgentAddCategoryInterface } from "../../types/agent";
 
 
 const agentController = (
@@ -44,9 +44,22 @@ const agentController = (
         })
     })
 
+    const addCategory = asyncHandler(async (req: Request, res: Response)=>{
+        console.log(req.body)
+        const category : AgentAddCategoryInterface = req.body
+        const result = await agentAddCategoryUseCase(category,dbRepositoryAgent)
+        
+        res.json({
+            status: true,
+            message: 'category added successfully',
+            result
+        })
+    })
+
     return {
         agentRegister,
-        agentLogin
+        agentLogin,
+        addCategory
     }
 }
 

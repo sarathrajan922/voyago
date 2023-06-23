@@ -1,5 +1,6 @@
 import Agent from "../models/agentModel";
-import { AgentRegisterInterface } from "../../../../types/agent";
+import { AgentRegisterInterface ,AgentAddCategoryInterface} from "../../../../types/agent";
+import Category from "../models/categoryModel";
 
 export const agentRepositoryMongoDB = ()=>{
 
@@ -11,10 +12,15 @@ export const agentRepositoryMongoDB = ()=>{
         return Agent.findOne({email})
     }
 
+    const addCategory = async (category:AgentAddCategoryInterface)=>{
+        return Category.create(category)
+    }
+
 
     return {
         addAgent,
-        getAgentByEmail
+        getAgentByEmail,
+        addCategory
 
     }
 }
