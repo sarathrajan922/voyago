@@ -2,6 +2,7 @@ import Admin from "../models/adminModel";
 import { AdminInterface } from "../../../../types/admin";
 import User from "../models/userModel";
 import Agent from "../models/agentModel";
+import { ObjectId, Types } from "mongoose";
 
 export const adminRepossitoryMongoDB = ()=>{
     const getAdminByEmail = async (email: string)=>{
@@ -13,15 +14,30 @@ export const adminRepossitoryMongoDB = ()=>{
         return AllUsers
     }
 
-  
+    const getAllAgents = async ()=>{
+        const AllAgents = await Agent.find()
+        return AllAgents
+    }
+
+    const blockUser = async (objId: string)=>{
+        const id = new Types.ObjectId(objId)
+        const user = await User.findById(id);
+        const status = (!user?.isActive)
+        const result = await User.findOneAndUpdate(
+            { "_id": id },
+            { $set: { "isActive": status } }, 
+        )
+        return result
+    }
 
 
 
 
     return {
         getAdminByEmail,
-        getAllusers
-       
+        getAllusers,
+        getAllAgents,
+        blockUser
     }
 }
 

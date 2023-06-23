@@ -1,3 +1,4 @@
+import { ObjectId } from "mongoose";
 import { AdminRepossitoryMongoDB } from "../../frameworks/database/mongodb/repositories/adminRepoMongoDB";
 // import { AdminInterface } from "../../types/admin";
 
@@ -8,9 +9,18 @@ export const adminDbRepository = (repository: ReturnType<AdminRepossitoryMongoDB
         return AllUsers;
     }
 
+    const getAllAgents = async ()=>{
+        const AllAgents = await repository.getAllAgents();
+        return AllAgents
+    }
+
+    const blockUser= async (ojbId: string)=> await repository.blockUser(ojbId)
+
     return {
         getAdminByEmail,
-        getAllUsers
+        getAllUsers,
+        getAllAgents,
+        blockUser
     }
 }
 
