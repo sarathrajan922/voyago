@@ -4,6 +4,7 @@ import { AuthServiceInterface, authServiceInterface } from "../../../application
 import { adminDbRepository } from "../../../application/repository/adminDBrepository";
 import { adminRepossitoryMongoDB } from "../../database/mongodb/repositories/adminRepoMongoDB";
 import adminController from "../../../adapters/controller/adminController";
+import authenticationMiddleware from "../middlewares/authenticationMiddleware";
 
 
 const adminRouter = ()=>{
@@ -17,6 +18,8 @@ const adminRouter = ()=>{
     )
 
     router.post('/login', controller.adminLogin)
+    router.get('/get-all-users', authenticationMiddleware, controller.adminGetAllUsers)
+    
     return router
 
 }

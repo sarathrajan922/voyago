@@ -9,6 +9,7 @@ const router = (app: Application)=>{
     // app.use('/user', userRouter())
     app.use('/admin', adminRouter())
     app.use('/agent', agentRouter())
+    
 }
 
 export default router

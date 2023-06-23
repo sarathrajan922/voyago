@@ -5,6 +5,7 @@ import { AdminRepossitoryMongoDB } from "../../frameworks/database/mongodb/repos
 import { adminLoginUseCase } from "../../application/useCase/auth/adminAuth";
 import { AdminInterface } from "../../types/admin";
 import { Request,Response} from 'express'
+import { adminGetAllUsersUseCase } from "../../application/useCase/auth/adminAuth";
 import asyncHandler from "express-async-handler";
 
 
@@ -29,8 +30,19 @@ const adminController = (
         })
     })
 
+    const adminGetAllUsers = asyncHandler(async (req: Request,res: Response)=>{
+        const userData = await adminGetAllUsersUseCase(dbRepositoryAdmin)
+        res.json({
+            status: 'success',
+            userData
+        })
+    })
+     
+    
+
     return {
-        adminLogin
+        adminLogin,
+        adminGetAllUsers
     }
 }
 

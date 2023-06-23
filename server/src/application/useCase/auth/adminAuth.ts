@@ -23,3 +23,13 @@ export const adminLoginUseCase = async (
     const token = authService.generateToken(admin?._id?.toString() ?? '')
     return token
 }
+
+export const adminGetAllUsersUseCase = async (
+    adminRepository: ReturnType<AdminDbInterface> 
+)=>{
+    const userData = await adminRepository.getAllUsers()
+    if(!userData){
+        throw new AppError("No users found", HttpStatus.NOT_FOUND)
+    }
+    return userData
+}

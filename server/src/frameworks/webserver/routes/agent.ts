@@ -5,6 +5,7 @@ import { agentRepositoryMongoDB } from "../../database/mongodb/repositories/agen
 import agentController from "../../../adapters/controller/agentController"
 import express from 'express'
 import { upload } from "../middlewares/cloudinary"
+import authenticationMiddleware from "../middlewares/authenticationMiddleware"
 
 const agentRouter = ()=>{
  const router = express.Router()

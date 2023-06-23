@@ -3,9 +3,14 @@ import { AdminRepossitoryMongoDB } from "../../frameworks/database/mongodb/repos
 
 export const adminDbRepository = (repository: ReturnType<AdminRepossitoryMongoDB>)=>{
     const getAdminByEmail = async (email: string)=> await repository.getAdminByEmail(email)
+    const getAllUsers = async ()=> {
+        const AllUsers = await repository.getAllusers();
+        return AllUsers;
+    }
 
     return {
-        getAdminByEmail
+        getAdminByEmail,
+        getAllUsers
     }
 }
 
