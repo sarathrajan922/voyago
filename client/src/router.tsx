@@ -1,14 +1,16 @@
  import { createBrowserRouter } from 'react-router-dom'
-import Login from './components/user/Login/Login'
-// import Navbar from './components/user/Header/Navbar'
+import Login from './components/user/Login'
+
 import App from './App';
-import Signup from './components/user/Signup/Signup';
+import Signup from './components/user/Signup';
 import Body from './components/user/Body/Body';
-import AdminLogin from './components/admin/Login/AdminLogin';
+import AdminLogin from './components/admin/AdminLogin';
 import AgentSignupForm from './components/agent/AgentSignup';
 import AgentDashBoard from './components/agent/AgentDashBoard';
-import { Agent } from './App';
+import { Agent, Admin } from './App';
 import AgentLoginForm from './components/agent/AgentLogin';
+
+import AdminDashBoard from './components/admin/AdminDashBoard';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -50,6 +52,22 @@ import AgentLoginForm from './components/agent/AgentLogin';
             }
         ]
 
+    },
+    {
+        path: '/admin',
+        element: <Admin/>,
+        children: [
+            {
+                path: '/admin',
+                element: <AdminDashBoard/>
+
+            },
+            {
+                path: 'login',
+                element: <AdminLogin/>
+            }
+        ]
+        
     }
     
  ]);

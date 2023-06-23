@@ -1,9 +1,10 @@
 import React from 'react';
-import Navbar from './components/user/Header/Navbar';
+import Navbar from './components/user/Navbar';
 // import Login from './components/user/Login/Login';
 // import Signup from './components/user/Signup/Signup';
-import Footer from './components/user/footer/Footer';
+import Footer from './components/user/Footer';
 import { Outlet } from 'react-router-dom';
+import Login from './components/user/Login';
 
 function App() {
   return (
@@ -29,6 +30,20 @@ export function Agent() {
    <Footer/>
     </>
   );
+}
+
+export function Admin(){
+  return (
+    <> 
+    {/* replace nav bar with admin navbar */}
+
+
+    <Outlet/>
+
+    {/* replace footer with admin footer */}
+  
+    </>
+  )
 }
 
 

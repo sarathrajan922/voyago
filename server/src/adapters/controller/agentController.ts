@@ -18,8 +18,7 @@ const agentController = (
     const authServices = authServiceInterface(authService())
 
     const agentRegister = asyncHandler(async (req:Request,res: Response)=>{
-        console.log(req.file)
-        console.log(req.body)
+       
         const agent: AgentRegisterInterface = req.body
         if(req.file){
             agent.idProof_img = req.file.path

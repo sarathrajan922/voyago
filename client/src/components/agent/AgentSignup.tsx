@@ -26,6 +26,7 @@ const validationSchema: Yup.Schema<FormValues>  = Yup.object({
 export default function AgentSignupForm() {
    
     const [file, setFile] = useState<File | null>(null);
+    const [idproof, setIdproof]= useState<string | any>(null)
     const navigate = useNavigate()
   // Validation schema using Yup
   
@@ -83,8 +84,12 @@ export default function AgentSignupForm() {
 //     }
 //   }
 const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files && event.target.files[0];
-    setFile(file);
+    const file = event.target.files &&  event.target.files[0];
+    if(file){
+      setIdproof(URL.createObjectURL(file))
+      setFile(file);
+    }
+   
   };
 
   return (
@@ -210,14 +215,19 @@ const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage name="password" component="div" className="text-red-500" />
+                  
                 </div>
+                
               </div>
 
               {/* ID Proof upload */}
               <div>
                 <label htmlFor="idProof_img" className="block text-sm font-medium leading-6 text-gray-900">
                   Upload your identification proof
+                  {idproof && <img className="w-20 h-20 rounded " src={idproof} alt=''></img>}
+                  
                 </label>
+                
                 <div className="mt-2">
                   <Field
                     id="idProof_img"   
