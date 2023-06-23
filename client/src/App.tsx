@@ -21,13 +21,13 @@ export function Agent() {
   return (
     <>
     {/* replace navbar with agent  navbar*/}
-   <Navbar/> 
+   {/* <Navbar/>  */}
    {/* <Login/>
    <Signup/> */}
    <Outlet/>
 
    {/* replace footer with agent footer */}
-   <Footer/>
+   {/* <Footer/> */}
     </>
   );
 }
