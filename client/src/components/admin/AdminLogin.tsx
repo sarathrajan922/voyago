@@ -3,6 +3,8 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import BASE_URL, { urls } from "../../config";
 
 interface FormValues {
   email: string;
@@ -23,29 +25,21 @@ export default function AdminLoginForm() {
     password: "",
   };
 
-  const handleSubmit = (values: FormValues) => {
-    // Handle form submission here
-    // console.log(values);
-
-    //   //! fetch or axios
-    fetch("http://localhost:8000/admin/login", {
-      method: "POST",
-      body: JSON.stringify(values),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then(async (response: any) => {
-      const parsedData = await response.json();
+  const handleSubmit = async (values: FormValues) => {
+    try {
+      const response = await axios.post(BASE_URL + urls.ADMIN_LOGIN, values);
+      const parsedData = response.data;
       const token = parsedData?.token;
-      console.log(parsedData);
+
       localStorage.setItem("accessToken", token);
       parsedData?.status === "fail"
         ? navigate("/admin/login")
         : navigate("/admin");
-    });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  // }
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 ">
@@ -99,13 +93,14 @@ export default function AdminLoginForm() {
                   >
                     Password
                   </label>
-                  <div className="text-sm">
-                    <a
+                  <div className="text-sm font-semibold text-indigo-600 hover:text-indigo-500">
+                    {/* <a
                       href="#"
                       className="font-semibold text-indigo-600 hover:text-indigo-500"
                     >
-                      Forgot password?
-                    </a>
+                      
+                    </a> */}
+                    Forgot password?
                   </div>
                 </div>
                 <div className="mt-2">
@@ -135,7 +130,6 @@ export default function AdminLoginForm() {
               </div>
             </Form>
           </Formik>
-         
         </div>
       </div>
     </>

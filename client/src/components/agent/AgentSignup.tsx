@@ -1,8 +1,9 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate, Link } from "react-router-dom";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { useState } from "react";
+import BASE_URL, { urls } from "../../config";
 
 interface FormValues {
   firstName: string;
@@ -30,7 +31,6 @@ export default function AgentSignupForm() {
   const [file, setFile] = useState<File | null>(null);
   const [idproof, setIdproof] = useState<string | any>(null);
   const navigate = useNavigate();
-  // Validation schema using Yup
 
   // Form submission handler
   const handleSubmit = async (values: FormValues) => {
@@ -39,43 +39,24 @@ export default function AgentSignupForm() {
       formData.append("idProof_img", file);
     }
 
-    //   console.log(values)
-
     formData.append("firstName", values.firstName);
     formData.append("lastName", values.lastName);
     formData.append("email", values.email);
     formData.append("password", values.password);
     formData.append("mobile", values.mobile);
 
-    // //! call fetch or axios here
-    fetch("http://localhost:8000/agent/signup", {
-      method: "POST",
-      body: formData,
-    }).then(async (response: any) => {
-      const parsedData = await response.json();
-      console.log(parsedData);
+    try {
+      const response = await axios.post(BASE_URL + urls.AGENT_SIGNUP, formData);
+      const parsedData = response.data;
+
       const token = parsedData?.token;
       localStorage.setItem("agentAccessToken", token);
-      parsedData?.status ? navigate("/agent") : navigate("/agent/signup");
-    });
-    // try {
-    //     const response = await axios.post('http://localhost:8000/agent/signup', formData);
-    //     const parsedData = response.data;
-    //     console.log(parsedData);
-    //     const token = parsedData?.token;
-    //     localStorage.setItem('agentAccessToken', token);
-    //     parsedData?.status ? navigate('/') : navigate('/agent/signup');
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
+      parsedData?.status ? navigate("/") : navigate("/agent/signup");
+    } catch (error) {
+      console.error(error);
+    }
   };
-  //   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>)=>{
-  //     if(event.target.files){
-  //         const file = event?.target?.files[0]
 
-  //         setFile(file)
-  //     }
-  //   }
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
@@ -221,14 +202,6 @@ export default function AgentSignupForm() {
                   >
                     Password
                   </label>
-                  <div className="text-sm">
-                    <a
-                      href="#"
-                      className="font-semibold text-indigo-600 hover:text-indigo-500"
-                    >
-                      Forgot password?
-                    </a>
-                  </div>
                 </div>
                 <div className="mt-2">
                   <Field
