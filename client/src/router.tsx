@@ -11,6 +11,9 @@ import { Agent, Admin } from './App';
 import AgentLoginForm from './components/agent/AgentLogin';
 
 import AdminDashBoard from './components/admin/AdminDashBoard';
+import AdminUser from './components/admin/Body/AdminUser';
+import AdminAgents from './components/admin/Body/AdminAgents';
+import AdminDash from './components/admin/Body/DashBoard';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -59,12 +62,20 @@ import AdminDashBoard from './components/admin/AdminDashBoard';
         children: [
             {
                 path: '/admin',
-                element: <AdminDashBoard/>
+                element: <AdminDash/>
 
             },
             {
                 path: 'login',
                 element: <AdminLogin/>
+            },
+            {
+                path: 'users',
+                element: <AdminUser/>
+            },
+            {
+                path: 'agents',
+                element: <AdminAgents/>
             }
         ]
         

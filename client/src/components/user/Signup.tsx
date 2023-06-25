@@ -1,7 +1,10 @@
-import { FormEvent, useState } from "react";
+
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import BASE_URL, { urls } from "../../config";
+
 
 interface FormValues {
   firstName: string;
@@ -37,22 +40,20 @@ const validationSchema: Yup.Schema<FormValues> = Yup.object({
 
 export default function Signup() {
   const naviage = useNavigate();
-  const handleSubmit = (values: FormValues) => {
-    console.log(values);
-
-    fetch("http://localhost:8000/auth/user/signup", {
-      method: "POST",
-      body: JSON.stringify(values),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then(async (response: any) => {
-      const pasrsedData = await response.json();
-      console.log(pasrsedData);
-      const token = pasrsedData?.token;
+  const handleSubmit = async (values: FormValues) => {
+   
+    try{
+      const response = await axios.post(BASE_URL + urls.USER_SIGNUP, values);
+      const parsedData = response?.data;
+     
+      const token = parsedData?.token;
       localStorage.setItem("accessToken", token);
-      pasrsedData?.status ? naviage("/") : naviage("/signup");
-    });
+      parsedData?.status ==='fail' ? naviage("/signup") : naviage("/");
+
+    }catch(error){
+      console.error(error)
+    }
+   
   };
 
   return (
@@ -214,12 +215,12 @@ export default function Signup() {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             I'm a member?{" "}
-            <a
-              href="#"
+            <Link
+              to="/login"
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >
               Already have an account
-            </a>
+            </Link>
           </p>
         </div>
       </div>

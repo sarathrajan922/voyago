@@ -1,69 +1,63 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import axios, { AxiosResponse } from 'axios';
-import { useState } from 'react';
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { useNavigate, Link } from "react-router-dom";
+import axios, { AxiosResponse } from "axios";
+import { useState } from "react";
 
 interface FormValues {
-    firstName: string;
-    lastName: string;
-    email: string;
-    mobile: any;
-    password: string;
-    idProof_img?: File |null;  
+  firstName: string;
+  lastName: string;
+  email: string;
+  mobile: any;
+  password: string;
+  idProof_img?: File | null;
 }
 
-const validationSchema: Yup.Schema<FormValues>  = Yup.object({
-    firstName: Yup.string().min(3 , "first name must have 3 characters").required('First Name is required'),
-    lastName: Yup.string().required('Last Name is required'),
-    email: Yup.string().email('Invalid email address').required('Email is required'),
-    mobile: Yup.number().required('Mobile is required'),
-    password: Yup.string().required('Password is required'),
-    // idProof_img: Yup.mixed().required('ID Proof is required')  as Yup.MixedSchema<File | null>,
-  });
-
+const validationSchema: Yup.Schema<FormValues> = Yup.object({
+  firstName: Yup.string()
+    .min(3, "first name must have 3 characters")
+    .required("First Name is required"),
+  lastName: Yup.string().required("Last Name is required"),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  mobile: Yup.number().required("Mobile is required"),
+  password: Yup.string().required("Password is required"),
+  // idProof_img: Yup.mixed().required('ID Proof is required')  as Yup.MixedSchema<File | null>,
+});
 
 export default function AgentSignupForm() {
-   
-    const [file, setFile] = useState<File | null>(null);
-    const [idproof, setIdproof]= useState<string | any>(null)
-    const navigate = useNavigate()
+  const [file, setFile] = useState<File | null>(null);
+  const [idproof, setIdproof] = useState<string | any>(null);
+  const navigate = useNavigate();
   // Validation schema using Yup
-  
 
   // Form submission handler
-  const handleSubmit = async (values: FormValues ) => {
+  const handleSubmit = async (values: FormValues) => {
     const formData = new FormData();
-    if(file){
-        formData.append('idProof_img', file);
+    if (file) {
+      formData.append("idProof_img", file);
     }
-    
+
     //   console.log(values)
-      
-      formData.append('firstName', values.firstName);
-      formData.append('lastName', values.lastName);
-      formData.append('email', values.email);
-      formData.append('password', values.password);
-      formData.append('mobile', values.mobile)
-     
-          
-      
 
-      
-  
-
+    formData.append("firstName", values.firstName);
+    formData.append("lastName", values.lastName);
+    formData.append("email", values.email);
+    formData.append("password", values.password);
+    formData.append("mobile", values.mobile);
 
     // //! call fetch or axios here
-    fetch('http://localhost:8000/agent/signup',{
-        method: 'POST',
-        body: formData
-    }).then(async (response: any)=>{
-        const parsedData = await response.json()
-        console.log(parsedData)
-        const token = parsedData?.token
-        localStorage.setItem('agentAccessToken',token)
-        parsedData?.status ? navigate('/') : navigate('/agent/signup')
-    })
+    fetch("http://localhost:8000/agent/signup", {
+      method: "POST",
+      body: formData,
+    }).then(async (response: any) => {
+      const parsedData = await response.json();
+      console.log(parsedData);
+      const token = parsedData?.token;
+      localStorage.setItem("agentAccessToken", token);
+      parsedData?.status ? navigate("/agent") : navigate("/agent/signup");
+    });
     // try {
     //     const response = await axios.post('http://localhost:8000/agent/signup', formData);
     //     const parsedData = response.data;
@@ -74,22 +68,20 @@ export default function AgentSignupForm() {
     //   } catch (error) {
     //     console.error(error);
     //   }
-    
   };
-//   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>)=>{
-//     if(event.target.files){
-//         const file = event?.target?.files[0]
+  //   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>)=>{
+  //     if(event.target.files){
+  //         const file = event?.target?.files[0]
 
-//         setFile(file)
-//     }
-//   }
-const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files &&  event.target.files[0];
-    if(file){
-      setIdproof(URL.createObjectURL(file))
+  //         setFile(file)
+  //     }
+  //   }
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      setIdproof(URL.createObjectURL(file));
       setFile(file);
     }
-   
   };
 
   return (
@@ -109,13 +101,12 @@ const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <Formik
             initialValues={{
-              firstName: '',
-              lastName: '',
-              email: '',
-              mobile: '',
-              password: '',
-              idProof_img: null
-              
+              firstName: "",
+              lastName: "",
+              email: "",
+              mobile: "",
+              password: "",
+              idProof_img: null,
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -123,7 +114,10 @@ const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
             <Form className="space-y-6" encType="multipart/form-data">
               {/* First Name */}
               <div>
-                <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor="firstName"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
                   First Name
                 </label>
                 <div className="mt-2">
@@ -135,13 +129,20 @@ const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
                     required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
-                  <ErrorMessage name="firstName" component="div" className="text-red-500" />
+                  <ErrorMessage
+                    name="firstName"
+                    component="div"
+                    className="text-red-500"
+                  />
                 </div>
               </div>
 
               {/* Last Name */}
               <div>
-                <label htmlFor="lastName" className="block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor="lastName"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
                   Last Name
                 </label>
                 <div className="mt-2">
@@ -153,13 +154,20 @@ const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
                     required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
-                  <ErrorMessage name="lastName" component="div" className="text-red-500" />
+                  <ErrorMessage
+                    name="lastName"
+                    component="div"
+                    className="text-red-500"
+                  />
                 </div>
               </div>
 
               {/* Email */}
               <div>
-                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
                   Email address
                 </label>
                 <div className="mt-2">
@@ -171,13 +179,20 @@ const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
                     required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
-                  <ErrorMessage name="email" component="div" className="text-red-500" />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="text-red-500"
+                  />
                 </div>
               </div>
 
               {/* Mobile */}
               <div>
-                <label htmlFor="mobile" className="block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor="mobile"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
                   Mobile
                 </label>
                 <div className="mt-2">
@@ -189,18 +204,28 @@ const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
                     required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
-                  <ErrorMessage name="mobile" component="div" className="text-red-500" />
+                  <ErrorMessage
+                    name="mobile"
+                    component="div"
+                    className="text-red-500"
+                  />
                 </div>
               </div>
 
               {/* Password */}
               <div>
                 <div className="flex items-center justify-between">
-                  <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
                     Password
                   </label>
                   <div className="text-sm">
-                    <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                    <a
+                      href="#"
+                      className="font-semibold text-indigo-600 hover:text-indigo-500"
+                    >
                       Forgot password?
                     </a>
                   </div>
@@ -214,23 +239,33 @@ const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
                     required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
-                  <ErrorMessage name="password" component="div" className="text-red-500" />
-                  
+                  <ErrorMessage
+                    name="password"
+                    component="div"
+                    className="text-red-500"
+                  />
                 </div>
-                
               </div>
 
               {/* ID Proof upload */}
               <div>
-                <label htmlFor="idProof_img" className="block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor="idProof_img"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
                   Upload your identification proof
-                  {idproof && <img className="w-20 h-20 rounded " src={idproof} alt=''></img>}
-                  
+                  {idproof && (
+                    <img
+                      className="w-20 h-20 rounded "
+                      src={idproof}
+                      alt=""
+                    ></img>
+                  )}
                 </label>
-                
+
                 <div className="mt-2">
                   <Field
-                    id="idProof_img"   
+                    id="idProof_img"
                     name="idProof_img"
                     type="file"
                     autoComplete="idProof_img"
@@ -238,7 +273,11 @@ const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     onChange={handleFileChange}
                   />
-                  <ErrorMessage name="idProof_img" component="div" className="text-red-500" />
+                  <ErrorMessage
+                    name="idProof_img"
+                    component="div"
+                    className="text-red-500"
+                  />
                 </div>
               </div>
 
@@ -254,10 +293,13 @@ const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
           </Formik>
 
           <p className="mt-10 text-center text-sm text-gray-500">
-            Already a member?{' '}
-            <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-              Already I have an account
-            </a>
+            Already a member?{" "}
+            <Link
+              to="/agent/login"
+              className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+            >
+              Login
+            </Link>
           </p>
         </div>
       </div>

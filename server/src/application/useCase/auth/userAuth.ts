@@ -9,6 +9,7 @@ export const userRegisterUseCase = async (
     userRepository: ReturnType<UserDbInterface>,
     authService: ReturnType<AuthServiceInterface>
   ) => {
+    console.log(user)
     user.email = user.email.toLowerCase();
     console.log(user)
     const isExistingEmail = await userRepository.getUserByEmail(user.email);

@@ -5,6 +5,7 @@ import Navbar from './components/user/Navbar';
 import Footer from './components/user/Footer';
 import { Outlet } from 'react-router-dom';
 import Login from './components/user/Login';
+import AdminDashBoard from './components/admin/AdminDashBoard';
 
 function App() {
   return (
@@ -37,8 +38,8 @@ export function Admin(){
     <> 
     {/* replace nav bar with admin navbar */}
 
-
-    <Outlet/>
+      <AdminDashBoard/>
+       <Outlet/>
 
     {/* replace footer with admin footer */}
   

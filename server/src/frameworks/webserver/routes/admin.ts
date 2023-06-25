@@ -20,8 +20,8 @@ const adminRouter = ()=>{
     router.post('/login', controller.adminLogin)
     router.get('/get-all-users', authenticationMiddleware, controller.adminGetAllUsers)
     router.get('/get-all-agents', authenticationMiddleware, controller.adminGetAllAgents)
-    router.post('/block&unblockuser/:id', authenticationMiddleware, controller.adminBlockUser)
-    router.post('/block&unblockagent/:id', authenticationMiddleware, controller.adminBlockAgent)
+    router.post('/block-user/:id', authenticationMiddleware, controller.adminBlockUser)
+    router.post('/block-agent/:id', authenticationMiddleware, controller.adminBlockAgent)
     return router
 
 }

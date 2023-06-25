@@ -1,0 +1,21 @@
+
+ export const urls ={
+   
+    USER_SIGNUP: 'auth/user/signup',
+    USER_LOGIN: 'auth/user/login',
+    AGENT_SIGNUP: 'agent/signup',
+    AGENT_LOGIN: 'agent/login',
+    AGENT_ADD_CATEGORY: 'agent/category-add',
+    ADMIN_LOGIN: 'admin/login',
+    ADMIN_GET_ALL_USERS: 'admin/get-all-users',
+    ADMIN_GET_ALL_AGENTS: 'admin/get-all-agents',
+    ADMIN_BLOCK_USER: 'admin/block-user/',
+    ADMIN_BLOCK_AGENT: 'admin/block-agent/',
+ }
+ 
+ const BASE_URL= 'http://localhost:8000/';
+
+ export default BASE_URL
+
+
+

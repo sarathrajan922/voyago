@@ -2,7 +2,9 @@
 // import { FormEvent, useState } from "react"
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import BASE_URL, { urls } from "../../config";
+import axios from "axios";
 
 interface FormValues {
   email: string;
@@ -23,27 +25,20 @@ export default function Login() {
     password: "",
   };
 
-  const handleSubmit = (values: FormValues) => {
+  const handleSubmit = async (values: FormValues) => {
     // Handle form submission here
-    // console.log(values);
-
-    //   //! fetch or axios
-    fetch("http://localhost:8000/auth/user/login", {
-      method: "POST",
-      body: JSON.stringify(values),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then(async (response: any) => {
-      const parsedData = await response.json();
-      const token = parsedData?.token;
+    try {
+      const response = await axios.post(BASE_URL + urls.USER_LOGIN, values);
+      const parsedData = response.data;
       console.log(parsedData);
+      const token = parsedData?.token;
       localStorage.setItem("accessToken", token);
-      parsedData?.status ? navigate("/") : navigate("/login");
-    });
+      parsedData?.status === "fail" ? navigate("/login") : navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  // }
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 ">
@@ -98,12 +93,12 @@ export default function Login() {
                     Password
                   </label>
                   <div className="text-sm">
-                    <a
+                    {/* <a
                       href="#"
                       className="font-semibold text-indigo-600 hover:text-indigo-500"
                     >
                       Forgot password?
-                    </a>
+                    </a> */}
                   </div>
                 </div>
                 <div className="mt-2">
@@ -135,12 +130,12 @@ export default function Login() {
           </Formik>
           <p className="mt-10 text-center text-sm text-gray-500">
             Not a member?{" "}
-            <a
-              href="#"
+            <Link
+              to="/signup"
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >
               create an account
-            </a>
+            </Link>
           </p>
         </div>
       </div>
