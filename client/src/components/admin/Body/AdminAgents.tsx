@@ -1,8 +1,35 @@
 
-import React from 'react';
+import React, { useEffect,useState} from 'react';
 import AgentTable from './Pages/agentTable';
+import axios from 'axios';
+import { AgentDataApiResponse } from '../../../API/type/getAllAgents';
+import BASE_URL, { urls } from '../../../config';
+
 
 const AdminAgents: React.FC = () => {
+
+  const [agentData, SetAgentData]= useState<AgentDataApiResponse[] | null>(null)
+
+  console.log(agentData)
+
+  useEffect(()=>{
+    const getAgents = async()=>{
+      const data: any = await getAllAgents()
+      SetAgentData(data?.agentData)
+    }
+    getAgents();
+
+  },[])
+
+
+  const getAllAgents = async()=>{
+    try{
+      const response = await axios.get(BASE_URL+urls.ADMIN_GET_ALL_AGENTS)
+      return response.data
+    }catch(err){
+      console.error(err)
+    }
+  }
   return (
     <div className="p-4 sm:ml-64">
       <div className="p-4  mt-14">
@@ -12,7 +39,7 @@ const AdminAgents: React.FC = () => {
           </div>
          
         </div>
-      <AgentTable/>
+      <AgentTable agentData={agentData}/>
       </div>
     </div>
   );
