@@ -123,14 +123,10 @@ const UnverifiedAgentsTable: React.FC<AgentTableProps>=({agentData})=> {
                   </td>
               
                   <td className="p-4">
-                    <div className="w-max">
-                      <Chip
-                        variant="ghost"
-                        size="sm"
-                        value={x.isActive ? "online" : "offline"}
-                        color={x.isActive ? "green" : "blue-gray"}
-                      />
-                    </div>
+                  <span className="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                <span className="w-2 h-2 mr-1 bg-red-500 rounded-full"></span>
+                Not verified
+            </span>
                   </td>
                   <td className="p-4">
                     <Typography variant="small" color="blue-gray" className="font-normal">
