@@ -36,6 +36,7 @@ export default function Login() {
       parsedData?.status === "fail" ? navigate("/login") : navigate("/");
     } catch (error) {
       console.error(error);
+      
     }
   };
 

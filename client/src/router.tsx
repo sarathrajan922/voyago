@@ -14,6 +14,7 @@ import AdminDashBoard from './components/admin/AdminDashBoard';
 import AdminUser from './components/admin/Body/AdminUser';
 import AdminAgents from './components/admin/Body/AdminAgents';
 import AdminDash from './components/admin/Body/DashBoard';
+import AdminAgentVerification from './components/admin/Body/AdminAgentVerification';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -76,6 +77,10 @@ import AdminDash from './components/admin/Body/DashBoard';
             {
                 path: 'agents',
                 element: <AdminAgents/>
+            },
+            {
+                path: 'agents-verification',
+                element: <AdminAgentVerification/>
             }
         ]
         

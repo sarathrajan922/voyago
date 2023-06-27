@@ -2,7 +2,7 @@ import { AuthServiceInterface, authServiceInterface } from "../../application/se
 import { AuthService } from "../../frameworks/services/authService";
 import { AdminDbInterface } from "../../application/repository/adminDBrepository";
 import { AdminRepossitoryMongoDB } from "../../frameworks/database/mongodb/repositories/adminRepoMongoDB";
-import { adminBlockAgentUseCase, adminBlockUserUseCase, adminGetAllAgentsUseCase, adminLoginUseCase  } from "../../application/useCase/auth/adminAuth";
+import { adminBlockAgentUseCase, adminBlockUserUseCase, adminGetAllAgentsUseCase, adminGetUnverifiedAgentsUseCase, adminLoginUseCase, adminVerifyAgentUseCase  } from "../../application/useCase/auth/adminAuth";
 import { AdminInterface } from "../../types/admin";
 import { Request,Response} from 'express'
 import { adminGetAllUsersUseCase } from "../../application/useCase/auth/adminAuth";
@@ -67,6 +67,23 @@ const adminController = (
             result
         })
     })
+
+    const getUnverifiedAgents = asyncHandler(async (req:Request,res: Response)=>{
+        const result = await adminGetUnverifiedAgentsUseCase(dbRepositoryAdmin)
+        res.json({
+            status: 'success',
+            result
+        })
+    })
+
+    const verifyAgent = asyncHandler(async (req:Request,res:Response)=>{
+        const agentId = req.params.id
+        const result = await adminVerifyAgentUseCase(dbRepositoryAdmin, agentId)
+        res.json({
+            status: 'success',
+            result
+        })
+    })
      
     
 
@@ -75,7 +92,9 @@ const adminController = (
         adminGetAllUsers,
         adminGetAllAgents,
         adminBlockUser,
-        adminBlockAgent
+        adminBlockAgent,
+        getUnverifiedAgents,
+        verifyAgent
     }
 }
 

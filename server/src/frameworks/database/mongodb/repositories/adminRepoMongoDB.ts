@@ -41,6 +41,27 @@ export const adminRepossitoryMongoDB = ()=>{
         return result;
     }
 
+    const getUnverifiedAgents = async ()=>{
+        const result = await Agent.find({isVerified : false})
+        return result
+    }
+
+    const verifyAgent= async (objId:string)=>{
+        const id = new Types.ObjectId(objId)
+        const result = await Agent.findOneAndUpdate(
+            {
+                "_id": id
+            },
+            {
+                $set: {"isVerified" : true}
+            }
+        )
+
+        return result
+    }
+
+   
+
 
 
 
@@ -49,7 +70,9 @@ export const adminRepossitoryMongoDB = ()=>{
         getAllusers,
         getAllAgents,
         blockUser,
-        blockAgent
+        blockAgent,
+        getUnverifiedAgents,
+        verifyAgent
     }
 }
 

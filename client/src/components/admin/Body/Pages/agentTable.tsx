@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react"
 import { AgentDataApiResponse } from "../../../../API/type/getAllAgents";
 
@@ -49,16 +50,12 @@ const AgentTable: React.FC<AgentTableProps> =({agentData})=>{
                         {x.mobile}
                     </td>
                     <td className="px-6 py-4">
+                      
                         <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                     </td>
                 </tr>)
                 })
             }
-
-
-
-           
-         
         </tbody>
     </table>
 </div>

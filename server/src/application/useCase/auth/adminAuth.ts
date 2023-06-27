@@ -67,3 +67,25 @@ export const adminBlockAgentUseCase = async (
     }
     return adminBlockAgent
 }
+
+export const adminGetUnverifiedAgentsUseCase = async(
+    adminDbRepository: ReturnType<AdminDbInterface>
+)=>{
+    const getAllUnverifiedAgents = await adminDbRepository.getUnverifiedAgents();
+    if(!getAllUnverifiedAgents){
+        throw new AppError('Operation failed', HttpStatus.NOT_FOUND)
+    }
+
+    return getAllUnverifiedAgents
+}
+
+export const adminVerifyAgentUseCase = async(
+    adminDbRepository: ReturnType<AdminDbInterface>,
+    objId: string
+)=>{
+    const adminVerifyAgent = await adminDbRepository.verifyAgent(objId)
+    if(!adminVerifyAgent){
+        throw new AppError('Operation failed', HttpStatus.NOT_MODIFIED)
+    }
+    return adminVerifyAgent
+}
