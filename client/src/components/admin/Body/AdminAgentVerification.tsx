@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState} from 'react';
-import UnverifiedAgentsTable from './Pages/UnverifiedAgentsTable';
+import UnverifiedAgentsTable from './Tables/UnverifiedAgentsTable';
 import axios from 'axios';
 import BASE_URL, { urls } from '../../../config';
 

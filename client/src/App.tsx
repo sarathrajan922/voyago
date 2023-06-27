@@ -5,7 +5,8 @@ import Navbar from './components/user/Navbar';
 import Footer from './components/user/Footer';
 import { Outlet } from 'react-router-dom';
 
-import AdminDashBoard from './components/admin/AdminDashBoard';
+import AdminDashBoard from './components/admin/AdminLayout';
+import AgentDashBoard from './components/agent/AgentLayout';
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
 export function Agent() {
   return (
     <>
-  
+  <AgentDashBoard/>
    <Outlet/>
 
 

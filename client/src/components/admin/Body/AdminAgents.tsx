@@ -1,5 +1,5 @@
 import React from "react";
-import AgentTable from "./Pages/agentTable";
+import AgentTable from "./Tables/agentTable";
 
 const AdminAgents: React.FC = () => {
   return (

@@ -19,7 +19,7 @@ const agentRouter = ()=>{
 
  router.post('/signup',upload, controller.agentRegister)
  router.post('/login', controller.agentLogin)
- router.post('/category-add', authenticationMiddleware, controller.addCategory)
+ router.post('/category-add', controller.addCategory)
  return router
 }
 

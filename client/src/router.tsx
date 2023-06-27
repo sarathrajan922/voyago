@@ -6,7 +6,7 @@ import Signup from './components/user/Signup';
 import Body from './components/user/Body/Body';
 import AdminLogin from './components/admin/AdminLogin';
 import AgentSignupForm from './components/agent/AgentSignup';
-import AgentDashBoard from './components/agent/AgentDashBoard';
+
 import { Agent, Admin } from './App';
 import AgentLoginForm from './components/agent/AgentLogin';
 
@@ -15,6 +15,8 @@ import AdminUser from './components/admin/Body/AdminUser';
 import AdminAgents from './components/admin/Body/AdminAgents';
 import AdminDash from './components/admin/Body/DashBoard';
 import AdminAgentVerification from './components/admin/Body/AdminAgentVerification';
+import AgentDash from './components/agent/Body/AgentDash';
+import AgentCategory from './components/agent/Body/CategoryManagement';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -44,7 +46,7 @@ import AdminAgentVerification from './components/admin/Body/AdminAgentVerificati
         children: [
             {
                 path: '/agent',
-                element: <AgentDashBoard/>
+                element: <AgentDash/>
             },
             {
                 path: 'login',
@@ -53,6 +55,10 @@ import AdminAgentVerification from './components/admin/Body/AdminAgentVerificati
             {
                 path: 'signup',
                 element: <AgentSignupForm/>
+            },
+            {
+                path: 'category',
+                element: <AgentCategory/>
             }
         ]
 
