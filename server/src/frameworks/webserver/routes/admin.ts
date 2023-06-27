@@ -23,7 +23,7 @@ const adminRouter = ()=>{
     router.post('/block-user/:id', authenticationMiddleware, controller.adminBlockUser)
     router.post('/block-agent/:id', authenticationMiddleware, controller.adminBlockAgent)
     router.get('/get-all-unverified-agents',controller.getUnverifiedAgents)
-    router.post('/agent-verification/:id',authenticationMiddleware,controller.verifyAgent)
+    router.post('/agent-verification/:id',controller.verifyAgent)
     return router
 
 }

@@ -11,7 +11,8 @@
     ADMIN_GET_ALL_AGENTS: 'admin/get-all-agents',
     ADMIN_BLOCK_USER: 'admin/block-user/',
     ADMIN_BLOCK_AGENT: 'admin/block-agent/',
-    ADMIN_GET_ALL_UNVERIFIED_AGENTS: 'admin/get-all-unverified-agents'
+    ADMIN_GET_ALL_UNVERIFIED_AGENTS: 'admin/get-all-unverified-agents',
+    ADMIN_VERIFY_AGENTS: 'admin/agent-verification/'
  }
  
  const BASE_URL= 'http://localhost:8000/';

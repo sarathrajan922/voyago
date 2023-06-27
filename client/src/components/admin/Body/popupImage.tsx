@@ -8,6 +8,8 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import React from "react";
+import axios from "axios";
+import BASE_URL, { urls } from "../../../config";
 
 interface ViewIdProofProps {
   idImg: string;
@@ -16,9 +18,13 @@ interface ViewIdProofProps {
 
 const ViewIdProof: React.FC<ViewIdProofProps> = ({ idImg,agentId }) => {
 
-    const verification = (status:Boolean,agentId:string)=>{
+    const verification = async(status:Boolean,agentId:string)=>{
         console.log(status)
         console.log(agentId)
+
+        const response = await axios.post(BASE_URL+urls.ADMIN_VERIFY_AGENTS+agentId)
+        const parsedData = response.data
+        console.log(parsedData)
     }
   return (
     <Popover>

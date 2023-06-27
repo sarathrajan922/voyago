@@ -40,7 +40,7 @@ const TABS = [
   },
 ];
  
-const TABLE_HEAD = ["Member", "Email", "Status", "Document"];
+const TABLE_HEAD = ["Member",  "Status", "Document"];
  
  
 const UnverifiedAgentsTable: React.FC<AgentTableProps>=({agentData})=> {
@@ -121,20 +121,7 @@ const UnverifiedAgentsTable: React.FC<AgentTableProps>=({agentData})=> {
                       </div>
                     </div>
                   </td>
-                  <td className="p-4 border-b border-blue-gray-50">
-                    <div className="flex flex-col">
-                      <Typography variant="small" color="blue-gray" className="font-normal">
-                        {x.isActive}
-                      </Typography>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal opacity-70"
-                      >
-                        {x.firstName}
-                      </Typography>
-                    </div>
-                  </td>
+              
                   <td className="p-4">
                     <div className="w-max">
                       <Chip

@@ -4,15 +4,14 @@ import Navbar from './components/user/Navbar';
 // import Signup from './components/user/Signup/Signup';
 import Footer from './components/user/Footer';
 import { Outlet } from 'react-router-dom';
-import Login from './components/user/Login';
+
 import AdminDashBoard from './components/admin/AdminDashBoard';
 
 function App() {
   return (
     <>
    <Navbar/>
-   {/* <Login/>
-   <Signup/> */}
+  
    <Outlet/>
    <Footer/>
     </>
@@ -21,14 +20,10 @@ function App() {
 export function Agent() {
   return (
     <>
-    {/* replace navbar with agent  navbar*/}
-   {/* <Navbar/>  */}
-   {/* <Login/>
-   <Signup/> */}
+  
    <Outlet/>
 
-   {/* replace footer with agent footer */}
-   {/* <Footer/> */}
+
     </>
   );
 }
