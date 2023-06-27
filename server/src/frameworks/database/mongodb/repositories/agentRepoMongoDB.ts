@@ -1,6 +1,7 @@
 import Agent from "../models/agentModel";
 import { AgentRegisterInterface ,AgentAddCategoryInterface} from "../../../../types/agent";
 import Category from "../models/categoryModel";
+import { Types } from "mongoose";
 
 export const agentRepositoryMongoDB = ()=>{
 
@@ -16,11 +17,18 @@ export const agentRepositoryMongoDB = ()=>{
         return Category.create(category)
     }
 
+    const getCategory = async (objId: string)=>{
+        const id = new Types.ObjectId(objId)
+        return Category.find({ agentId: id})
+        
+    }
+
 
     return {
         addAgent,
         getAgentByEmail,
-        addCategory
+        addCategory,
+        getCategory
 
     }
 }

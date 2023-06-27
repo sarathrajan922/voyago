@@ -59,3 +59,11 @@ export const agentAddCategoryUseCase = async (
 const result = await agentRepository.addCategory(category)
 return result
  }
+
+ export const getAgentCategoryUseCase = async(
+    objId: string,
+    agentRepository:ReturnType<AgentDbInterface>
+ )=>{
+    const result = await agentRepository.getCategory(objId)
+    return result
+ }

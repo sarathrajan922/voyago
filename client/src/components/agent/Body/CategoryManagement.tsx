@@ -13,35 +13,69 @@ import {
 } from "@material-tailwind/react";
 import { TrashIcon } from "@heroicons/react/24/solid";
 import BASE_URL, { urls } from "../../../config";
-
-interface FormValues {
-  name: string;
-  agentId?: string | null;
-}
-
-const validationSchema: Yup.Schema<FormValues> = Yup.object({
-  name: Yup.string().required("Category Name is required"),
-});
-const onSubmit = async (values: FormValues) => {
-  // Add your submit logic here
-  const formData = {
-    name: values.name,
-    //! change the pre defined agentId
-    agentId: "64941a796b4f3bd48f57ecfa"
-  }
-
-  try {
-    const response = await axios.post(
-      BASE_URL + urls.AGENT_ADD_CATEGORY,
-      formData
-    );
-    console.log(response);
-  } catch (err) {
-    console.error(err);
-  }
-};
+import { CategoryApiResponse } from "../../../API/type/getAllCategory";
 
 const AgentCategory: React.FC = () => {
+  const [status, setStatus] = useState(false);
+  interface FormValues {
+    name: string;
+    agentId?: string | null;
+  }
+
+  const validationSchema: Yup.Schema<FormValues> = Yup.object({
+    name: Yup.string().required("Category Name is required"),
+  });
+  const onSubmit = async (values: FormValues) => {
+    // Add your submit logic here
+    const formData = {
+      name: values.name,
+      //! change the pre defined agentId
+      agentId: "64941a796b4f3bd48f57ecfa",
+    };
+
+    try {
+      const response = await axios.post(
+        BASE_URL + urls.AGENT_ADD_CATEGORY,
+        formData
+      );
+      setStatus(!status);
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const [category, setCategory] = useState<CategoryApiResponse[] | null>(null);
+
+  console.log(category);
+  useEffect(() => {
+    const getCategory = async () => {
+      const data: any = await getAllCategory();
+      setCategory(data?.result);
+    };
+    getCategory();
+  }, []);
+
+  useEffect(() => {
+    const getCategory = async () => {
+      const data: any = await getAllCategory();
+      setCategory(data?.result);
+    };
+    getCategory();
+  }, [status]);
+
+  const getAllCategory = async () => {
+    try {
+      //! replace the params with logged agentId
+      const response = await axios.get(
+        BASE_URL + urls.AGENT_GET_ALL_CATEGORY + "64941a796b4f3bd48f57ecfa"
+      );
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <>
       <div className="p-4 sm:ml-64">
@@ -54,38 +88,23 @@ const AgentCategory: React.FC = () => {
                 </p>
               </div>
               <List>
-                <ListItem ripple={false} className="py-1 pr-1 pl-4 bg-white">
-                  Item One
-                  <ListItemSuffix>
-                    <IconButton variant="text" color="red">
-                      <TrashIcon className="h-5 w-5" />
-                    </IconButton>
-                  </ListItemSuffix>
-                </ListItem>
-                <ListItem ripple={false} className="py-1 pr-1 pl-4 bg-white">
-                  Item One
-                  <ListItemSuffix>
-                    <IconButton variant="text" color="red">
-                      <TrashIcon className="h-5 w-5 " />
-                    </IconButton>
-                  </ListItemSuffix>
-                </ListItem>
-                <ListItem ripple={false} className="py-1 pr-1 pl-4 bg-white">
-                  Item One
-                  <ListItemSuffix>
-                    <IconButton variant="text" color="red">
-                      <TrashIcon className="h-5 w-5" />
-                    </IconButton>
-                  </ListItemSuffix>
-                </ListItem>
-                <ListItem ripple={false} className="py-1 pr-1 pl-4 bg-white">
-                  Item One
-                  <ListItemSuffix>
-                    <IconButton variant="text" color="red">
-                      <TrashIcon className="h-5 w-5" />
-                    </IconButton>
-                  </ListItemSuffix>
-                </ListItem>
+                {category &&
+                  category?.map((x) => {
+                    return (
+                      <ListItem
+                        ripple={false}
+                        className="py-1 pr-1 pl-4 bg-white"
+                      >
+                        {x.name}
+                        <ListItemSuffix>
+                            {/*//!delete category functionality pending */}
+                          <IconButton  variant="text" color="red">
+                            <TrashIcon className="h-5 w-5" />
+                          </IconButton>
+                        </ListItemSuffix>
+                      </ListItem>
+                    );
+                  })}
               </List>
             </div>
             <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded h-full md:h-full ">

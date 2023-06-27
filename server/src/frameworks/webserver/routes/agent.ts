@@ -20,6 +20,7 @@ const agentRouter = ()=>{
  router.post('/signup',upload, controller.agentRegister)
  router.post('/login', controller.agentLogin)
  router.post('/category-add', controller.addCategory)
+ router.get('/get-all-category/:id', controller.getCategory)
  return router
 }
 
