@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+
+
+.block-button {
+  background-color: rgb(255, 0, 0);
+  color: white;
+}
+
+.unblock-button {
+  background-color: rgb(55, 255, 0);
+  color: white;
+}
