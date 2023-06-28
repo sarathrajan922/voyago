@@ -4,7 +4,7 @@ import { AgentDbInterface } from "../../application/repository/agentDBrepository
 import { AgentRepositoryMongoDB } from "../../frameworks/database/mongodb/repositories/agentRepoMongoDB";
 import asyncHandler from "express-async-handler";
 import { Request,Response } from "express";
-import { agentAddCategoryUseCase, agentLoginUseCase, agentRegisterUseCase, getAgentCategoryUseCase } from "../../application/useCase/auth/agentAuth";
+import { agentAddCategoryUseCase, agentLoginUseCase, agentRegisterUseCase, deleteCategoryUseCase, getAgentCategoryUseCase } from "../../application/useCase/auth/agentAuth";
 import { AgentRegisterInterface, AgentInterface, AgentAddCategoryInterface } from "../../types/agent";
 
 
@@ -66,11 +66,25 @@ const agentController = (
         })
     })
 
+    const deleteCategory = asyncHandler(async (req: Request, res: Response)=>{
+        const data = req?.body
+        const agentId = data?.agentId
+        const categoryName = data?.categoryName
+        
+        const result = await deleteCategoryUseCase(agentId,categoryName,dbRepositoryAgent)
+        res.json({
+            status: true,
+            message: 'Category deleted successfully',
+            result
+        })
+    })
+
     return {
         agentRegister,
         agentLogin,
         addCategory,
-        getCategory
+        getCategory,
+        deleteCategory
     }
 }
 

@@ -23,12 +23,18 @@ export const agentRepositoryMongoDB = ()=>{
         
     }
 
+    const deleteCategory = async (agentId: string, categoryName: string)=>{
+        const id = new Types.ObjectId(agentId)
+        return Category.findOneAndDelete({ agentId: id, name: categoryName})
+    }
+
 
     return {
         addAgent,
         getAgentByEmail,
         addCategory,
-        getCategory
+        getCategory,
+        deleteCategory
 
     }
 }

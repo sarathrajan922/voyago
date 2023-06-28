@@ -76,6 +76,26 @@ const AgentCategory: React.FC = () => {
     }
   };
 
+  const deleteCategory= async(name: string)=>{
+
+    const obj = {
+        //! replace agentId with logged agent
+        agentId: "64941a796b4f3bd48f57ecfa",
+        categoryName: name
+    }
+
+    try{
+        const response = await axios.patch(BASE_URL+urls.AGENT_DELETE_CATEGORY, obj)
+        console.log(response.data)
+        setStatus(!status)
+    }catch(err){
+        console.error(err)
+    }
+
+  }
+
+
+
   return (
     <>
       <div className="p-4 sm:ml-64">
@@ -89,16 +109,19 @@ const AgentCategory: React.FC = () => {
               </div>
               <List>
                 {category &&
-                  category?.map((x) => {
+                  category?.map((x,index) => {
                     return (
                       <ListItem
+                      key={index}
                         ripple={false}
                         className="py-1 pr-1 pl-4 bg-white"
                       >
                         {x.name}
                         <ListItemSuffix>
                             {/*//!delete category functionality pending */}
-                          <IconButton  variant="text" color="red">
+                          <IconButton onClick={()=>{
+                            deleteCategory(x.name)
+                          }} variant="text" color="red">
                             <TrashIcon className="h-5 w-5" />
                           </IconButton>
                         </ListItemSuffix>

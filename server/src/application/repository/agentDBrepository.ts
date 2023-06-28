@@ -7,11 +7,13 @@ export const  agentDbRepository = (repository: ReturnType<AgentRepositoryMongoDB
     const getAgentByEmail = async (email: string)=> await repository.getAgentByEmail(email)
     const addCategory = async (category: AgentAddCategoryInterface)=> await repository.addCategory(category)
     const getCategory = async (objId: string)=> await repository.getCategory(objId)
+    const deleteCategory = async (agentId: string, categoryName: string)=> await repository.deleteCategory(agentId,categoryName)
     return {
         addAgent,
         getAgentByEmail,
         addCategory,
-        getCategory
+        getCategory,
+        deleteCategory
     }
 }
 

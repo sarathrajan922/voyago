@@ -67,3 +67,12 @@ return result
     const result = await agentRepository.getCategory(objId)
     return result
  }
+
+ export const deleteCategoryUseCase = async(
+    agentId: string,
+    categoryName: string,
+    agentRepository: ReturnType<AgentDbInterface>
+ )=>{
+    const result = await agentRepository.deleteCategory(agentId,categoryName)
+    return result
+ }

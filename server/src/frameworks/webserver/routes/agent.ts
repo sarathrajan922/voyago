@@ -21,6 +21,7 @@ const agentRouter = ()=>{
  router.post('/login', controller.agentLogin)
  router.post('/category-add', controller.addCategory)
  router.get('/get-all-category/:id', controller.getCategory)
+ router.patch('/delete-category', controller.deleteCategory)
  return router
 }
 
