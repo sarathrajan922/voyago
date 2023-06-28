@@ -24,3 +24,18 @@ export interface AgentAddCategoryInterface {
     name?: String,
     agentId?: string
 }
+
+
+
+export interface AgentTourPackageInterface {
+    agentId?: string,
+    packageName?: string,
+    description?: string,
+    price?: Number,
+    locations?: string[],
+    category?: string,
+    isDisabled?: boolean,
+    image?: string[],
+    duration?: number,
+    services?: string[]
+}

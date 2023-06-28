@@ -1,5 +1,5 @@
 import { HttpStatus } from "../../../types/httpStatus";
-import { AgentAddCategoryInterface, AgentRegisterInterface } from "../../../types/agent";
+import { AgentAddCategoryInterface, AgentRegisterInterface, AgentTourPackageInterface } from "../../../types/agent";
 import AppError from "../../../utils/appError";
 import { AuthServiceInterface } from "../../services/authServiceInterface";
 import { AgentDbInterface } from "../../repository/agentDBrepository";
@@ -74,5 +74,16 @@ return result
     agentRepository: ReturnType<AgentDbInterface>
  )=>{
     const result = await agentRepository.deleteCategory(agentId,categoryName)
+    return result
+ }
+
+ export const addTourPackageUseCase= async(
+    tourPackage:AgentTourPackageInterface,
+    agentRepository: ReturnType<AgentDbInterface>
+ )=>{
+    //! check the package name is already exists
+
+
+    const result = await agentRepository.addPackage(tourPackage)
     return result
  }

@@ -1,6 +1,7 @@
 import Agent from "../models/agentModel";
-import { AgentRegisterInterface ,AgentAddCategoryInterface} from "../../../../types/agent";
+import { AgentRegisterInterface ,AgentAddCategoryInterface, AgentTourPackageInterface} from "../../../../types/agent";
 import Category from "../models/categoryModel";
+import TourPackage from "../models/tourPackageModel";
 import { Types } from "mongoose";
 
 export const agentRepositoryMongoDB = ()=>{
@@ -28,13 +29,18 @@ export const agentRepositoryMongoDB = ()=>{
         return Category.findOneAndDelete({ agentId: id, name: categoryName})
     }
 
+    const addPackage = async (tourPackage:AgentTourPackageInterface)=>{
+        return await TourPackage.create(tourPackage)
+    }
+
 
     return {
         addAgent,
         getAgentByEmail,
         addCategory,
         getCategory,
-        deleteCategory
+        deleteCategory,
+        addPackage
 
     }
 }
