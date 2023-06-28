@@ -1,174 +1,290 @@
-import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React from "react";
 import { Link } from "react-router-dom";
+import {
+  Navbar,
+  MobileNav,
+  Typography,
+  Button,
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
+  Avatar,
+  Card,
+  IconButton,
+} from "@material-tailwind/react";
+import {
+  CubeTransparentIcon,
+  UserCircleIcon,
+  Square3Stack3DIcon,
+  ChevronDownIcon,
+  Cog6ToothIcon,
+  InboxArrowDownIcon,
+  LifebuoyIcon,
+  PowerIcon,
+  RocketLaunchIcon,
+  Bars2Icon,
+  PhoneIcon,
+} from "@heroicons/react/24/outline";
 
-const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Holidays", href: "#", current: false },
-  { name: "Community", href: "#", current: false },
-  { name: "Contact", href: "#", current: false },
+// profile menu component
+const profileMenuItems = [
+  {
+    label: "My Profile",
+    icon: UserCircleIcon,
+  },
+  {
+    label: "Edit Profile",
+    icon: Cog6ToothIcon,
+  },
+  {
+    label: "Inbox",
+    icon: InboxArrowDownIcon,
+  },
+  {
+    label: "Help",
+    icon: LifebuoyIcon,
+  },
+  {
+    label: "Sign Out",
+    icon: PowerIcon,
+  },
 ];
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function ProfileMenu() {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const closeMenu = () => setIsMenuOpen(false);
+
+  return (
+    <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
+      <MenuHandler>
+        <Button
+          variant="text"
+          color="blue-gray"
+          className="flex items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto"
+        >
+          <Avatar
+            variant="circular"
+            size="sm"
+            alt="candice wu"
+            className="border border-blue-500 p-0.5"
+            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
+          />
+          <ChevronDownIcon
+            strokeWidth={2.5}
+            className={`h-3 w-3 transition-transform ${
+              isMenuOpen ? "rotate-180" : ""
+            }`}
+          />
+        </Button>
+      </MenuHandler>
+      <MenuList className="p-1">
+        {profileMenuItems.map(({ label, icon }, key) => {
+          const isLastItem = key === profileMenuItems.length - 1;
+          return (
+            <MenuItem
+              key={label}
+              onClick={closeMenu}
+              className={`flex items-center gap-2 rounded ${
+                isLastItem
+                  ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
+                  : ""
+              }`}
+            >
+              {React.createElement(icon, {
+                className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
+                strokeWidth: 2,
+              })}
+              <Typography
+                as="span"
+                variant="small"
+                className="font-normal"
+                color={isLastItem ? "red" : "inherit"}
+              >
+                {label}
+              </Typography>
+            </MenuItem>
+          );
+        })}
+      </MenuList>
+    </Menu>
+  );
 }
 
-export default function Navbar() {
+// nav list menu
+const navListMenuItems = [
+  {
+    title: "@material-tailwind/html",
+    description:
+      "Learn how to use @material-tailwind/html, packed with rich components and widgets.",
+  },
+  {
+    title: "@material-tailwind/react",
+    description:
+      "Learn how to use @material-tailwind/react, packed with rich components for React.",
+  },
+  {
+    title: "Material Tailwind PRO",
+    description:
+      "A complete set of UI Elements for building faster websites in less time.",
+  },
+];
+
+function NavListMenu() {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
+  const triggers = {
+    onMouseEnter: () => setIsMenuOpen(true),
+    onMouseLeave: () => setIsMenuOpen(false),
+  };
+
+  const renderItems = navListMenuItems.map(({ title, description }) => (
+    <a href="#" key={title}>
+      <MenuItem>
+        <Typography variant="h6" color="blue-gray" className="mb-1">
+          {title}
+        </Typography>
+        <Typography variant="small" color="gray" className="font-normal">
+          {description}
+        </Typography>
+      </MenuItem>
+    </a>
+  ));
+
   return (
-    <Disclosure as="nav" className="bg-gray-800">
-      {({ open }) => (
-        <>
-          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-            <div className="relative flex h-16 items-center justify-between">
-              <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                {/* Mobile menu button*/}
-                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                  <span className="sr-only">Open main menu</span>
-                  {open ? (
-                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-                  ) : (
-                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                  )}
-                </Disclosure.Button>
-              </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex flex-shrink-0 items-center">
-                  <Link to="/">
-                    <img
-                      className="block h-8 w-auto lg:hidden"
-                      src="https://res.cloudinary.com/dk4darniv/image/upload/v1687011586/Voyago_Health_LogoType-1_fnahpn.webp"
-                      alt="Your Company"
-                    />
-                  </Link>
-                  <Link to="/">
-                    <img
-                      className="hidden h-8 w-auto lg:block"
-                      src="https://res.cloudinary.com/dk4darniv/image/upload/v1687011586/Voyago_Health_LogoType-1_fnahpn.webp"
-                      alt="Your Company"
-                    />
-                  </Link>
-                </div>
-                <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? "bg-gray-900 text-white"
-                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "rounded-md px-3 py-2 text-sm font-medium"
-                        )}
-                        aria-current={item.current ? "page" : undefined}
-                      >
-                        {item.name}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </div>
+    <React.Fragment>
+      <Menu open={isMenuOpen} handler={setIsMenuOpen}>
+        <MenuHandler>
+          <Typography as="a" href="#" variant="small" className="font-normal">
+            <MenuItem
+              {...triggers}
+              className="hidden items-center gap-2 text-blue-gray-900 lg:flex lg:rounded-full"
+            >
+              <Square3Stack3DIcon className="h-[18px] w-[18px]" /> Pages{" "}
+              <ChevronDownIcon
+                strokeWidth={2}
+                className={`h-3 w-3 transition-transform ${
+                  isMenuOpen ? "rotate-180" : ""
+                }`}
+              />
+            </MenuItem>
+          </Typography>
+        </MenuHandler>
+        <MenuList
+          {...triggers}
+          className="hidden w-[36rem] grid-cols-7 gap-3 overflow-visible lg:grid"
+        >
+          <Card
+            color="blue"
+            shadow={false}
+            variant="gradient"
+            className="col-span-3 grid h-full w-full place-items-center rounded-md"
+          >
+            <RocketLaunchIcon strokeWidth={1} className="h-28 w-28" />
+          </Card>
+          <ul className="col-span-4 flex w-full flex-col gap-1">
+            {renderItems}
+          </ul>
+        </MenuList>
+      </Menu>
+      <MenuItem className="flex items-center gap-2 text-blue-gray-900 lg:hidden">
+        <Square3Stack3DIcon className="h-[18px] w-[18px]" /> Pages{" "}
+      </MenuItem>
+      <ul className="ml-6 flex w-full flex-col gap-1 lg:hidden">
+        {renderItems}
+      </ul>
+    </React.Fragment>
+  );
+}
 
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button
-                  type="button"
-                  className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+// nav list component
+const navListItems = [
+  {
+    label: "Account",
+    icon: UserCircleIcon,
+  },
+  {
+    label: "Community",
+    icon: CubeTransparentIcon,
+  },
+  {
+    label: "Contact",
+    icon: PhoneIcon,
+  },
+];
 
-                {/* Profile dropdown */}
-                <Menu as="div" className="relative ml-3 ">
-                  <div>
-                    <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                      <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
-                    </Menu.Button>
-                  </div>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Your Profile
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Settings
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Sign out
-                          </a>
-                        )}
-                      </Menu.Item>
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
-              </div>
-            </div>
-          </div>
+function NavList() {
+  return (
+    <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
+      <NavListMenu />
+      {navListItems.map(({ label, icon }, key) => (
+        <Typography
+          key={label}
+          as="a"
+          href="#"
+          variant="small"
+          color="blue-gray"
+          className="font-normal"
+        >
+          <MenuItem className="flex items-center gap-2 lg:rounded-full">
+            {React.createElement(icon, { className: "h-[18px] w-[18px]" })}{" "}
+            {label}
+          </MenuItem>
+        </Typography>
+      ))}
+    </ul>
+  );
+}
 
-          <Disclosure.Panel className="sm:hidden">
-            <div className="space-y-1 px-2 pb-3 pt-2">
-              {navigation.map((item) => (
-                <Disclosure.Button
-                  key={item.name}
-                  as="a"
-                  href={item.href}
-                  className={classNames(
-                    item.current
-                      ? "bg-gray-900 text-white"
-                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                    "block rounded-md px-3 py-2 text-base font-medium"
-                  )}
-                  aria-current={item.current ? "page" : undefined}
-                >
-                  {item.name}
-                </Disclosure.Button>
-              ))}
-            </div>
-          </Disclosure.Panel>
-        </>
-      )}
-    </Disclosure>
+export default function ComplexNavbar() {
+  const [isNavOpen, setIsNavOpen] = React.useState(false);
+  const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
+
+  React.useEffect(() => {
+    window.addEventListener(
+      "resize",
+      () => window.innerWidth >= 960 && setIsNavOpen(false)
+    );
+  }, []);
+
+  return (
+    <Navbar className="mx-auto max-w-screen-xl p-2 lg:rounded-full lg:pl-6">
+      <div className="relative mx-auto flex items-center text-blue-gray-900">
+        <div className="flex flex-shrink-0 items-center">
+          <Link to="/">
+            <img
+              className="block h-8 w-auto lg:hidden bg-grey-400  rounded-full"
+              src="https://res.cloudinary.com/dk4darniv/image/upload/v1687011586/Voyago_Health_LogoType-1_fnahpn.webp"
+              alt="Your Company"
+            />{" "}
+          </Link>{" "}
+          <Link to="/">
+            {" "}
+            <img
+              className="hidden h-8 w-auto lg:block bg-gray-400 rounded-full"
+              src="https://res.cloudinary.com/dk4darniv/image/upload/v1687011586/Voyago_Health_LogoType-1_fnahpn.webp"
+              alt="Your Company"
+            />
+          </Link>
+        </div>
+        <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
+          <NavList />
+        </div>
+        <IconButton
+          size="sm"
+          color="blue-gray"
+          variant="text"
+          onClick={toggleIsNavOpen}
+          className="ml-auto mr-2 lg:hidden"
+        >
+          <Bars2Icon className="h-6 w-6" />
+        </IconButton>
+        <ProfileMenu />
+      </div>
+      <MobileNav open={isNavOpen} className="overflow-scroll">
+        <NavList />
+      </MobileNav>
+    </Navbar>
   );
 }

@@ -37,6 +37,13 @@ import AgentCategory from './components/agent/Body/CategoryManagement';
             {
                 path: 'admin/login',
                 element: <AdminLogin/>
+            },
+            {
+                path: 'agent/login',
+                element: <AgentLoginForm/>
+            },{
+                path: 'agent/signup',
+                element: <AgentSignupForm/>
             }
         ]
     },
@@ -47,14 +54,6 @@ import AgentCategory from './components/agent/Body/CategoryManagement';
             {
                 path: '/agent',
                 element: <AgentDash/>
-            },
-            {
-                path: 'login',
-                element: <AgentLoginForm/>
-            },
-            {
-                path: 'signup',
-                element: <AgentSignupForm/>
             },
             {
                 path: 'category',
@@ -71,10 +70,6 @@ import AgentCategory from './components/agent/Body/CategoryManagement';
                 path: '/admin',
                 element: <AdminDash/>
 
-            },
-            {
-                path: 'login',
-                element: <AdminLogin/>
             },
             {
                 path: 'users',

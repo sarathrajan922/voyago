@@ -32,12 +32,12 @@ export function Agent() {
 export function Admin(){
   return (
     <> 
-    {/* replace nav bar with admin navbar */}
+    
 
       <AdminDashBoard/>
        <Outlet/>
 
-    {/* replace footer with admin footer */}
+  
   
     </>
   )

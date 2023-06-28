@@ -1,4 +1,4 @@
-import Carousel from "./Carousel"
+import MainCarousel,{SecondaryCarousel} from "./Carousel"
 
 export default function Body(){
     const images = {
@@ -10,7 +10,8 @@ export default function Body(){
       };
     return (
         <>
-        <Carousel images={images}/>
+        <SecondaryCarousel images={images}/>
+        {/* <MainCarousel/> */}
 
 
 <section className="bg-white dark:bg-gray-900">
