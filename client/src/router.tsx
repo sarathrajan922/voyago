@@ -17,6 +17,8 @@ import AdminDash from './components/admin/Body/DashBoard';
 import AdminAgentVerification from './components/admin/Body/AdminAgentVerification';
 import AgentDash from './components/agent/Body/AgentDash';
 import AgentCategory from './components/agent/Body/CategoryManagement';
+
+import AddTourPackageForm from './components/agent/Body/AddPackage';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -58,6 +60,10 @@ import AgentCategory from './components/agent/Body/CategoryManagement';
             {
                 path: 'category',
                 element: <AgentCategory/>
+            },
+            {
+                path: 'add-package',
+                element: <AddTourPackageForm/>
             }
         ]
 
