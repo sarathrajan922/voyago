@@ -81,6 +81,12 @@ const agentController = (
 
     const addPackage = asyncHandler(async (req: Request, res: Response) =>{
         const data = req?.body 
+        if(req.file){
+            data.images = req.file.path
+        }
+        
+        data.duraction = parseInt(req?.body?.duraction)
+        data.price = parseInt(req?.body?.price)
         const result = await  addTourPackageUseCase(data, dbRepositoryAgent)
         res.json({
             status: true,

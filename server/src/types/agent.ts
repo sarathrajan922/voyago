@@ -32,10 +32,10 @@ export interface AgentTourPackageInterface {
     packageName?: string,
     description?: string,
     price?: Number,
-    locations?: string[],
+    locations?: string,
     category?: string,
     isDisabled?: boolean,
-    image?: string[],
+    image?: string,
     duration?: number,
-    services?: string[]
+    services?: string
 }

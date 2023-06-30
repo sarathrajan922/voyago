@@ -36,6 +36,6 @@ const storageOptions: CloudinaryStorageOptions = {
 };
 
 const storage = new CloudinaryStorage(storageOptions);
-const upload: RequestHandler = multer({ storage: storage }).single('idProof_img');
+const upload: RequestHandler = multer({ storage: storage }).single('images');
 
 export { upload };

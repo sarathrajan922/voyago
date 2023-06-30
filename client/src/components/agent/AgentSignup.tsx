@@ -36,7 +36,7 @@ export default function AgentSignupForm() {
   const handleSubmit = async (values: FormValues) => {
     const formData = new FormData();
     if (file) {
-      formData.append("idProof_img", file);
+      formData.append("images", file);
     }
 
     formData.append("firstName", values.firstName);

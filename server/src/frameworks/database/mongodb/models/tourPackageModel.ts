@@ -19,7 +19,7 @@ const packageSchema = new Schema({
   },
 
   locations: {
-    type: Array,
+    type: String,
     required: [true, "please add some location"],
   },
   category: {
@@ -28,10 +28,10 @@ const packageSchema = new Schema({
   },
   isDisabled: {
     type: Boolean,
-    required: true,
+    default: false,
   },
   images: {
-    type: Array,
+    type: String,
     required: [true, "please upload some images"],
   },
   duration: {
@@ -39,7 +39,7 @@ const packageSchema = new Schema({
     required: [true, "please specify a duraction"]
   },
   services: {
-    type: Array,
+    type: String,
     required: [true, "please add some services"]
   }
 });

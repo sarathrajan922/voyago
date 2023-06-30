@@ -7,9 +7,8 @@ import {
   List,
   ListItem,
   ListItemSuffix,
-  Card,
   IconButton,
-  Input,
+  
 } from "@material-tailwind/react";
 import { TrashIcon } from "@heroicons/react/24/solid";
 import BASE_URL, { urls } from "../../../config";
@@ -47,13 +46,14 @@ const AgentCategory: React.FC = () => {
 
   const [category, setCategory] = useState<CategoryApiResponse[] | null>(null);
 
-  console.log(category);
+ 
   useEffect(() => {
     const getCategory = async () => {
       const data: any = await getAllCategory();
       setCategory(data?.result);
     };
     getCategory();
+   
   }, []);
 
   useEffect(() => {
