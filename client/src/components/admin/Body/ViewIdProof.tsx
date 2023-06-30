@@ -16,16 +16,14 @@ interface ViewIdProofProps {
   agentId: string;
 }
 
-const ViewIdProof: React.FC<ViewIdProofProps> = ({ idImg,agentId }) => {
-
-    const verification = async(status:Boolean,agentId:string)=>{
-        console.log(status)
-        console.log(agentId)
-
-        const response = await axios.post(BASE_URL+urls.ADMIN_VERIFY_AGENTS+agentId)
-        const parsedData = response.data
-        console.log(parsedData)
-    }
+const ViewIdProof: React.FC<ViewIdProofProps> = ({ idImg, agentId }) => {
+  const verification = async (status: Boolean, agentId: string) => {
+    const response = await axios.post(
+      BASE_URL + urls.ADMIN_VERIFY_AGENTS + agentId
+    );
+    const parsedData = response.data;
+    console.log(parsedData);
+  };
   return (
     <Popover>
       <PopoverHandler>
@@ -44,8 +42,8 @@ const ViewIdProof: React.FC<ViewIdProofProps> = ({ idImg,agentId }) => {
                 size="sm"
                 variant="text"
                 className="flex items-center gap-1 capitalize text-green-900"
-                onClick={()=>{
-                    verification(true,agentId)
+                onClick={() => {
+                  verification(true, agentId);
                 }}
               >
                 <Typography>Accept</Typography>
@@ -56,8 +54,8 @@ const ViewIdProof: React.FC<ViewIdProofProps> = ({ idImg,agentId }) => {
                 size="sm"
                 variant="text"
                 className="flex items-center gap-1 capitalize text-red-600"
-                onClick={()=>{
-                    verification(false,agentId)
+                onClick={() => {
+                  verification(false, agentId);
                 }}
               >
                 <Typography>Reject</Typography>

@@ -33,6 +33,10 @@ export const agentRepositoryMongoDB = ()=>{
         return await TourPackage.create(tourPackage)
     }
 
+    const getAllPackages = async (objId: string)=>{  
+        return await  TourPackage.find({agnetId: objId})
+    }
+
 
     return {
         addAgent,
@@ -40,7 +44,8 @@ export const agentRepositoryMongoDB = ()=>{
         addCategory,
         getCategory,
         deleteCategory,
-        addPackage
+        addPackage,
+        getAllPackages
 
     }
 }

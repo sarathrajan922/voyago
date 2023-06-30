@@ -1,7 +1,7 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 import { UnverifiedAgentsApiResponse } from "../../../../API/type/getAllUnverifiedAgents";
-import viewIdProof from "../popupImage";
+import viewIdProof from "../ViewIdProof";
 
 import {
   Card,
@@ -19,11 +19,12 @@ import {
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
-import ViewIdProof from "../popupImage";
+import ViewIdProof from "../ViewIdProof";
+import { useState, useEffect } from "react";
+import BASE_URL, {urls} from "../../../../config";
+import axios from "axios";
 
-interface AgentTableProps {
-    agentData: UnverifiedAgentsApiResponse[] | null;
-}
+
  
 const TABS = [
   {
@@ -43,7 +44,41 @@ const TABS = [
 const TABLE_HEAD = ["Member",  "Status", "Document"];
  
  
-const UnverifiedAgentsTable: React.FC<AgentTableProps>=({agentData})=> {
+const UnverifiedAgentsTable: React.FC=()=> {
+  const [agentData , SetAgentData] = useState<UnverifiedAgentsApiResponse[] | null>(null)
+console.log(BASE_URL+urls.ADMIN_GET_ALL_UNVERIFIED_AGENTS)
+ console.log(agentData)
+  useEffect(()=>{ 
+    const getAgents = async() => {
+     const data: any =  await getAllUnverifiedAgents()
+     SetAgentData(data?.result) 
+    }
+    getAgents();
+  },[])
+const getAllUnverifiedAgents = async()=>{
+  try{
+
+   const response = await axios.get(BASE_URL+urls.ADMIN_GET_ALL_UNVERIFIED_AGENTS)
+    
+    return response.data;
+
+  }catch(err){
+    console.error(err)
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <Card className="h-full w-full">
       <CardHeader floated={false} shadow={false} className="rounded-none">

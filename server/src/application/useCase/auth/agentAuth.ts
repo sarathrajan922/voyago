@@ -82,8 +82,14 @@ return result
     agentRepository: ReturnType<AgentDbInterface>
  )=>{
     //! check the package name is already exists
-
-
     const result = await agentRepository.addPackage(tourPackage)
+    return result
+ }
+
+ export const getAllPackageUseCase = async(
+    agentId: string,
+    agentRepository: ReturnType<AgentDbInterface>
+ )=>{
+    const result = await agentRepository.getAllPackage(agentId)
     return result
  }

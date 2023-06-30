@@ -4,7 +4,7 @@ import { AgentDbInterface } from "../../application/repository/agentDBrepository
 import { AgentRepositoryMongoDB } from "../../frameworks/database/mongodb/repositories/agentRepoMongoDB";
 import asyncHandler from "express-async-handler";
 import { Request,Response } from "express";
-import { addTourPackageUseCase, agentAddCategoryUseCase, agentLoginUseCase, agentRegisterUseCase, deleteCategoryUseCase, getAgentCategoryUseCase } from "../../application/useCase/auth/agentAuth";
+import { addTourPackageUseCase, agentAddCategoryUseCase, agentLoginUseCase, agentRegisterUseCase, deleteCategoryUseCase, getAgentCategoryUseCase, getAllPackageUseCase } from "../../application/useCase/auth/agentAuth";
 import { AgentRegisterInterface, AgentInterface, AgentAddCategoryInterface } from "../../types/agent";
 
 
@@ -95,13 +95,24 @@ const agentController = (
         })
     })
 
+    const getAllPackages = asyncHandler(async(req: Request, res: Response) => {
+        const agentId = req.params.id;
+        const result = await getAllPackageUseCase(agentId,dbRepositoryAgent)
+        res.json({
+            status: true,
+            message: ' All packages successfully fetched',
+            result
+        })
+    })
+
     return {
         agentRegister,
         agentLogin,
         addCategory,
         getCategory,
         deleteCategory,
-        addPackage
+        addPackage,
+        getAllPackages
     }
 }
 

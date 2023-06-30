@@ -11,6 +11,8 @@ const AgentTable: React.FC = () => {
     null
   );
   const [status, setStatus] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(4);
 
   useEffect(() => {
     const getAgents = async () => {
@@ -36,6 +38,13 @@ const AgentTable: React.FC = () => {
     } catch (err) {
       console.error(err);
     }
+  };
+  const goToPreviousPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
+  const goToNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
   };
 
   return (
@@ -67,70 +76,78 @@ const AgentTable: React.FC = () => {
           </thead>
 
           <tbody>
-            {agentData?.map((x: any, index: any) => {
-              return (
-                <tr
-                  key={index}
-                  className="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
-                >
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+            {agentData
+              ?.slice(
+                (currentPage - 1) * itemsPerPage,
+                currentPage * itemsPerPage
+              )
+              .map((x: any, index: any) => {
+                return (
+                  <tr
+                    key={index}
+                    className="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
                   >
-                    {index + 1}
-                  </th>
-                  <td className="px-6 py-4">
-                    {x.firstName + " " + x.lastName}
-                  </td>
-                  <td className="px-6 py-4">{x.email}</td>
-                  <td className="px-6 py-4">
-                    {
-                        x.isVerified ? <span className="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                        <span className="w-2 h-2 mr-1 bg-green-500 rounded-full"></span>
-                        verified
-                      </span> : <span className="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                <span className="w-2 h-2 mr-1 bg-red-500 rounded-full"></span>
-                Not verified
-            </span>
-                    }
-                    
-                  </td>
-                  <td className="px-6 py-4">{x.mobile}</td>
-                  <td className="px-6 py-4">
-                    <Tooltip
-                      content={
-                        x.isActive ? "Block the Agent" : "Unblock the Agent"
-                      }
-                      animate={{
-                        mount: { scale: 1, y: 0 },
-                        unmount: { scale: 0, y: 25 },
-                      }}
+                    <th
+                      scope="row"
+                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                     >
-                      <Button
-                        onClick={() => {
-                          changeStatus(x._id);
-                        }}
-                        className={
-                          x.isActive
-                            ? "text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xs px-5 py-2.5 text-center mr-2 mb-2"
-                            : "text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-xs px-5 py-2.5 text-center mr-2 mb-2"
+                      {index + 1}
+                    </th>
+                    <td className="px-6 py-4">
+                      {x.firstName + " " + x.lastName}
+                    </td>
+                    <td className="px-6 py-4">{x.email}</td>
+                    <td className="px-6 py-4">
+                      {x.isVerified ? (
+                        <span className="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                          <span className="w-2 h-2 mr-1 bg-green-500 rounded-full"></span>
+                          verified
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                          <span className="w-2 h-2 mr-1 bg-red-500 rounded-full"></span>
+                          Not verified
+                        </span>
+                      )}
+                    </td>
+                    <td className="px-6 py-4">{x.mobile}</td>
+                    <td className="px-6 py-4">
+                      <Tooltip
+                        content={
+                          x.isActive ? "Block the Agent" : "Unblock the Agent"
                         }
+                        animate={{
+                          mount: { scale: 1, y: 0 },
+                          unmount: { scale: 0, y: 25 },
+                        }}
                       >
-                        {x.isActive ? "Block" : "Unblock"}
-                      </Button>
-                    </Tooltip>
-                  </td>
-                </tr>
-              );
-            })}
+                        <Button
+                          onClick={() => {
+                            changeStatus(x._id);
+                          }}
+                          className={
+                            x.isActive
+                              ? "text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xs px-5 py-2.5 text-center mr-2 mb-2"
+                              : "text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-xs px-5 py-2.5 text-center mr-2 mb-2"
+                          }
+                        >
+                          {x.isActive ? "Block" : "Unblock"}
+                        </Button>
+                      </Tooltip>
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>
 
       {/* <!-- Previous Button --> */}
-      <div className="flex  justify-center mt-10">
+      {/* <div className="flex  justify-center mt-10">
         <a
           href="#"
+          onClick={goToPreviousPage}
+    disabled={currentPage === 1}
           className="inline-flex items-center px-4 py-2 mr-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
         >
           <svg
@@ -150,6 +167,8 @@ const AgentTable: React.FC = () => {
         </a>
         <a
           href="#"
+          onClick={goToNextPage}
+    disabled={currentPage === Math.ceil(agentData?.length / itemsPerPage)}
           className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
         >
           Next
@@ -167,6 +186,28 @@ const AgentTable: React.FC = () => {
             ></path>
           </svg>
         </a>
+      </div> */}
+      <div className="flex justify-center mt-10">
+        <button
+          type="button"
+          className="inline-flex items-center px-4 py-2 mr-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          onClick={goToPreviousPage}
+          disabled={currentPage === 1}
+        >
+          Previous
+          {/* Previous button content */}
+        </button>
+        <button
+          type="button"
+          className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          onClick={goToNextPage}
+          disabled={
+            currentPage === Math.ceil(agentData?.length ?? 0 / itemsPerPage)
+          }
+        >
+          Next
+          {/* Next button content */}
+        </button>
       </div>
     </>
   );

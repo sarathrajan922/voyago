@@ -4,40 +4,19 @@ import UnverifiedAgentsTable from './Tables/UnverifiedAgentsTable';
 import axios from 'axios';
 import BASE_URL, { urls } from '../../../config';
 
-import { UnverifiedAgentsApiResponse } from '../../../API/type/getAllUnverifiedAgents';
+
 
 
 
 const AdminAgentVerification: React.FC = () => {
-  const [agentData , SetAgentData] = useState<UnverifiedAgentsApiResponse[] | null>(null)
-console.log(BASE_URL+urls.ADMIN_GET_ALL_UNVERIFIED_AGENTS)
- console.log(agentData)
-  useEffect(()=>{ 
-    const getAgents = async() => {
-     const data: any =  await getAllUnverifiedAgents()
-     SetAgentData(data?.result) 
-    }
-    getAgents();
-  },[])
-const getAllUnverifiedAgents = async()=>{
-  try{
-
-   const response = await axios.get(BASE_URL+urls.ADMIN_GET_ALL_UNVERIFIED_AGENTS)
-    
-    return response.data;
-
-  }catch(err){
-    console.error(err)
-  }
-}
-
+  
   return (
     <div className="p-4 sm:ml-64">
       <div className="p-4  rounded-lg dark:border-gray-700 mt-14">
        
 
 
-        <UnverifiedAgentsTable agentData={agentData}/>
+        <UnverifiedAgentsTable/>
        
             
         {/* <div className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">

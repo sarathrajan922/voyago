@@ -23,6 +23,7 @@ const agentRouter = ()=>{
  router.get('/get-all-category/:id', controller.getCategory)
  router.patch('/delete-category', controller.deleteCategory)
  router.post('/add-tour-package',upload,controller.addPackage)
+ router.get('/get-all-package/:id', controller.getAllPackages)
  return router
 }
 
