@@ -3,9 +3,10 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate, Link } from "react-router-dom";
-import BASE_URL, { urls } from "../../config";
-import axios from "axios";
 
+import { userLogin } from "../../features/axios/api/user/userAuthentication";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 interface FormValues {
   email: string;
   password: string;
@@ -25,19 +26,27 @@ export default function Login() {
     password: "",
   };
 
+  const notify = (msg: string, type: string) => {
+    type === "error"
+      ? toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.BOTTOM_RIGHT });
+  };
+
   const handleSubmit = async (values: FormValues) => {
     // Handle form submission here
-    try {
-      const response = await axios.post(BASE_URL + urls.USER_LOGIN, values);
-      const parsedData = response.data;
-      console.log(parsedData);
-      const token = parsedData?.token;
-      localStorage.setItem("accessToken", token);
-      parsedData?.status === "fail" ? navigate("/login") : navigate("/");
-    } catch (error) {
-      console.error(error);
-      
-    }
+
+    await userLogin(values)
+      .then((data) => {
+        console.log(data);
+        localStorage.setItem("userToken", data?.token);
+        notify("User Logged successfully", "success");
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      })
+      .catch((error: any) => {
+        notify(error.message, "error");
+      });
   };
 
   return (
@@ -139,6 +148,7 @@ export default function Login() {
             </Link>
           </p>
         </div>
+        <ToastContainer />
       </div>
     </>
   );

@@ -6,6 +6,7 @@ import asyncHandler from "express-async-handler";
 import { Request,Response } from "express";
 import { addTourPackageUseCase, agentAddCategoryUseCase, agentLoginUseCase, agentRegisterUseCase, deleteCategoryUseCase, getAgentCategoryUseCase, getAllPackageUseCase, getPackageUseCase } from "../../application/useCase/auth/agentAuth";
 import { AgentRegisterInterface, AgentInterface, AgentAddCategoryInterface } from "../../types/agent";
+import { CustomRequest } from "../../types/expressRequest";
 
 
 const agentController = (
@@ -95,8 +96,9 @@ const agentController = (
         })
     })
 
-    const getAllPackages = asyncHandler(async(req: Request, res: Response) => {
-        const agentId = req.params.id;
+    const getAllPackages = asyncHandler(async(req: CustomRequest, res: Response) => {
+        // const agentId = req.params.id;
+        const agentId = req?.payload ?? ''
         const result = await getAllPackageUseCase(agentId,dbRepositoryAgent)
         res.json({
             status: true,
@@ -105,9 +107,10 @@ const agentController = (
         })
     })
 
-    const getPackage = asyncHandler(async(req: Request, res: Response) =>{
-        const packageId = req.params.id
-        const result = await getPackageUseCase(packageId,dbRepositoryAgent)
+    const getPackage = asyncHandler(async(req: CustomRequest, res: Response) =>{
+       
+        const packageId = req?.params?.id
+        const result = await getPackageUseCase(packageId,dbRepositoryAgent) 
         res.json({
             status: true,
             message: 'Package fetch successful',

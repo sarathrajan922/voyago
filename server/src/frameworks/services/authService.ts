@@ -17,6 +17,7 @@ export const authService=()=>{
     }
 
     const generateToken=(payload:string)=>{
+        
         const token = jwt.sign({payload}, configKeys.JWT_SECRET, {
             expiresIn: "5d",
         });

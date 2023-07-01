@@ -23,6 +23,7 @@ export const agentRegisterUseCase = async (
     }
 
     const {_id: agentId }= await agentRepository.addAgent(agent)
+    
     const token = authService.generateToken(agentId.toString())
     return token
 }

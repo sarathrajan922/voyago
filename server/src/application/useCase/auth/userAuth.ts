@@ -14,7 +14,7 @@ export const userRegisterUseCase = async (
     console.log(user)
     const isExistingEmail = await userRepository.getUserByEmail(user.email);
     if (isExistingEmail) {
-      throw new AppError("existing email", HttpStatus.UNAUTHORIZED);
+      throw new AppError("existing email", HttpStatus.CONFLICT);
     }
     if(user.password){
         user.password = await authService.hashPassword(user.password);
@@ -33,7 +33,7 @@ export const userRegisterUseCase = async (
   )=>{
       const user:UserInterface | null = await userRepository.getUserByEmail(email)
       if(!user){
-       throw new AppError("this user doesn't exist", HttpStatus.UNAUTHORIZED)
+       throw new AppError("this user doesn't exist", HttpStatus.NOT_FOUND)
       }
      const isPasswordCorrect = await authService.comparePassword(password,user?.password ?? '')
       if(!isPasswordCorrect){

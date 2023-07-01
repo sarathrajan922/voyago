@@ -1,16 +1,14 @@
-
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
-import BASE_URL, { urls } from "../../config";
-
+import { registerUser } from "../../features/axios/api/user/userAuthentication";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 interface FormValues {
   firstName: string;
   lastName: string;
   email: string;
-
   password: string;
 }
 
@@ -39,21 +37,27 @@ const validationSchema: Yup.Schema<FormValues> = Yup.object({
 });
 
 export default function Signup() {
-  const naviage = useNavigate();
-  const handleSubmit = async (values: FormValues) => {
-   
-    try{
-      const response = await axios.post(BASE_URL + urls.USER_SIGNUP, values);
-      const parsedData = response?.data;
-     
-      const token = parsedData?.token;
-      localStorage.setItem("accessToken", token);
-      parsedData?.status ==='fail' ? naviage("/signup") : naviage("/");
+  const navigate = useNavigate();
 
-    }catch(error){
-      console.error(error)
-    }
-   
+  const notify = (msg: string, type: string) =>
+    type === "error"
+      ? toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.BOTTOM_RIGHT });
+  const handleSubmit = async (values: FormValues) => {
+    await registerUser(values)
+      .then((data) => {
+        console.log(data);
+
+        localStorage.setItem("userToken", data?.token);
+        notify("User registered successfully", "success");
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      })
+      .catch((error: any) => {
+        notify(error.message, "error");
+      });
+
   };
 
   return (
@@ -223,6 +227,7 @@ export default function Signup() {
             </Link>
           </p>
         </div>
+        <ToastContainer />
       </div>
     </>
   );
