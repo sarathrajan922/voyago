@@ -15,7 +15,7 @@ export const agentRegisterUseCase = async (
     console.log(agent)
     const isExistingEmail = await agentRepository.getAgentByEmail(agent.email);
     if(isExistingEmail){
-        throw new AppError("existing email", HttpStatus.UNAUTHORIZED);
+        throw new AppError("existing email", HttpStatus.CONFLICT);
     }
 
     if(agent.password){

@@ -1,9 +1,12 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+
 import { useState } from "react";
-import BASE_URL, { urls } from "../../config";
+
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import { registerAgent } from "../../features/axios/api/agent/agentAuthentication";
 
 interface FormValues {
   firstName: string;
@@ -32,6 +35,12 @@ export default function AgentSignupForm() {
   const [idproof, setIdproof] = useState<string | any>(null);
   const navigate = useNavigate();
 
+  const notify = (msg: string, type: string) => {
+    type === "error"
+      ? toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.BOTTOM_RIGHT });
+  };
+
   // Form submission handler
   const handleSubmit = async (values: FormValues) => {
     const formData = new FormData();
@@ -45,16 +54,19 @@ export default function AgentSignupForm() {
     formData.append("password", values.password);
     formData.append("mobile", values.mobile);
 
-    try {
-      const response = await axios.post(BASE_URL + urls.AGENT_SIGNUP, formData);
-      const parsedData = response.data;
+    await registerAgent(formData)
+      .then((data) => {
+        console.log(data);
 
-      const token = parsedData?.token;
-      localStorage.setItem("agentAccessToken", token);
-      parsedData?.status ? navigate("/") : navigate("/agent/signup");
-    } catch (error) {
-      console.error(error);
-    }
+        localStorage.setItem("agentToken", data?.token);
+        notify("Agent registration successful", "success");
+        setTimeout(() => {
+          navigate("/agent");
+        }, 2000);
+      })
+      .catch((error: any) => {
+        notify(error.message, "error");
+      });
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -275,6 +287,7 @@ export default function AgentSignupForm() {
             </Link>
           </p>
         </div>
+        <ToastContainer />
       </div>
     </>
   );

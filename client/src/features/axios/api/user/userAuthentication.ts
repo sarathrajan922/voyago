@@ -28,7 +28,7 @@ export const registerUser = async (values: RegisterFormValues)=>{
   }catch(error: any){
    
     if(error.message === 'Request failed with status code 409'){
-     throw new Error('Email alread exist !!!');
+     throw new Error('Email already exists !!!');
     }else{
       throw new Error('Signup failed ,try again')
     }
