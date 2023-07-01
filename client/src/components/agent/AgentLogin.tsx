@@ -5,6 +5,9 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import BASE_URL, { urls } from "../../config";
 import { Button } from "@material-tailwind/react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { agentLogin } from "../../features/axios/api/agent/agentAuthentication";
 
 interface FormValues {
   email: string;
@@ -22,21 +25,35 @@ export default function AgentLoginForm() {
     email: "",
     password: "",
   };
+  const notify= (msg: string,type: string)=>{
+    type === 'error' ? toast.error(msg, {position: toast.POSITION.BOTTOM_RIGHT})
+    : toast.success(msg, {position: toast.POSITION.BOTTOM_RIGHT})
+  }
 
   const handleSubmit = async (values: FormValues) => {
-    try {
-      const response = await axios.post(BASE_URL + urls.AGENT_LOGIN, values);
-      const parsedData = response.data;
 
-      const token = parsedData?.token;
+    await agentLogin(values).then((data)=>{
+      localStorage.setItem('agentToken', data?.token);
+      notify("Agent Logged successfully", 'success');
+      setTimeout(()=>{
+        navigate('/agent')
+      },2000);
+    }).catch((error:any)=>{
+      notify(error.message,'error');
+    })
+    // try {
+    //   const response = await axios.post(BASE_URL + urls.AGENT_LOGIN, values);
+    //   const parsedData = response.data;
 
-      localStorage.setItem("accessToken", token);
-      parsedData?.status === true
-        ? navigate("/agent")
-        : navigate("/agent/login");
-    } catch (err) {
-      console.error(err);
-    }
+    //   const token = parsedData?.token;
+
+    //   localStorage.setItem("accessToken", token);
+    //   parsedData?.status === true
+    //     ? navigate("/agent")
+    //     : navigate("/agent/login");
+    // } catch (err) {
+    //   console.error(err);
+    // }
   };
 
   return (
@@ -139,7 +156,7 @@ export default function AgentLoginForm() {
         </p>
         
       </div>
-     
+     <ToastContainer/>
     </div>
   );
 }

@@ -36,7 +36,7 @@ export const agentLoginUseCase = async (
     ) => {
         const agent: AgentInterface | null = await agentRepository.getAgentByEmail(email)
         if(!agent){
-            throw new AppError("this user doesn't exist", HttpStatus.UNAUTHORIZED)
+            throw new AppError("this user doesn't exist", HttpStatus.NOT_FOUND)
         }
         const isPasswordCorrect = await authService.comparePassword(password,agent?.password ?? '')
         if(!isPasswordCorrect){
