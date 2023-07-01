@@ -19,6 +19,7 @@ import AgentDash from './components/agent/Body/AgentDash';
 import AgentCategory from './components/agent/Body/CategoryManagement';
 
 import AddTourPackageForm from './components/agent/Body/AddPackage';
+import AgentPackages from './components/agent/Body/AgentPackages';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -64,6 +65,10 @@ import AddTourPackageForm from './components/agent/Body/AddPackage';
             {
                 path: 'add-package',
                 element: <AddTourPackageForm/>
+            },
+            {
+                path: 'packages',
+                element: <AgentPackages/>
             }
         ]
 

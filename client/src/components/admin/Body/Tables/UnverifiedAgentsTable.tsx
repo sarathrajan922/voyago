@@ -1,7 +1,6 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import { UserPlusIcon } from "@heroicons/react/24/solid";
 import { UnverifiedAgentsApiResponse } from "../../../../API/type/getAllUnverifiedAgents";
-import viewIdProof from "../ViewIdProof";
 
 import {
   Card,
@@ -10,22 +9,17 @@ import {
   Typography,
   Button,
   CardBody,
-  Chip,
   CardFooter,
   Tabs,
   TabsHeader,
   Tab,
   Avatar,
-  IconButton,
-  Tooltip,
 } from "@material-tailwind/react";
 import ViewIdProof from "../ViewIdProof";
 import { useState, useEffect } from "react";
-import BASE_URL, {urls} from "../../../../config";
+import BASE_URL, { urls } from "../../../../config";
 import axios from "axios";
 
-
- 
 const TABS = [
   {
     label: "All",
@@ -40,44 +34,33 @@ const TABS = [
     value: "unmonitored",
   },
 ];
- 
-const TABLE_HEAD = ["Member",  "Status", "Document"];
- 
- 
-const UnverifiedAgentsTable: React.FC=()=> {
-  const [agentData , SetAgentData] = useState<UnverifiedAgentsApiResponse[] | null>(null)
-console.log(BASE_URL+urls.ADMIN_GET_ALL_UNVERIFIED_AGENTS)
- console.log(agentData)
-  useEffect(()=>{ 
-    const getAgents = async() => {
-     const data: any =  await getAllUnverifiedAgents()
-     SetAgentData(data?.result) 
-    }
+
+const TABLE_HEAD = ["Member", "Status", "Document"];
+
+const UnverifiedAgentsTable: React.FC = () => {
+  const [agentData, SetAgentData] = useState<
+    UnverifiedAgentsApiResponse[] | null
+  >(null);
+  console.log(BASE_URL + urls.ADMIN_GET_ALL_UNVERIFIED_AGENTS);
+  console.log(agentData);
+  useEffect(() => {
+    const getAgents = async () => {
+      const data: any = await getAllUnverifiedAgents();
+      SetAgentData(data?.result);
+    };
     getAgents();
-  },[])
-const getAllUnverifiedAgents = async()=>{
-  try{
+  }, []);
+  const getAllUnverifiedAgents = async () => {
+    try {
+      const response = await axios.get(
+        BASE_URL + urls.ADMIN_GET_ALL_UNVERIFIED_AGENTS
+      );
 
-   const response = await axios.get(BASE_URL+urls.ADMIN_GET_ALL_UNVERIFIED_AGENTS)
-    
-    return response.data;
-
-  }catch(err){
-    console.error(err)
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <Card className="h-full w-full">
@@ -111,7 +94,10 @@ const getAllUnverifiedAgents = async()=>{
             </TabsHeader>
           </Tabs>
           <div className="w-full md:w-72">
-            <Input label="Search" icon={<MagnifyingGlassIcon className="h-5 w-5" />} />
+            <Input
+              label="Search"
+              icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+            />
           </div>
         </div>
       </CardHeader>
@@ -120,7 +106,10 @@ const getAllUnverifiedAgents = async()=>{
           <thead>
             <tr>
               {TABLE_HEAD.map((head) => (
-                <th key={head} className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                <th
+                  key={head}
+                  className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
+                >
                   <Typography
                     variant="small"
                     color="blue-gray"
@@ -134,17 +123,20 @@ const getAllUnverifiedAgents = async()=>{
           </thead>
           <tbody>
             {agentData?.map((x, index) => {
-        
-            //   const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
- 
+              //   const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
+
               return (
                 <tr key={index}>
                   <td className="p-4 border-b border-blue-gray-50">
                     <div className="flex items-center gap-3">
-                      <Avatar src={x.idProof_img} alt='' size="sm" />
+                      <Avatar src={x.idProof_img} alt="" size="sm" />
                       <div className="flex flex-col">
-                        <Typography variant="small" color="blue-gray" className="font-normal">
-                          {x.firstName+" "+x.lastName}
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {x.firstName + " " + x.lastName}
                         </Typography>
                         <Typography
                           variant="small"
@@ -156,20 +148,22 @@ const getAllUnverifiedAgents = async()=>{
                       </div>
                     </div>
                   </td>
-              
+
                   <td className="p-4">
-                  <span className="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-                <span className="w-2 h-2 mr-1 bg-red-500 rounded-full"></span>
-                Not verified
-            </span>
+                    <span className="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                      <span className="w-2 h-2 mr-1 bg-red-500 rounded-full"></span>
+                      Not verified
+                    </span>
                   </td>
                   <td className="p-4">
-                    <Typography variant="small" color="blue-gray" className="font-normal">
-                    <ViewIdProof idImg={x.idProof_img} agentId={x._id} />
-
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
+                    >
+                      <ViewIdProof idImg={x.idProof_img} agentId={x._id} />
                     </Typography>
                   </td>
-               
                 </tr>
               );
             })}
@@ -191,7 +185,6 @@ const getAllUnverifiedAgents = async()=>{
       </CardFooter>
     </Card>
   );
-}
+};
 
-
-export default UnverifiedAgentsTable
+export default UnverifiedAgentsTable;

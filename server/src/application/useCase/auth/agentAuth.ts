@@ -2,7 +2,7 @@ import { HttpStatus } from "../../../types/httpStatus";
 import { AgentAddCategoryInterface, AgentRegisterInterface, AgentTourPackageInterface } from "../../../types/agent";
 import AppError from "../../../utils/appError";
 import { AuthServiceInterface } from "../../services/authServiceInterface";
-import { AgentDbInterface } from "../../repository/agentDBrepository";
+import { AgentDbInterface, agentDbRepository } from "../../repository/agentDBrepository";
 import { AgentInterface } from "../../../types/agent";
 import Category from "../../../frameworks/database/mongodb/models/categoryModel";
 
@@ -91,5 +91,16 @@ return result
     agentRepository: ReturnType<AgentDbInterface>
  )=>{
     const result = await agentRepository.getAllPackage(agentId)
+    return result
+ }
+
+ export const getPackageUseCase = async(
+    packageId: string,
+    agaentRepository : ReturnType<AgentDbInterface>
+ )=>{
+    const result = await agaentRepository.getPackage(packageId)
+    if(!result){
+        throw new AppError('package not found',HttpStatus.NOT_FOUND)
+    }
     return result
  }

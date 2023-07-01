@@ -15,7 +15,8 @@
     ADMIN_VERIFY_AGENTS: 'admin/agent-verification/',
     AGENT_GET_ALL_CATEGORY: 'agent/get-all-category/',
     AGENT_DELETE_CATEGORY: 'agent/delete-category',
-    AGENT_ADD_PACKAGE: 'agent/add-tour-package'
+    AGENT_ADD_PACKAGE: 'agent/add-tour-package',
+    AGENT_GET_ALL_PACKAGES: 'agent/get-all-package/'
  }
  
  const BASE_URL= 'http://localhost:8000/';
