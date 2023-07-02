@@ -7,9 +7,11 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
+
 import React from "react";
-import axios from "axios";
-import BASE_URL, { urls } from "../../../config";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import { verifyAgent } from "../../../features/axios/api/admin/adminVerifyAgent";
 
 interface ViewIdProofProps {
   idImg: string;
@@ -17,12 +19,31 @@ interface ViewIdProofProps {
 }
 
 const ViewIdProof: React.FC<ViewIdProofProps> = ({ idImg, agentId }) => {
+
+
+  const notify = (msg: string, type: string) => {
+    type === "error"
+      ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
+  };
   const verification = async (status: Boolean, agentId: string) => {
-    const response = await axios.post(
-      BASE_URL + urls.ADMIN_VERIFY_AGENTS + agentId
-    );
-    const parsedData = response.data;
-    console.log(parsedData);
+    if(status){
+      await verifyAgent(agentId)
+      .then((response) => {
+        notify("Agent successfully verified", "success");
+        setTimeout(() => {
+           // eslint-disable-next-line no-restricted-globals
+           location.replace('/admin/agents-verification')
+        }, 2000);
+      })
+      .catch((error: any) => {
+        notify(error.message, "error");
+      });
+    }else{
+      notify('Okay! agent still in the same state', 'error')
+    }
+   
+    
   };
   return (
     <Popover>
@@ -62,6 +83,7 @@ const ViewIdProof: React.FC<ViewIdProofProps> = ({ idImg, agentId }) => {
               </Button>
             </a>
           </div>
+          <ToastContainer />
         </div>
       </PopoverContent>
     </Popover>

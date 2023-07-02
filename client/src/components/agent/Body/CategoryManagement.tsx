@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 import {
   List,
@@ -13,6 +15,8 @@ import {
 import { TrashIcon } from "@heroicons/react/24/solid";
 import BASE_URL, { urls } from "../../../config";
 import { CategoryApiResponse } from "../../../API/type/getAllCategory";
+import { addCategory } from "../../../features/axios/api/agent/agentAddCategory";
+
 
 const AgentCategory: React.FC = () => {
   const [status, setStatus] = useState(false);
@@ -20,6 +24,11 @@ const AgentCategory: React.FC = () => {
     name: string;
     agentId?: string | null;
   }
+  const notify = (msg: string, type: string) => {
+    type === "error"
+      ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
+  };
 
   const validationSchema: Yup.Schema<FormValues> = Yup.object({
     name: Yup.string().required("Category Name is required"),
@@ -32,16 +41,12 @@ const AgentCategory: React.FC = () => {
       agentId: "64941a796b4f3bd48f57ecfa",
     };
 
-    try {
-      const response = await axios.post(
-        BASE_URL + urls.AGENT_ADD_CATEGORY,
-        formData
-      );
-      setStatus(!status);
-      console.log(response);
-    } catch (err) {
-      console.error(err);
-    }
+    await addCategory(formData).then((response)=>{
+      notify("Category added successfully!", 'success')
+      setStatus(!status)
+    }).catch((error:any)=>{
+      notify(error.message, 'error')
+    })
   };
 
   const [category, setCategory] = useState<CategoryApiResponse[] | null>(null);
@@ -178,6 +183,7 @@ const AgentCategory: React.FC = () => {
             </div>
           </div>
         </div>
+        <ToastContainer/>
       </div>
     </>
   );
