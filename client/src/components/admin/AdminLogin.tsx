@@ -44,7 +44,6 @@ export default function AdminLoginForm() {
       .catch((error: any) => {
         notify(error.message, "error");
       });
-   
   };
 
   return (
