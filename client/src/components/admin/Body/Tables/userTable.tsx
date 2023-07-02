@@ -4,6 +4,7 @@ import { Tooltip, Button } from "@material-tailwind/react";
 import { UserDataApiResponse } from "../../../../API/type/getAllUser";
 import axios from "axios";
 import BASE_URL, { urls } from "../../../../config";
+import { getUsers } from "../../../../features/axios/api/admin/adminGetAllUsers";
 
 const UserTable: React.FC = () => {
   const [userData, SetUserData] = useState<UserDataApiResponse[] | null>(null);
@@ -20,13 +21,12 @@ const UserTable: React.FC = () => {
   }, [status]);
 
   const getAllUsers = async () => {
-    try {
-      const response = await axios.get(BASE_URL + urls.ADMIN_GET_ALL_USERS);
 
-      return response.data;
-    } catch (err) {
-      console.error(err);
-    }
+  const data =   await getUsers().then((response)=>{
+      console.log(response)
+      return response
+    })
+    return data
   };
 
   const changeStatus = async (userId: string) => {

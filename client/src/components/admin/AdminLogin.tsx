@@ -44,18 +44,7 @@ export default function AdminLoginForm() {
       .catch((error: any) => {
         notify(error.message, "error");
       });
-    // try {
-    //   const response = await axios.post(BASE_URL + urls.ADMIN_LOGIN, values);
-    //   const parsedData = response.data;
-    //   const token = parsedData?.token;
-
-    //   localStorage.setItem("accessToken", token);
-    //   parsedData?.status === "fail"
-    //     ? navigate("/admin/login")
-    //     : navigate("/admin");
-    // } catch (err) {
-    //   console.error(err);
-    // }
+   
   };
 
   return (
