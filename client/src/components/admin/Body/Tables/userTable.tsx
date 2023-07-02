@@ -29,7 +29,7 @@ const UserTable: React.FC = () => {
 
   const getAllUsers = async () => {
     const data = await getUsers().then((response) => {
-      console.log(response);
+   
       return response;
     });
     return data;

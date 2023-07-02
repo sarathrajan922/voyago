@@ -1,10 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import { Tooltip, Button } from "@material-tailwind/react";
-
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import { AgentDataApiResponse } from "../../../../API/type/getAllAgents";
 import axios from "axios";
 import BASE_URL, { urls } from "../../../../config";
+import { getAgents } from "../../../../features/axios/api/admin/adminGetAllAgent";
 
 const AgentTable: React.FC = () => {
   const [agentData, SetAgentData] = useState<AgentDataApiResponse[] | null>(
@@ -23,12 +25,16 @@ const AgentTable: React.FC = () => {
   }, [status]);
 
   const getAllAgents = async () => {
-    try {
-      const response = await axios.get(BASE_URL + urls.ADMIN_GET_ALL_AGENTS);
-      return response.data;
-    } catch (err) {
-      console.error(err);
-    }
+    const data = await getAgents().then((response)=>{
+      return response;
+    });
+    return data
+    // try {
+    //   const response = await axios.get(BASE_URL + urls.ADMIN_GET_ALL_AGENTS);
+    //   return response.data;
+    // } catch (err) {
+    //   console.error(err);
+    // }
   };
 
   const changeStatus = async (agentId: string) => {
