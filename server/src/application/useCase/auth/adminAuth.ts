@@ -14,7 +14,7 @@ export const adminLoginUseCase = async (
 
     const admin: AdminInterface | null = await adminRepository.getAdminByEmail(email)
     if(!admin){
-        throw new AppError("There is no admin in this email", HttpStatus.UNAUTHORIZED)
+        throw new AppError("There is no admin in this email", HttpStatus.NOT_FOUND)
     }
     const isPasswordCorrect = await authService.comparePassword(password,admin?.password ?? '')
     if(!isPasswordCorrect){

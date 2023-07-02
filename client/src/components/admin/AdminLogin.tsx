@@ -3,8 +3,9 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import BASE_URL, { urls } from "../../config";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import { adminLogin } from "../../features/axios/api/admin/adminAuthentication";
 
 interface FormValues {
   email: string;
@@ -25,19 +26,36 @@ export default function AdminLoginForm() {
     password: "",
   };
 
-  const handleSubmit = async (values: FormValues) => {
-    try {
-      const response = await axios.post(BASE_URL + urls.ADMIN_LOGIN, values);
-      const parsedData = response.data;
-      const token = parsedData?.token;
+  const notify = (msg: string, type: string) => {
+    type === "error"
+      ? toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.BOTTOM_RIGHT });
+  };
 
-      localStorage.setItem("accessToken", token);
-      parsedData?.status === "fail"
-        ? navigate("/admin/login")
-        : navigate("/admin");
-    } catch (err) {
-      console.error(err);
-    }
+  const handleSubmit = async (values: FormValues) => {
+    await adminLogin(values)
+      .then((data) => {
+        localStorage.setItem("adminToken", data?.token);
+        notify("Admin Login successful", "success");
+        setTimeout(() => {
+          navigate("/admin");
+        }, 2000);
+      })
+      .catch((error: any) => {
+        notify(error.message, "error");
+      });
+    // try {
+    //   const response = await axios.post(BASE_URL + urls.ADMIN_LOGIN, values);
+    //   const parsedData = response.data;
+    //   const token = parsedData?.token;
+
+    //   localStorage.setItem("accessToken", token);
+    //   parsedData?.status === "fail"
+    //     ? navigate("/admin/login")
+    //     : navigate("/admin");
+    // } catch (err) {
+    //   console.error(err);
+    // }
   };
 
   return (
@@ -131,6 +149,7 @@ export default function AdminLoginForm() {
             </Form>
           </Formik>
         </div>
+        <ToastContainer />
       </div>
     </>
   );

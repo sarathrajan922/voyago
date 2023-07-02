@@ -57,7 +57,6 @@ export default function Signup() {
       .catch((error: any) => {
         notify(error.message, "error");
       });
-
   };
 
   return (
