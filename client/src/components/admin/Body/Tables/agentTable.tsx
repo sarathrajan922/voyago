@@ -4,9 +4,9 @@ import { Tooltip, Button } from "@material-tailwind/react";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { AgentDataApiResponse } from "../../../../API/type/getAllAgents";
-import axios from "axios";
-import BASE_URL, { urls } from "../../../../config";
+
 import { getAgents } from "../../../../features/axios/api/admin/adminGetAllAgent";
+import { BlockAgent } from "../../../../features/axios/api/admin/adminBlockAgent";
 
 const AgentTable: React.FC = () => {
   const [agentData, SetAgentData] = useState<AgentDataApiResponse[] | null>(
@@ -15,6 +15,11 @@ const AgentTable: React.FC = () => {
   const [status, setStatus] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(4);
+  const notify = (msg: string, type: string) => {
+    type === "error"
+      ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
+  };
 
   useEffect(() => {
     const getAgents = async () => {
@@ -25,25 +30,21 @@ const AgentTable: React.FC = () => {
   }, [status]);
 
   const getAllAgents = async () => {
-    const data = await getAgents().then((response)=>{
+    const data = await getAgents().then((response) => {
       return response;
     });
-    return data
-    // try {
-    //   const response = await axios.get(BASE_URL + urls.ADMIN_GET_ALL_AGENTS);
-    //   return response.data;
-    // } catch (err) {
-    //   console.error(err);
-    // }
+    return data;
   };
 
   const changeStatus = async (agentId: string) => {
-    try {
-      await axios.post(BASE_URL + urls.ADMIN_BLOCK_AGENT + agentId);
-      setStatus(!status);
-    } catch (err) {
-      console.error(err);
-    }
+    await BlockAgent(agentId)
+      .then((response) => {
+        notify("Done!", "success");
+        setStatus(!status);
+      })
+      .catch((error) => {
+        notify(error.message, "error");
+      });
   };
   const goToPreviousPage = () => {
     setCurrentPage((prevPage) => prevPage - 1);
@@ -214,6 +215,7 @@ const AgentTable: React.FC = () => {
           Next
           {/* Next button content */}
         </button>
+        <ToastContainer />
       </div>
     </>
   );

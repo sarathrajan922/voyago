@@ -2,9 +2,6 @@ import axios, {AxiosRequestConfig} from "axios";
 import BASE_URL,{urls} from "../../../../config";
 
 
-
-
-
 export const BlockUser = async (userId : any)=>{
     try{
         const config: AxiosRequestConfig = {
