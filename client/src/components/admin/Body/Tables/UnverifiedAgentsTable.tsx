@@ -1,7 +1,7 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { UserPlusIcon } from "@heroicons/react/24/solid";
 import { UnverifiedAgentsApiResponse } from "../../../../API/type/getAllUnverifiedAgents";
-
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import {
   Card,
   CardHeader,
@@ -10,30 +10,12 @@ import {
   Button,
   CardBody,
   CardFooter,
-  Tabs,
-  TabsHeader,
-  Tab,
   Avatar,
 } from "@material-tailwind/react";
 import ViewIdProof from "../ViewIdProof";
 import { useState, useEffect } from "react";
-import BASE_URL, { urls } from "../../../../config";
-import axios from "axios";
 
-const TABS = [
-  {
-    label: "All",
-    value: "all",
-  },
-  {
-    label: "Monitored",
-    value: "monitored",
-  },
-  {
-    label: "Unmonitored",
-    value: "unmonitored",
-  },
-];
+import { adminUnVerifedAgents } from "../../../../features/axios/api/admin/adminGetAllUnVerifiedAgents";
 
 const TABLE_HEAD = ["Member", "Status", "Document"];
 
@@ -41,8 +23,12 @@ const UnverifiedAgentsTable: React.FC = () => {
   const [agentData, SetAgentData] = useState<
     UnverifiedAgentsApiResponse[] | null
   >(null);
-  console.log(BASE_URL + urls.ADMIN_GET_ALL_UNVERIFIED_AGENTS);
-  console.log(agentData);
+  const notify = (msg: string, type: string) => {
+    type === "error"
+      ? toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.BOTTOM_RIGHT });
+  };
+
   useEffect(() => {
     const getAgents = async () => {
       const data: any = await getAllUnverifiedAgents();
@@ -51,15 +37,13 @@ const UnverifiedAgentsTable: React.FC = () => {
     getAgents();
   }, []);
   const getAllUnverifiedAgents = async () => {
-    try {
-      const response = await axios.get(
-        BASE_URL + urls.ADMIN_GET_ALL_UNVERIFIED_AGENTS
-      );
-
-      return response.data;
-    } catch (err) {
-      console.error(err);
-    }
+    return await adminUnVerifedAgents()
+      .then((response) => {
+        return response;
+      })
+      .catch((error: any) => {
+        notify(error.message, "error");
+      });
   };
 
   return (
@@ -68,31 +52,14 @@ const UnverifiedAgentsTable: React.FC = () => {
         <div className="mb-8 flex items-center justify-between gap-8">
           <div>
             <Typography variant="h5" color="blue-gray">
-              Agent verification List
+              Agent Verificatoin List
             </Typography>
             <Typography color="gray" className="mt-1 font-normal">
-              See information about all members
+              See information about all un verified Agent
             </Typography>
-          </div>
-          <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-            <Button variant="outlined" color="blue-gray" size="sm">
-              view all
-            </Button>
-            <Button className="flex items-center gap-3" color="blue" size="sm">
-              <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add member
-            </Button>
           </div>
         </div>
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <Tabs value="all" className="w-full md:w-max">
-            <TabsHeader>
-              {TABS.map(({ label, value }) => (
-                <Tab key={value} value={value}>
-                  &nbsp;&nbsp;{label}&nbsp;&nbsp;
-                </Tab>
-              ))}
-            </TabsHeader>
-          </Tabs>
           <div className="w-full md:w-72">
             <Input
               label="Search"
@@ -170,6 +137,7 @@ const UnverifiedAgentsTable: React.FC = () => {
           </tbody>
         </table>
       </CardBody>
+      <ToastContainer />
       <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
         <Typography variant="small" color="blue-gray" className="font-normal">
           Page 1 of 10
