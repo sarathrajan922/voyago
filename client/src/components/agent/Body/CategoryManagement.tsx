@@ -10,13 +10,12 @@ import {
   ListItem,
   ListItemSuffix,
   IconButton,
-  
 } from "@material-tailwind/react";
 import { TrashIcon } from "@heroicons/react/24/solid";
 import BASE_URL, { urls } from "../../../config";
 import { CategoryApiResponse } from "../../../API/type/getAllCategory";
 import { addCategory } from "../../../features/axios/api/agent/agentAddCategory";
-
+import { getAgentCategory } from "../../../features/axios/api/agent/agentGetAllCategory";
 
 const AgentCategory: React.FC = () => {
   const [status, setStatus] = useState(false);
@@ -41,24 +40,24 @@ const AgentCategory: React.FC = () => {
       agentId: "64941a796b4f3bd48f57ecfa",
     };
 
-    await addCategory(formData).then((response)=>{
-      notify("Category added successfully!", 'success')
-      setStatus(!status)
-    }).catch((error:any)=>{
-      notify(error.message, 'error')
-    })
+    await addCategory(formData)
+      .then((response) => {
+        notify("Category added successfully!", "success");
+        setStatus(!status);
+      })
+      .catch((error: any) => {
+        notify(error.message, "error");
+      });
   };
 
   const [category, setCategory] = useState<CategoryApiResponse[] | null>(null);
 
- 
   useEffect(() => {
     const getCategory = async () => {
       const data: any = await getAllCategory();
       setCategory(data?.result);
     };
     getCategory();
-   
   }, []);
 
   useEffect(() => {
@@ -70,36 +69,35 @@ const AgentCategory: React.FC = () => {
   }, [status]);
 
   const getAllCategory = async () => {
+     //! replace the params with logged agentId
+    const agentId = "64941a796b4f3bd48f57ecfa"
+  return  await getAgentCategory(agentId).then((response)=>{
+      return response
+    }).catch((error:any)=>{
+      notify(error.message, "error");
+    })
+    
+    
+  };
+
+  const deleteCategory = async (name: string) => {
+    const obj = {
+      //! replace agentId with logged agent
+      agentId: "64941a796b4f3bd48f57ecfa",
+      categoryName: name,
+    };
+
     try {
-      //! replace the params with logged agentId
-      const response = await axios.get(
-        BASE_URL + urls.AGENT_GET_ALL_CATEGORY + "64941a796b4f3bd48f57ecfa"
+      const response = await axios.patch(
+        BASE_URL + urls.AGENT_DELETE_CATEGORY,
+        obj
       );
-      return response.data;
+      console.log(response.data);
+      setStatus(!status);
     } catch (err) {
       console.error(err);
     }
   };
-
-  const deleteCategory= async(name: string)=>{
-
-    const obj = {
-        //! replace agentId with logged agent
-        agentId: "64941a796b4f3bd48f57ecfa",
-        categoryName: name
-    }
-
-    try{
-        const response = await axios.patch(BASE_URL+urls.AGENT_DELETE_CATEGORY, obj)
-        console.log(response.data)
-        setStatus(!status)
-    }catch(err){
-        console.error(err)
-    }
-
-  }
-
-
 
   return (
     <>
@@ -114,19 +112,23 @@ const AgentCategory: React.FC = () => {
               </div>
               <List>
                 {category &&
-                  category?.map((x,index) => {
+                  category?.map((x, index) => {
                     return (
                       <ListItem
-                      key={index}
+                        key={index}
                         ripple={false}
                         className="py-1 pr-1 pl-4 bg-white"
                       >
                         {x.name}
                         <ListItemSuffix>
-                            {/*//!delete category functionality pending */}
-                          <IconButton onClick={()=>{
-                            deleteCategory(x.name)
-                          }} variant="text" color="red">
+                          {/*//!delete category functionality pending */}
+                          <IconButton
+                            onClick={() => {
+                              deleteCategory(x.name);
+                            }}
+                            variant="text"
+                            color="red"
+                          >
                             <TrashIcon className="h-5 w-5" />
                           </IconButton>
                         </ListItemSuffix>
@@ -183,7 +185,7 @@ const AgentCategory: React.FC = () => {
             </div>
           </div>
         </div>
-        <ToastContainer/>
+        <ToastContainer />
       </div>
     </>
   );
