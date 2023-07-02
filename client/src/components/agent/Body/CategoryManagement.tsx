@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -12,10 +11,11 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { TrashIcon } from "@heroicons/react/24/solid";
-import BASE_URL, { urls } from "../../../config";
+
 import { CategoryApiResponse } from "../../../API/type/getAllCategory";
 import { addCategory } from "../../../features/axios/api/agent/agentAddCategory";
 import { getAgentCategory } from "../../../features/axios/api/agent/agentGetAllCategory";
+import { agentDeleteCategory } from "../../../features/axios/api/agent/agentDeleteCategory";
 
 const AgentCategory: React.FC = () => {
   const [status, setStatus] = useState(false);
@@ -58,6 +58,7 @@ const AgentCategory: React.FC = () => {
       setCategory(data?.result);
     };
     getCategory();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -66,6 +67,7 @@ const AgentCategory: React.FC = () => {
       setCategory(data?.result);
     };
     getCategory();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
   const getAllCategory = async () => {
@@ -87,16 +89,13 @@ const AgentCategory: React.FC = () => {
       categoryName: name,
     };
 
-    try {
-      const response = await axios.patch(
-        BASE_URL + urls.AGENT_DELETE_CATEGORY,
-        obj
-      );
-      console.log(response.data);
-      setStatus(!status);
-    } catch (err) {
-      console.error(err);
-    }
+    await agentDeleteCategory(obj).then(()=>{
+      notify('Category deleted successfully','success')
+      setStatus(!status)
+    }).catch((error:any)=>{
+      notify(error.message,'error')
+    })
+    
   };
 
   return (

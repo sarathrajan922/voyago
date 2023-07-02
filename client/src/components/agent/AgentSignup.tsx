@@ -53,10 +53,11 @@ export default function AgentSignupForm() {
     formData.append("email", values.email);
     formData.append("password", values.password);
     formData.append("mobile", values.mobile);
+    console.log('form data')
+    console.log(formData)
 
     await registerAgent(formData)
       .then((data) => {
-        console.log(data);
 
         localStorage.setItem("agentToken", data?.token);
         notify("Agent registration successful", "success");

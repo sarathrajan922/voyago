@@ -97,8 +97,8 @@ const agentController = (
     })
 
     const getAllPackages = asyncHandler(async(req: CustomRequest, res: Response) => {
-        // const agentId = req.params.id;
-        const agentId = req?.payload ?? ''
+        const agentId = req.params.id;
+        // const agentId = req?.payload ?? ''
         const result = await getAllPackageUseCase(agentId,dbRepositoryAgent)
         res.json({
             status: true,
