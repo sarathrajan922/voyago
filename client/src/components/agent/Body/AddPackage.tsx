@@ -4,7 +4,10 @@ import * as Yup from "yup";
 import axios from "axios";
 import { CategoryApiResponse } from "../../../API/type/getAllCategory";
 import BASE_URL, { urls } from "../../../config";
-
+import { agentAddPackage } from "../../../features/axios/api/agent/agentAddPackage";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import { getAgentCategory } from "../../../features/axios/api/agent/agentGetAllCategory";
 interface FormValues {
   packageName: string;
   images: FileList | null;
@@ -43,35 +46,23 @@ const AddTourPackageForm: React.FC = () => {
       .positive("Duration must be positive"),
   });
 
+  const notify = (msg: string, type: string) => {
+    type === "error"
+      ? toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.BOTTOM_RIGHT });
+  };
+
   const onSubmit = async (values: FormValues) => {
     // Handle form submission
     console.log(values);
 
-    const formData = new FormData();
+    await agentAddPackage(values).then(()=>{
+      notify('Package added successfully!', 'success')
+    }).catch((error:any)=>{
+      notify(error.message, 'error')
+    })
 
-    formData.append("packageName", values.packageName);
-    formData.append("description", values.description);
-    formData.append("duration", values.duration);
-    formData.append("category", values.category);
-    formData.append("locations", values.locations);
-
-    formData.append("services", values.services);
-    //! replace agentId with logged agentid
-    formData.append("agentId", "64941a796b4f3bd48f57ecfa");
-    formData.append("price", values.price);
-    if (values.images) {
-      formData.append("images", values.images[0]);
-    }
-
-    try {
-      const response = await axios.post(
-        BASE_URL + urls.AGENT_ADD_PACKAGE,
-        formData
-      );
-      console.log(response.data);
-    } catch (err) {
-      console.error(err);
-    }
+    
   };
 
   const formik = useFormik({
@@ -93,15 +84,13 @@ const AddTourPackageForm: React.FC = () => {
   }, []);
 
   const getCategory = async () => {
-    try {
-      //! replace the parms with logged agentId
-      const response = await axios.get(
-        BASE_URL + urls.AGENT_GET_ALL_CATEGORY + "64941a796b4f3bd48f57ecfa"
-      );
-      return response.data;
-    } catch (err) {
-      console.error(err);
-    }
+   //! replace the parms with logged agentId
+    const agentId = "64941a796b4f3bd48f57ecfa"
+   return await getAgentCategory(agentId).then((response)=>{
+      return response
+    }).catch((error:any)=>{
+      notify(error.message,'error')
+    })
   };
 
   return (
@@ -149,7 +138,7 @@ const AddTourPackageForm: React.FC = () => {
                 )}
               </div>
             </div>
-
+                  <ToastContainer/>
             <div className="flex-col items-center justify-center ms-3 rounded h-28 dark:bg-gray-800">
               <label
                 htmlFor="images"

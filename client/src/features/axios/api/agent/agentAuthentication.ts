@@ -14,6 +14,7 @@ import BASE_URL, { urls } from "../../../../config";
 
 export const registerAgent = async (values: any) => {
   try {
+    
     const config: AxiosRequestConfig = {
       url: BASE_URL + urls.AGENT_SIGNUP,
       method: "post",
