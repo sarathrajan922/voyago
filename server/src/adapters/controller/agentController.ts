@@ -46,7 +46,7 @@ const agentController = (
     })
 
     const addCategory = asyncHandler(async (req: Request, res: Response)=>{
-        console.log(req.body)
+       
         const category : AgentAddCategoryInterface = req.body
         const result = await agentAddCategoryUseCase(category,dbRepositoryAgent)
         

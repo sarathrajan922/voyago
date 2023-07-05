@@ -41,13 +41,15 @@ import AgentPackages from './components/agent/Body/AgentPackages';
                 path: 'admin/login',
                 element: <AdminLogin/>
             },
+          {
+                path: 'agent/signup',
+                element: <AgentSignupForm/>
+            },
             {
                 path: 'agent/login',
                 element: <AgentLoginForm/>
-            },{
-                path: 'agent/signup',
-                element: <AgentSignupForm/>
-            }
+            },
+
         ]
     },
     {

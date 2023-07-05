@@ -17,6 +17,8 @@ const authRouter = ()=>{
 
     router.post('/user/signup',controller.userRegister)
     router.post('/user/login',controller.userLogin)
+    router.get('/get-tour-packages', controller.getAllPackage)
+    router.post('/book-package',controller.bookPackage)
     return router
 }
 

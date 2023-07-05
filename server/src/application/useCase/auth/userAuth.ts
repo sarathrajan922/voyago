@@ -1,9 +1,12 @@
 import { HttpStatus } from "../../../types/httpStatus";
-import { UserRegisterInterface } from "../../../types/user";
+import { TourConfirmationInterface, UserRegisterInterface } from "../../../types/user";
 import AppError from "../../../utils/appError";
 import { AuthServiceInterface } from "../../services/authServiceInterface";
 import { UserDbInterface } from "../../repository/userDBrepository";
 import { UserInterface } from "../../../types/user";
+
+
+
 export const userRegisterUseCase = async (
     user: UserRegisterInterface ,
     userRepository: ReturnType<UserDbInterface>,
@@ -41,6 +44,25 @@ export const userRegisterUseCase = async (
       }
       const token = authService.generateToken(user?._id?.toString() ?? '')
       return token
-      
-
   }
+
+  export const userGetAllPackageUseCase = async (
+    userRepository: ReturnType<UserDbInterface>
+  )=>{
+    const getAllPackage= await userRepository.getAllPackage()
+    if(!getAllPackage){
+      throw new AppError('sorry, No pacakages available',HttpStatus.NOT_FOUND)
+    }
+    return getAllPackage
+  }
+
+
+  export const userPackageBookingUseCase = async(
+    bookingDetails: TourConfirmationInterface ,
+    userRepository: ReturnType<UserDbInterface>
+  )=>{
+    const result = await userRepository.packageBooking(bookingDetails)
+    return result
+  }
+
+  

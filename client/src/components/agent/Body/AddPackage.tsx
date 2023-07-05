@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+
 import { CategoryApiResponse } from "../../../API/type/getAllCategory";
-import BASE_URL, { urls } from "../../../config";
+
 import { agentAddPackage } from "../../../features/axios/api/agent/agentAddPackage";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";

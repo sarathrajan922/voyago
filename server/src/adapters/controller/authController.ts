@@ -4,7 +4,7 @@ import { UserDbInterface } from "../../application/repository/userDBrepository";
 import { UserRepositoryMongoDB } from "../../frameworks/database/mongodb/repositories/userRepoMongoDB";
 import asyncHandler from 'express-async-handler'
 import  {Request, Response} from 'express'
-import { userLoginUserCase, userRegisterUseCase } from "../../application/useCase/auth/userAuth";
+import { userGetAllPackageUseCase, userLoginUserCase, userPackageBookingUseCase, userRegisterUseCase } from "../../application/useCase/auth/userAuth";
 import { UserRegisterInterface, UserInterface } from "../../types/user";
 
 const authController = (
@@ -38,9 +38,30 @@ const authController = (
         })
     })
 
+    const getAllPackage = asyncHandler(async(req: Request, res: Response)=>{
+        const result = await userGetAllPackageUseCase(dbRepositoryUser)
+        res.json({
+            status: true,
+            message: 'fetching all package success',
+            result
+        })
+    })
+
+    const bookPackage = asyncHandler(async(req: Request,res: Response) => {
+        const bookingDetails = req?.body
+        const result = await userPackageBookingUseCase(bookingDetails,dbRepositoryUser)
+        res.json({
+            status: true,
+            message: 'Tour Package booked successfully',
+            result
+        })
+    })
+
     return {
         userRegister,
-        userLogin
+        userLogin,
+        getAllPackage,
+        bookPackage
     }
 
 }

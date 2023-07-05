@@ -113,23 +113,23 @@ function ProfileMenu() {
 }
 
 // nav list menu
-const navListMenuItems = [
-  {
-    title: "@material-tailwind/html",
-    description:
-      "Learn how to use @material-tailwind/html, packed with rich components and widgets.",
-  },
-  {
-    title: "@material-tailwind/react",
-    description:
-      "Learn how to use @material-tailwind/react, packed with rich components for React.",
-  },
-  {
-    title: "Material Tailwind PRO",
-    description:
-      "A complete set of UI Elements for building faster websites in less time.",
-  },
-];
+// const navListMenuItems = [
+//   {
+//     title: "@material-tailwind/html",
+//     description:
+//       "Learn how to use @material-tailwind/html, packed with rich components and widgets.",
+//   },
+//   {
+//     title: "@material-tailwind/react",
+//     description:
+//       "Learn how to use @material-tailwind/react, packed with rich components for React.",
+//   },
+//   {
+//     title: "Material Tailwind PRO",
+//     description:
+//       "A complete set of UI Elements for building faster websites in less time.",
+//   },
+// ];
 
 function NavListMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -139,22 +139,22 @@ function NavListMenu() {
     onMouseLeave: () => setIsMenuOpen(false),
   };
 
-  const renderItems = navListMenuItems.map(({ title, description }) => (
-    <a href="#" key={title}>
-      <MenuItem>
-        <Typography variant="h6" color="blue-gray" className="mb-1">
-          {title}
-        </Typography>
-        <Typography variant="small" color="gray" className="font-normal">
-          {description}
-        </Typography>
-      </MenuItem>
-    </a>
-  ));
+  // const renderItems = navListMenuItems.map(({ title, description }) => (
+  //   <a href="#" key={title}>
+  //     <MenuItem>
+  //       <Typography variant="h6" color="blue-gray" className="mb-1">
+  //         {title}
+  //       </Typography>
+  //       <Typography variant="small" color="gray" className="font-normal">
+  //         {description}
+  //       </Typography>
+  //     </MenuItem>
+  //   </a>
+  // ));
 
   return (
     <React.Fragment>
-      <Menu open={isMenuOpen} handler={setIsMenuOpen}>
+      {/* <Menu open={isMenuOpen} handler={setIsMenuOpen}>
         <MenuHandler>
           <Typography as="a" href="#" variant="small" className="font-normal">
             <MenuItem
@@ -193,7 +193,7 @@ function NavListMenu() {
       </MenuItem>
       <ul className="ml-6 flex w-full flex-col gap-1 lg:hidden">
         {renderItems}
-      </ul>
+      </ul> */}
     </React.Fragment>
   );
 }

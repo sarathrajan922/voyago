@@ -6,6 +6,7 @@ export const  agentDbRepository = (repository: ReturnType<AgentRepositoryMongoDB
     const addAgent = async (agent: AgentRegisterInterface)=> await repository.addAgent(agent)
     const getAgentByEmail = async (email: string)=> await repository.getAgentByEmail(email)
     const addCategory = async (category: AgentAddCategoryInterface)=> await repository.addCategory(category)
+    const checkCategoryExist = async (agentId:String,categoryName: String)=> await repository.checkCategoryExist(agentId,categoryName)
     const getCategory = async (objId: string)=> await repository.getCategory(objId)
     const deleteCategory = async (agentId: string, categoryName: string)=> await repository.deleteCategory(agentId,categoryName)
     const addPackage= async (tourPackage:AgentTourPackageInterface)=> await repository.addPackage(tourPackage)
@@ -19,7 +20,8 @@ export const  agentDbRepository = (repository: ReturnType<AgentRepositoryMongoDB
         deleteCategory,
         addPackage,
         getAllPackage,
-        getPackage
+        getPackage,
+        checkCategoryExist
     }
 }
 

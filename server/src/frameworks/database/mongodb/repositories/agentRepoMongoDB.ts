@@ -14,6 +14,13 @@ export const agentRepositoryMongoDB = ()=>{
         return Agent.findOne({email})
     }
 
+    const checkCategoryExist = async (agentId:String, categoryName: String)=>{
+        return await Category.findOne({
+            agentId: agentId,
+            name: categoryName
+        })
+    }
+
     const addCategory = async (category:AgentAddCategoryInterface)=>{
         return Category.create(category)
     }
@@ -51,7 +58,8 @@ export const agentRepositoryMongoDB = ()=>{
         deleteCategory,
         addPackage,
         getAllPackages,
-        getPackage
+        getPackage,
+        checkCategoryExist
 
     }
 }

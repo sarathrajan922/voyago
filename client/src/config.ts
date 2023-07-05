@@ -16,7 +16,8 @@
     AGENT_GET_ALL_CATEGORY: 'agent/get-all-category/',
     AGENT_DELETE_CATEGORY: 'agent/delete-category',
     AGENT_ADD_PACKAGE: 'agent/add-tour-package',
-    AGENT_GET_ALL_PACKAGES: 'agent/get-all-package/'
+    AGENT_GET_ALL_PACKAGES: 'agent/get-all-package/',
+    USER_GET_ALL_PACKAGES: 'auth/get-tour-packages'
  }
  
  const BASE_URL= 'http://localhost:8000/';

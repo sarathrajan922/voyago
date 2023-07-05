@@ -16,3 +16,14 @@ export interface UserInterface {
     email?: string,
     password?: string
 }
+
+
+export interface TourConfirmationInterface {
+    firstName : string,
+    lastName : string,
+    Email: string,
+    travelDate: string,
+    rooms: number,
+    packageId: string,
+    userId: string
+}
