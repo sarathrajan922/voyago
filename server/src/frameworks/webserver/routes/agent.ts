@@ -25,6 +25,7 @@ const agentRouter = ()=>{
  router.post('/add-tour-package',upload,controller.addPackage)
  router.get('/get-all-package/:id', controller.getAllPackages)
  router.get('/get-package/:id', controller.getPackage)
+ router.patch('/disable-package/:id',controller.disablePackage)
  return router
 }
 

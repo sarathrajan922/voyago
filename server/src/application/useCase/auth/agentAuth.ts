@@ -101,11 +101,23 @@ return result
 
  export const getPackageUseCase = async(
     packageId: string,
-    agaentRepository : ReturnType<AgentDbInterface>
+    agentRepository : ReturnType<AgentDbInterface>
  )=>{
-    const result = await agaentRepository.getPackage(packageId)
+    const result = await agentRepository.getPackage(packageId)
     if(!result){
         throw new AppError('package not found',HttpStatus.NOT_FOUND)
+    }
+    return result
+ }
+
+ export const disablepackageUseCase = async(
+    packageId: string,
+    agentRepository: ReturnType<AgentDbInterface>
+
+ )=>{
+    const result = await agentRepository.disablePackage(packageId);
+    if(!result){
+        throw new AppError('could  not disable package',HttpStatus.NOT_FOUND)
     }
     return result
  }

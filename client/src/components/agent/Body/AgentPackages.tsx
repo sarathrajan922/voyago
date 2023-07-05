@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { CategoryApiResponse } from "../../../API/type/getAllCategory";
 import { GetALLPackagesApiResponse } from "../../../API/type/getAllPackageAgent";
-
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import { Select, Option } from "@material-tailwind/react";
 import { agentAllPackage } from "../../../features/axios/api/agent/agentAllPackage";
 import { getAgentCategory } from "../../../features/axios/api/agent/agentGetAllCategory";
+import { DisablePackage } from "../../../features/axios/api/agent/agentDisablePackage";
 const AgentPackages: React.FC = () => {
+  const notify = (msg: string, type: string) => {
+    type === "error"
+      ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
+  };
+
   const [noPackage, SetNopackage] = useState("");
   const [packages, SetAllPackages] = useState<
     GetALLPackagesApiResponse[] | null
@@ -16,7 +24,7 @@ const AgentPackages: React.FC = () => {
   >(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(4);
-
+  const [status, setStatus] = useState(false);
   useEffect(() => {
     const callPackage = async () => {
       const data: any = await getAllPackages();
@@ -25,6 +33,15 @@ const AgentPackages: React.FC = () => {
     };
     callPackage();
   }, []);
+
+  useEffect(() => {
+    const callPackage = async () => {
+      const data: any = await getAllPackages();
+      SetAllPackages(data?.result);
+      setAllPackages(data?.result);
+    };
+    callPackage();
+  }, [status]);
 
   const getAllPackages = async () => {
     //! replace the agent id with logged agentId
@@ -109,8 +126,6 @@ const AgentPackages: React.FC = () => {
     return filteredData;
   };
 
-  const [categoryTxt, setCategoryTxt] = useState("All");
-
   const getCategory = async () => {
     //! replace the parms with logged agentId
     const agentId = "64941a796b4f3bd48f57ecfa";
@@ -132,6 +147,19 @@ const AgentPackages: React.FC = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
+  //todo disable package
+
+  const packageDisable = async (packageId: string) => {
+    await DisablePackage(packageId)
+      .then(() => {
+        notify("Package disabled successfully", "success");
+        setStatus(!status);
+      })
+      .catch((error: any) => {
+        notify(error.message, "error");
+      });
+  };
+
   return (
     <div className="p-4 sm:ml-64">
       <div className="p-4  mt-14">
@@ -142,6 +170,7 @@ const AgentPackages: React.FC = () => {
             </p>
           </div>
         </div>
+        <ToastContainer />
         <div className="grid lg:grid-cols-3  gap-4 mb-4">
           <div className="flex flex-col w-72 gap-6">
             <Select size="md" label="Select category ">
@@ -151,7 +180,6 @@ const AgentPackages: React.FC = () => {
                 onClick={() => {
                   const data = serarchData("", AllPackages);
                   SetAllPackages(data ?? null);
-                  setCategoryTxt("All");
                 }}
               >
                 All
@@ -166,7 +194,6 @@ const AgentPackages: React.FC = () => {
                       onClick={() => {
                         const data = searchWithCategory(x?.name, AllPackages);
                         SetAllPackages(data ?? null);
-                        setCategoryTxt(x?.name);
                       }}
                     >
                       {x?.name}
@@ -330,12 +357,24 @@ const AgentPackages: React.FC = () => {
                           Full view
                         </button>
 
-                        <button
-                          type="button"
-                          className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-xs px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                        >
-                          Disable
-                        </button>
+                        {x?.isDisabled ? (
+                          <button
+                            type="button"
+                            className="text-white-900 bg-red-500 border border-gray-300 focus:outline-none hover:bg-red-200 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-xs px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                          >
+                            Disabled
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => {
+                              packageDisable(x?._id);
+                            }}
+                            type="button"
+                            className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-xs px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                          >
+                            Disable
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
