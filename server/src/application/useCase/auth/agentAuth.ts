@@ -53,9 +53,6 @@ export const agentAddCategoryUseCase = async (
 )=>{
 
 //! check category is already exist
-//     category.name = category.name
-//     console.log(category)
-//     const isNameExist = await agentRepository.
 const agentId = category.agentId;
 const categroyName = category.name;
 

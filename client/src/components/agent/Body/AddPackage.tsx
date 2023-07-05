@@ -101,6 +101,7 @@ const AddTourPackageForm: React.FC = () => {
             <div className="p-10">
               <h1 className="font-bold text-2xl">Add Tour Package</h1>
             </div>
+      
             <div className="pr-10">
               <button
                 type="submit"
