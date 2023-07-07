@@ -20,7 +20,9 @@
     USER_GET_ALL_PACKAGES: 'auth/get-tour-packages',
     AGENT_DISABLE_PACKAGE: 'agent/disable-package/',
     AGENT_GET_PACKAGE: 'agent/get-package/',
-    AGENT_UPDATE_PACKAGE: 'agent/update-package/'
+    AGENT_UPDATE_PACKAGE: 'agent/update-package/',
+    AGENT_DELETE_PACKAGE: 'agent/delete-package/',
+
  }
  
  const BASE_URL= 'http://localhost:8000/';
