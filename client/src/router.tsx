@@ -20,6 +20,7 @@ import AgentCategory from './components/agent/Body/CategoryManagement';
 
 import AddTourPackageForm from './components/agent/Body/AddPackage';
 import AgentPackages from './components/agent/Body/AgentPackages';
+import EditTourPackageForm from './components/agent/Body/EditPackage';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -71,6 +72,10 @@ import AgentPackages from './components/agent/Body/AgentPackages';
             {
                 path: 'packages',
                 element: <AgentPackages/>
+            },
+            {
+                path: 'edit-package/:id',
+                element: <EditTourPackageForm/>
             }
         ]
 

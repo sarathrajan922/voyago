@@ -7,6 +7,7 @@ import { Select, Option } from "@material-tailwind/react";
 import { agentAllPackage } from "../../../features/axios/api/agent/agentAllPackage";
 import { getAgentCategory } from "../../../features/axios/api/agent/agentGetAllCategory";
 import { DisablePackage } from "../../../features/axios/api/agent/agentDisablePackage";
+import { Link } from "react-router-dom";
 const AgentPackages: React.FC = () => {
   const notify = (msg: string, type: string) => {
     type === "error"
@@ -25,6 +26,7 @@ const AgentPackages: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(4);
   const [status, setStatus] = useState(false);
+  const [selectedCategory,setSelectedCategory] =useState<string>("All")
   useEffect(() => {
     const callPackage = async () => {
       const data: any = await getAllPackages();
@@ -173,11 +175,12 @@ const AgentPackages: React.FC = () => {
         <ToastContainer />
         <div className="grid lg:grid-cols-3  gap-4 mb-4">
           <div className="flex flex-col w-72 gap-6">
-            <Select size="md" label="Select category ">
+            <Select size="md" label="Select category " value={selectedCategory}>
               {/* //! all category is working but, there are some bugs */}
               <Option
                 key={"allcategory"}
                 onClick={() => {
+                  setSelectedCategory('All')
                   const data = serarchData("", AllPackages);
                   SetAllPackages(data ?? null);
                 }}
@@ -186,12 +189,10 @@ const AgentPackages: React.FC = () => {
               </Option>
               {agentCategory &&
                 agentCategory.map((x, index) => {
-                  if (!x) {
-                    return null; // Skip null elements
-                  }
                   return (
                     <Option
                       onClick={() => {
+                        setSelectedCategory(x.name)
                         const data = searchWithCategory(x?.name, AllPackages);
                         SetAllPackages(data ?? null);
                       }}
@@ -350,12 +351,15 @@ const AgentPackages: React.FC = () => {
                         </div>
                       </div>
                       <div className="grid grid-flow-col px-3 gap-3 pb-5 ">
+                        <Link to={`/agent/edit-package/${x?._id}`}>
                         <button
                           type="button"
                           className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-xs px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                         >
-                          Full view
+                          Edit/Delete
                         </button>
+                        </Link>
+                       
 
                         {x?.isDisabled ? (
                           <button
