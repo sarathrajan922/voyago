@@ -61,25 +61,30 @@ export const agentRepositoryMongoDB = () => {
     );
   };
 
-  const updatePackage = async (editedPackage: AgentTourPackageInterface, packageId: string) => {
+  const updatePackage = async (
+    editedPackage: AgentTourPackageInterface,
+    packageId: string
+  ) => {
     const id = new Types.ObjectId(packageId);
     try {
-      const updatedPackage = await TourPackage.findByIdAndUpdate(
-        id,
-        {
-          $set: {
-            ...editedPackage,
-          },
+      const updatedPackage = await TourPackage.findByIdAndUpdate(id, {
+        $set: {
+          ...editedPackage,
         },
-       
-      );
-  
+      });
+
       return updatedPackage;
     } catch (error) {
       console.log(error);
       throw error;
     }
   };
+
+  const deletePackage = async (packageId: string)=>{
+    const id = new Types.ObjectId(packageId)
+    const deletePackage = await TourPackage.findByIdAndDelete(id)
+    return deletePackage
+  }
 
   return {
     addAgent,
@@ -92,8 +97,8 @@ export const agentRepositoryMongoDB = () => {
     getPackage,
     checkCategoryExist,
     disablePackage,
-    updatePackage
-    
+    updatePackage,
+    deletePackage
   };
 };
 

@@ -10,6 +10,7 @@ import {
   agentLoginUseCase,
   agentRegisterUseCase,
   deleteCategoryUseCase,
+  deletePackageUseCase,
   disablepackageUseCase,
   getAgentCategoryUseCase,
   getAllPackageUseCase,
@@ -178,6 +179,18 @@ const agentController = (
     }
   )
 
+  const deletePackage = asyncHandler(
+    async(req:CustomRequest,res: Response)=>{
+      const packageId = req?.params?.id
+      const result = await deletePackageUseCase(packageId,dbRepositoryAgent)
+      res.json({
+        status: true,
+        message: 'package deleted  successfully',
+        result
+      })
+    }
+  )
+
   return {
     agentRegister,
     agentLogin,
@@ -188,7 +201,8 @@ const agentController = (
     getAllPackages,
     getPackage,
     disablePackage,
-    updatePackage
+    updatePackage,
+    deletePackage
   };
 };
 

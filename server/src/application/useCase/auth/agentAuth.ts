@@ -133,3 +133,11 @@ return result
     }
     return result
  }
+
+ export const deletePackageUseCase = async(
+   packageId: string,
+   agentRepository: ReturnType<AgentDbInterface>
+ )=>{
+   const result = await agentRepository.deletePackage(packageId)
+   return result
+ }
