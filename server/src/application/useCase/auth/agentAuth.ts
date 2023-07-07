@@ -121,3 +121,15 @@ return result
     }
     return result
  }
+
+ export const updatePackageUseCase = async(
+    editedPackage: AgentTourPackageInterface,
+    packageId: string,
+    agentRepository: ReturnType<AgentDbInterface>
+ )=> {
+    const result = await agentRepository.updatePackage(editedPackage,packageId)
+    if(!result){
+        throw new AppError('could not update package',HttpStatus.NOT_FOUND)
+    }
+    return result
+ }

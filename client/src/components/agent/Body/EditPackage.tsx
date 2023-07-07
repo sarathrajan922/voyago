@@ -4,11 +4,12 @@ import * as Yup from "yup";
 
 import { CategoryApiResponse } from "../../../API/type/getAllCategory";
 
-import { agentAddPackage } from "../../../features/axios/api/agent/agentAddPackage";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { getAgentCategory } from "../../../features/axios/api/agent/agentGetAllCategory";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { agentGetPackage } from "../../../features/axios/api/agent/agentGetPackage";
+import { agentUpdatePackage } from "../../../features/axios/api/agent/agentUpdatePackage";
 interface FormValues {
   packageName: string;
   images: FileList | null;
@@ -21,8 +22,42 @@ interface FormValues {
 }
 
 const EditTourPackageForm: React.FC = () => {
-    const id = useParams()
-    console.log(id)
+  const navigate = useNavigate();
+  const id = useParams();
+  const [packageDetails, setPackageDetails] = useState<FormValues | null>(null);
+  const [packageImg, SetPackageImg] = useState<string>("");
+
+  useEffect(() => {
+    const fetchPackage = async (packageId: any) => {
+      await agentGetPackage(packageId)
+        .then((data) => {
+          setPackageDetails(data);
+          SetPackageImg(data?.images);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    };
+    fetchPackage(id?.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (packageDetails) {
+      formik.setValues({
+        ...formik.values,
+        packageName: packageDetails.packageName ?? "",
+        description: packageDetails.description ?? "",
+        category: packageDetails.category ?? "",
+        duration: packageDetails.duration ?? "",
+        locations: packageDetails.locations ?? "",
+        price: packageDetails.price ?? "",
+        services: packageDetails.services ?? "",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [packageDetails]);
+
   const initialValues: FormValues = {
     packageName: "",
     images: null,
@@ -36,7 +71,7 @@ const EditTourPackageForm: React.FC = () => {
 
   const validationSchema = Yup.object({
     packageName: Yup.string().required("Package name is required"),
-    images: Yup.mixed().required("Images are required"),
+    // images: Yup.mixed().required("Images are required"),
     description: Yup.string().required("Description is required"),
     category: Yup.string().required("Category is required"),
     locations: Yup.string().required("Locations are required"),
@@ -56,16 +91,32 @@ const EditTourPackageForm: React.FC = () => {
   };
 
   const onSubmit = async (values: FormValues) => {
-    // Handle form submission
-    console.log(values);
+    const formData = new FormData();
+    formData.append("packageName", values.packageName);
+    formData.append("description", values.description);
+    formData.append("duration", values.duration);
+    formData.append("category", values.category);
+    formData.append("locations", values.locations);
+    formData.append("services", values.services);
+    //! replace agentId with logged agentid
+    formData.append("agentId", "64941a796b4f3bd48f57ecfa");
+    formData.append("price", values.price);
+    if (values.images) {
+      formData.append("images", values.images[0]);
+    } else {
+      formData.append("images", packageImg);
+    }
 
-    await agentAddPackage(values).then(()=>{
-      notify('Package added successfully!', 'success')
-    }).catch((error:any)=>{
-      notify(error.message, 'error')
-    })
-
-    
+    await agentUpdatePackage(formData, id?.id)
+      .then(() => {
+        notify("package updated successfully!", "success");
+        setTimeout(() => {
+          navigate("/agent/packages");
+        }, 2000);
+      })
+      .catch((error: any) => {
+        notify(error.message, "error");
+      });
   };
 
   const formik = useFormik({
@@ -84,16 +135,19 @@ const EditTourPackageForm: React.FC = () => {
       setAgentCategory(data?.result);
     };
     Category();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getCategory = async () => {
-   //! replace the parms with logged agentId
-    const agentId = "64941a796b4f3bd48f57ecfa"
-   return await getAgentCategory(agentId).then((response)=>{
-      return response
-    }).catch((error:any)=>{
-      notify(error.message,'error')
-    })
+    //! replace the parms with logged agentId
+    const agentId = "64941a796b4f3bd48f57ecfa";
+    return await getAgentCategory(agentId)
+      .then((response) => {
+        return response;
+      })
+      .catch((error: any) => {
+        notify(error.message, "error");
+      });
   };
 
   return (
@@ -104,13 +158,13 @@ const EditTourPackageForm: React.FC = () => {
             <div className="p-10">
               <h1 className="font-bold text-2xl">Edit Tour Package</h1>
             </div>
-      
+
             <div className="pr-10">
               <button
                 type="submit"
                 className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
               >
-                Publish
+                Update Package
               </button>
             </div>
           </div>
@@ -142,7 +196,7 @@ const EditTourPackageForm: React.FC = () => {
                 )}
               </div>
             </div>
-                  <ToastContainer/>
+            <ToastContainer />
             <div className="flex-col items-center justify-center ms-3 rounded h-28 dark:bg-gray-800">
               <label
                 htmlFor="images"
@@ -150,6 +204,7 @@ const EditTourPackageForm: React.FC = () => {
               >
                 Upload Images
               </label>
+
               <input
                 type="file"
                 id="images"
@@ -159,9 +214,13 @@ const EditTourPackageForm: React.FC = () => {
                   formik.setFieldValue("images", event.currentTarget.files);
                 }}
               />
+
               {formik.touched.images && formik.errors.images && (
                 <div className="text-red-500">{formik.errors.images}</div>
               )}
+            </div>
+            <div>
+              <img className="w-20 h-20 rounded " src={packageImg} alt=""></img>
             </div>
           </div>
 
@@ -322,32 +381,6 @@ const EditTourPackageForm: React.FC = () => {
                 )}
               </div>
             </div>
-          </div>
-
-          {/* fourth section */}
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            {/* <div className="flex items-center justify-between rounded h-28 dark:bg-gray-800">
-              <div className="p-5">
-                <label
-                  htmlFor="locations"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Locations:
-                </label>
-                <textarea
-                  id="locations"
-                  name="locations"
-                  className="block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Separate your locations using ','"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.locations}
-                ></textarea>
-                {formik.touched.locations && formik.errors.locations && (
-                  <div className="text-red-500">{formik.errors.locations}</div>
-                )}
-              </div>
-            </div> */}
           </div>
         </form>
       </div>

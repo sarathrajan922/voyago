@@ -14,6 +14,7 @@ import {
   getAgentCategoryUseCase,
   getAllPackageUseCase,
   getPackageUseCase,
+  updatePackageUseCase,
 } from "../../application/useCase/auth/agentAuth";
 import {
   AgentRegisterInterface,
@@ -156,6 +157,27 @@ const agentController = (
     }
   );
 
+  const updatePackage = asyncHandler(
+    async(req: CustomRequest,res: Response)=>{
+      const packageId = req?.params?.id
+      const data = req?.body;
+    if (req.file) {
+      data.images = req.file.path;
+    }
+
+    data.duraction = parseInt(req?.body?.duraction);
+    data.price = parseInt(req?.body?.price);
+      console.log(packageId)
+      console.log(data)
+      const result = await updatePackageUseCase(data,packageId,dbRepositoryAgent)
+      res.json({
+        status: true,
+        message: 'package updated successfully',
+        result
+      })
+    }
+  )
+
   return {
     agentRegister,
     agentLogin,
@@ -165,7 +187,8 @@ const agentController = (
     addPackage,
     getAllPackages,
     getPackage,
-    disablePackage
+    disablePackage,
+    updatePackage
   };
 };
 

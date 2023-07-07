@@ -54,8 +54,7 @@ const AddTourPackageForm: React.FC = () => {
 
   const onSubmit = async (values: FormValues) => {
     // Handle form submission
-    console.log(values);
-
+   
     await agentAddPackage(values).then(()=>{
       notify('Package added successfully!', 'success')
     }).catch((error:any)=>{
@@ -81,6 +80,7 @@ const AddTourPackageForm: React.FC = () => {
       setAgentCategory(data?.result);
     };
     Category();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getCategory = async () => {

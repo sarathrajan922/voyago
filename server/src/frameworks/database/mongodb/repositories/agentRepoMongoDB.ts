@@ -48,7 +48,7 @@ export const agentRepositoryMongoDB = () => {
 
   const getPackage = async (objId: string) => {
     const id = new Types.ObjectId(objId);
-    return await TourPackage.find({ _id: id });
+    return await TourPackage.findOne({ _id: id });
   };
 
   const disablePackage = async (packageId: string) => {
@@ -61,6 +61,26 @@ export const agentRepositoryMongoDB = () => {
     );
   };
 
+  const updatePackage = async (editedPackage: AgentTourPackageInterface, packageId: string) => {
+    const id = new Types.ObjectId(packageId);
+    try {
+      const updatedPackage = await TourPackage.findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            ...editedPackage,
+          },
+        },
+       
+      );
+  
+      return updatedPackage;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+
   return {
     addAgent,
     getAgentByEmail,
@@ -71,7 +91,8 @@ export const agentRepositoryMongoDB = () => {
     getAllPackages,
     getPackage,
     checkCategoryExist,
-    disablePackage
+    disablePackage,
+    updatePackage
     
   };
 };

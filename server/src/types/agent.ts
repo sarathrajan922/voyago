@@ -29,7 +29,7 @@ export interface AgentAddCategoryInterface {
 
 export interface AgentTourPackageInterface {
     agentId?: string,
-    packageName?: string,
+    packageName?: string, 
     description?: string,
     price?: Number,
     locations?: string,

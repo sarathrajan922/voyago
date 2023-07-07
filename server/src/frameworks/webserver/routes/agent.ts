@@ -26,6 +26,7 @@ const agentRouter = ()=>{
  router.get('/get-all-package/:id', controller.getAllPackages)
  router.get('/get-package/:id', controller.getPackage)
  router.patch('/disable-package/:id',controller.disablePackage)
+ router.put('/update-package/:id',upload,controller.updatePackage)
  return router
 }
 

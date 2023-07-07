@@ -32,6 +32,7 @@ export const agentAddPackage = async (values: FormValues)=>{
       formData.append("images", values.images[0]);
     }
   
+
     const config: AxiosRequestConfig = {
         url: BASE_URL+urls.AGENT_ADD_PACKAGE,
         method: 'post',
