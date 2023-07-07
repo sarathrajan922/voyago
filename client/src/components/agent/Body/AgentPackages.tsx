@@ -315,7 +315,7 @@ const AgentPackages: React.FC = () => {
               .map((x: any, index: any) => {
                 return (
                   <div className="py-5 max-h-[40rem]">
-                    <div className="rounded overflow-hidden shadow-lg ">
+                    <div className="rounded overflow-hidden hover:shadow-lg ">
                       <img src={x.images} className="w-full" alt="demo" />
 
                       <div className="py-3 px-3">
