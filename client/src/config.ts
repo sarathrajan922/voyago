@@ -22,6 +22,8 @@
     AGENT_GET_PACKAGE: 'agent/get-package/',
     AGENT_UPDATE_PACKAGE: 'agent/update-package/',
     AGENT_DELETE_PACKAGE: 'agent/delete-package/',
+    USER_GET_PACKAGE: 'auth/package-details/',
+    USER_BOOK_PACKAGE: 'auth/book-package'
 
  }
  

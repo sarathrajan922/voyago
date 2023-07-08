@@ -2,6 +2,7 @@ import User from "../models/userModel";
 import { TourConfirmationInterface, UserRegisterInterface } from "../../../../types/user";
 import TourPackage from "../models/tourPackageModel";
 import TourConfirm from "../models/tourConfirmDetails";
+import { Types } from "mongoose";
 
 export const userRepositoryMongoDB = ()=>{
 
@@ -19,11 +20,17 @@ const getAllTourPackage = async ()=>{
 const bookPackage = async (bookingDetails: TourConfirmationInterface)=>{
     return await TourConfirm.create(bookingDetails)
 }
+
+const getPackage = async(packageId:string)=>{
+    const id = new Types.ObjectId(packageId)
+    return await TourPackage.findOne({_id: id})
+}
 return {
     addUser,
     getUserByEmail,
     getAllTourPackage,
-    bookPackage
+    bookPackage,
+    getPackage
 
 }
 

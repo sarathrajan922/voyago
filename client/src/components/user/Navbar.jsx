@@ -13,6 +13,7 @@ import {
   Avatar,
   Card,
   IconButton,
+  menu,
 } from "@material-tailwind/react";
 import {
   CubeTransparentIcon,
@@ -27,6 +28,28 @@ import {
   Bars2Icon,
   PhoneIcon,
 } from "@heroicons/react/24/outline";
+
+function LoginRegister() {
+  return (
+    <div className="flex justify-end">
+      <Link to= {'/login'}>
+      <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-xs font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+        <span class="relative px-5 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+          Login
+        </span>
+      </button>
+      </Link>
+      <Link to= {'/signup'}>
+      
+      <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-xs font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800">
+        <span class="relative px-5 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+          Register
+        </span>
+      </button>
+      </Link>
+    </div>
+  );
+}
 
 // profile menu component
 const profileMenuItems = [
@@ -240,6 +263,8 @@ function NavList() {
 export default function ComplexNavbar() {
   const [isNavOpen, setIsNavOpen] = React.useState(false);
   const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
+  //! if user login isloggedin is true
+  const isLoggedin = false;
 
   React.useEffect(() => {
     window.addEventListener(
@@ -251,7 +276,8 @@ export default function ComplexNavbar() {
   return (
     <Navbar className="mx-auto max-w-screen-xl p-2 lg:rounded-full lg:pl-6">
       <div className="relative mx-auto flex items-center text-blue-gray-900">
-        <div className="flex flex-shrink-0 items-center">
+        <div className="flex flex-shrink-0  items-center">
+          
           <Link to="/">
             <img
               className="block h-8 w-auto lg:hidden bg-grey-400  rounded-full"
@@ -280,7 +306,9 @@ export default function ComplexNavbar() {
         >
           <Bars2Icon className="h-6 w-6" />
         </IconButton>
-        <ProfileMenu />
+        <div className="absolute  pl-10 ml-5 pt-2 top-2/4  hidden -translate-x-2/4 -translate-y-2/4 lg:block" style={{ left: '88%' }}>
+          {isLoggedin ? <ProfileMenu /> : <LoginRegister />}
+        </div>
       </div>
       <MobileNav open={isNavOpen} className="overflow-scroll">
         <NavList />

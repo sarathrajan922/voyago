@@ -6,6 +6,8 @@ import asyncHandler from 'express-async-handler'
 import  {Request, Response} from 'express'
 import { userGetAllPackageUseCase, userLoginUserCase, userPackageBookingUseCase, userRegisterUseCase } from "../../application/useCase/auth/userAuth";
 import { UserRegisterInterface, UserInterface } from "../../types/user";
+import { getPackageUseCase } from "../../application/useCase/auth/userAuth";
+import { CustomRequest } from "../../types/expressRequest";
 
 const authController = (
     authServiceInterface : AuthServiceInterface,
@@ -47,8 +49,23 @@ const authController = (
         })
     })
 
+
+    const getPackage = asyncHandler(async(req:Request , res: Response)=>{
+        const packageId = req?.params?.id
+    
+      const result = await getPackageUseCase(packageId,dbRepositoryUser)
+        res.json({
+            status: true,
+            message: 'fetching package success',
+            result
+        })
+    })
+
+    
     const bookPackage = asyncHandler(async(req: Request,res: Response) => {
+       
         const bookingDetails = req?.body
+        console.log(bookingDetails)
         const result = await userPackageBookingUseCase(bookingDetails,dbRepositoryUser)
         res.json({
             status: true,
@@ -61,7 +78,9 @@ const authController = (
         userRegister,
         userLogin,
         getAllPackage,
+        getPackage,
         bookPackage
+       
     }
 
 }

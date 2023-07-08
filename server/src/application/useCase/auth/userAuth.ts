@@ -65,4 +65,15 @@ export const userRegisterUseCase = async (
     return result
   }
 
+  export const getPackageUseCase = async(
+    packageId: string,
+    userRepository: ReturnType<UserDbInterface>
+  )=>{
+    const result = await userRepository.getPackage(packageId)
+    if(!result){
+      throw new AppError('Package Not Found', HttpStatus.NOT_FOUND)
+    }
+    return result
+  }
+
   

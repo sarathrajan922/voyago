@@ -21,6 +21,8 @@ import AgentCategory from './components/agent/Body/CategoryManagement';
 import AddTourPackageForm from './components/agent/Body/AddPackage';
 import AgentPackages from './components/agent/Body/AgentPackages';
 import EditTourPackageForm from './components/agent/Body/EditPackage';
+import PackageDetails from './components/user/Body/PackageDetails';
+import PaymentPage from './components/user/Body/PaymentPage';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -50,6 +52,14 @@ import EditTourPackageForm from './components/agent/Body/EditPackage';
                 path: 'agent/login',
                 element: <AgentLoginForm/>
             },
+            {
+                path: 'package-details/:id',
+                element: <PackageDetails/>
+            },
+            {
+                path: 'payment',
+                element: <PaymentPage/>
+            }
 
         ]
     },
