@@ -59,6 +59,8 @@ export const  userLogin = async (values: LoginFormValues)=>{
     }
     if(error.message === 'Request failed with status code 404'){
       throw new Error('User not exist in this Email  !!')
+    }if(error.message === 'Request failed with status code 406'){
+      throw new Error('You Blocked by Admin!!')
     }else{
       throw new Error('Login failed, Try again')
     }

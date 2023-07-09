@@ -17,6 +17,10 @@ export const agentRepositoryMongoDB = () => {
     return Agent.findOne({ email });
   };
 
+  const checkAgentBlock = async (email: string)=>{
+    return Agent.findOne({email: email, isActive: true})
+  }
+
   const checkCategoryExist = async (agentId: String, categoryName: String) => {
     return await Category.findOne({
       agentId: agentId,
@@ -98,7 +102,8 @@ export const agentRepositoryMongoDB = () => {
     checkCategoryExist,
     disablePackage,
     updatePackage,
-    deletePackage
+    deletePackage,
+    checkAgentBlock
   };
 };
 

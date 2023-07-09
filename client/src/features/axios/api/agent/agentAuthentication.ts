@@ -47,7 +47,9 @@ export const agentLogin = async (values: agentLoign) => {
     }
     if (error.message === "Request failed with status code 401") {
       throw new Error("Incorrect Password !!");
-    } else {
+    }if(error.message === 'Request failed with status code 406') {
+      throw new Error("You blokced by Admin!")
+    }else {
       throw new Error("Login failed , Try again");
     }
   }

@@ -42,6 +42,13 @@ export const userRegisterUseCase = async (
       if(!isPasswordCorrect){
         throw new AppError('sorry, your password was incorrect.Please double-check your password', HttpStatus.UNAUTHORIZED)
       }
+
+      const isUserBlock: UserInterface | null = await userRepository.checkUserBlock(email)
+      if(!isUserBlock){
+        throw new AppError('user is blocked by admin', HttpStatus.NOT_ACCEPTABLE)
+      }
+
+
       const token = authService.generateToken(user?._id?.toString() ?? '')
       return token
   }

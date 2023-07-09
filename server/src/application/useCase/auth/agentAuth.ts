@@ -42,6 +42,10 @@ export const agentLoginUseCase = async (
         if(!isPasswordCorrect){
             throw new AppError('sorry, your password was incorrect.Please double-check your password', HttpStatus.UNAUTHORIZED)
         }
+        const isAgentActive = await agentRepository.checkAgentBlock(email)
+        if(!isAgentActive){
+         throw new AppError('Agent blocked by Admin',HttpStatus.NOT_ACCEPTABLE)
+        }
         const token = authService.generateToken(agent?._id?.toString() ?? '')
         return token
     }

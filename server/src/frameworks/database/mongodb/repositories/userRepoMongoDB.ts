@@ -13,6 +13,10 @@ const getUserByEmail = async (email: string)=>{
     return User.findOne({email}) 
 }
 
+const checkUserBlock = async (email: string)=>{
+    return User.findOne({email: email, isActive: true})
+}
+
 const getAllTourPackage = async ()=>{
     return TourPackage.find({})
 }
@@ -30,7 +34,9 @@ return {
     getUserByEmail,
     getAllTourPackage,
     bookPackage,
-    getPackage
+    getPackage,
+    checkUserBlock
+    
 
 }
 
