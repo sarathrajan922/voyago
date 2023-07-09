@@ -7,11 +7,9 @@ const setupAxiosInterceptors = (): AxiosInstance => {
     const api: AxiosInstance = axios.create({
         baseURL: BASE_URL
     });
-
-
     api.interceptors.request.use(
         (config:any) => {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('userToken');
             if(token){
                 config.headers.authorization = `Bearer ${token}`
             }
@@ -31,7 +29,7 @@ const setupAxiosInterceptors = (): AxiosInstance => {
                 //uauthorized error, clear token and redirect to login page
 
                 //call clear token function from store here
-                window.location.replace('/')
+              window.location.replace('/')
             }
             return Promise.reject(error)
         }

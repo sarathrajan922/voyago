@@ -6,6 +6,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { userLogin } from "../../features/axios/api/user/userAuthentication";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch} from 'react-redux'
+import { setUser } from "../../features/redux/slices/user/userSlice";
 interface FormValues {
   email: string;
   password: string;
@@ -19,6 +21,8 @@ const validationSchema = Yup.object({
 });
 
 export default function Login() {
+
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const initialValues = {
     email: "",
@@ -38,6 +42,7 @@ export default function Login() {
       .then((data) => {
         console.log(data);
         localStorage.setItem("userToken", data?.token);
+        dispatch(setUser(data?.user))
         notify("User Logged successfully", "success");
         setTimeout(() => {
           navigate("/");

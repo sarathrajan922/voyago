@@ -21,8 +21,10 @@ const authenticationMiddleware = (
   }
 
   try {
-    const { payload }: any = authService().verifyToken(token);
+    const  {payload} : any = authService().verifyToken(token);
+   
     req.payload = payload;
+    
     next();
   } catch (error) {
     throw new AppError("UnAuthorized user", HttpStatus.UNAUTHORIZED);

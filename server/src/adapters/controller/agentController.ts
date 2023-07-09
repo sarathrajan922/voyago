@@ -40,7 +40,7 @@ const agentController = (
     if (req.file) {
       agent.idProof_img = req.file.path;
     }
-    const token = await agentRegisterUseCase(
+    const {token, agentData} = await agentRegisterUseCase(
       agent,
       dbRepositoryAgent,
       authServices
@@ -49,6 +49,7 @@ const agentController = (
       status: true,
       message: "agent successfully registered",
       token,
+      agentData
     });
   });
 
@@ -56,7 +57,7 @@ const agentController = (
     console.log(req.body);
     const { email, password }: { email: string; password: string } = req.body;
     const agent: AgentInterface = req.body;
-    const token = await agentLoginUseCase(
+    const { token, agentData } = await agentLoginUseCase(
       email,
       password,
       dbRepositoryAgent,
@@ -66,6 +67,7 @@ const agentController = (
       status: true,
       message: "agent login successful",
       token,
+      agentData,
     });
   });
 
@@ -149,47 +151,51 @@ const agentController = (
   const disablePackage = asyncHandler(
     async (req: CustomRequest, res: Response) => {
       const packageId = req?.params?.id;
-      const result = await disablepackageUseCase(packageId,dbRepositoryAgent)
+      const result = await disablepackageUseCase(packageId, dbRepositoryAgent);
       res.json({
         status: true,
-        message: 'Package disable successfully',
-        result
-      })
+        message: "Package disable successfully",
+        result,
+      });
     }
   );
 
   const updatePackage = asyncHandler(
-    async(req: CustomRequest,res: Response)=>{
-      const packageId = req?.params?.id
+    async (req: CustomRequest, res: Response) => {
+      const packageId = req?.params?.id;
       const data = req?.body;
-    if (req.file) {
-      data.images = req.file.path;
-    }
+      if (req.file) {
+        data.images = req.file.path;
+      }
 
-    data.duraction = parseInt(req?.body?.duraction);
-    data.price = parseInt(req?.body?.price);
-      console.log(packageId)
-      console.log(data)
-      const result = await updatePackageUseCase(data,packageId,dbRepositoryAgent)
+      data.duraction = parseInt(req?.body?.duraction);
+      data.price = parseInt(req?.body?.price);
+      console.log(packageId);
+      console.log(data);
+      const result = await updatePackageUseCase(
+        data,
+        packageId,
+        dbRepositoryAgent
+      );
       res.json({
         status: true,
-        message: 'package updated successfully',
-        result
-      })
+        message: "package updated successfully",
+        result,
+      });
     }
-  )
+  );
 
   const deletePackage = asyncHandler(
-    async(req:CustomRequest,res: Response)=>{
-      const packageId = req?.params?.id
-      const result = await deletePackageUseCase(packageId,dbRepositoryAgent)
+    async (req: CustomRequest, res: Response) => {
+      const packageId = req?.params?.id;
+      const result = await deletePackageUseCase(packageId, dbRepositoryAgent);
       res.json({
         status: true,
-        message: 'package deleted  successfully',
-        result
-      })
+        message: "package deleted  successfully",
+        result,
+      });
     }
-  )
+  );
 
   return {
     agentRegister,
@@ -202,7 +208,7 @@ const agentController = (
     getPackage,
     disablePackage,
     updatePackage,
-    deletePackage
+    deletePackage,
   };
 };
 

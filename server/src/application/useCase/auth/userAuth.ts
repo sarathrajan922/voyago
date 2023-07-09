@@ -23,9 +23,18 @@ export const userRegisterUseCase = async (
         user.password = await authService.hashPassword(user.password);
     }
    
-    const { _id: userId } = await userRepository.addUser(user);
-    const token = authService.generateToken(userId.toString());
-    return token;
+    const userData = await userRepository.addUser(user);
+
+    // const { _id: userId } = await userRepository.addUser(user);
+    const payload ={
+      id: userData?._id.toString(),
+      role: 'user'
+    }
+    const token = authService.generateToken(payload);
+    return {
+      token,
+      userData
+    }
   };
 
   export const userLoginUserCase = async (
@@ -47,10 +56,22 @@ export const userRegisterUseCase = async (
       if(!isUserBlock){
         throw new AppError('user is blocked by admin', HttpStatus.NOT_ACCEPTABLE)
       }
+    let id = ''
+     if(user){
+      id= user?._id?.toString() ?? ''
+     }
+      const payload ={
+        id: id,
+        role: 'user'
+      }
 
 
-      const token = authService.generateToken(user?._id?.toString() ?? '')
-      return token
+
+      const token = authService.generateToken(payload)
+      return {
+        token,
+        user
+      }
   }
 
   export const userGetAllPackageUseCase = async (

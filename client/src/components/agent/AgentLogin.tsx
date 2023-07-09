@@ -1,10 +1,11 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate, Link } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { agentLogin } from "../../features/axios/api/agent/agentAuthentication";
+import { setAgent } from "../../features/redux/slices/agent/agentSlice";
 
 interface FormValues {
   email: string;
@@ -17,6 +18,7 @@ const validationSchema = Yup.object({
 });
 
 export default function AgentLoginForm() {
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const initialValues = {
     email: "",
@@ -32,6 +34,7 @@ export default function AgentLoginForm() {
     await agentLogin(values)
       .then((data) => {
         localStorage.setItem("agentToken", data?.token);
+        dispatch(setAgent(data?.agentData))
         notify("Agent Logged successfully", "success");
         setTimeout(() => {
           navigate("/agent");

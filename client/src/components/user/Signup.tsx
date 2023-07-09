@@ -4,7 +4,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { registerUser } from "../../features/axios/api/user/userAuthentication";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-
+import { useDispatch } from "react-redux";
+import { setUser } from "../../features/redux/slices/user/userSlice";
 interface FormValues {
   firstName: string;
   lastName: string;
@@ -37,6 +38,7 @@ const validationSchema: Yup.Schema<FormValues> = Yup.object({
 });
 
 export default function Signup() {
+  const dispatch = useDispatch()
   const navigate = useNavigate();
 
   const notify = (msg: string, type: string) =>
@@ -46,9 +48,8 @@ export default function Signup() {
   const handleSubmit = async (values: FormValues) => {
     await registerUser(values)
       .then((data) => {
-        console.log(data);
-
         localStorage.setItem("userToken", data?.token);
+        dispatch(setUser(data?.userData))
         notify("User registered successfully", "success");
         setTimeout(() => {
           navigate("/");

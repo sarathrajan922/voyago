@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import {
   Navbar,
   MobileNav,
@@ -28,6 +29,7 @@ import {
   Bars2Icon,
   PhoneIcon,
 } from "@heroicons/react/24/outline";
+import { selectUser } from "../../features/redux/slices/user/userSlice";
 
 function LoginRegister() {
   return (
@@ -124,6 +126,10 @@ function ProfileMenu() {
                 variant="small"
                 className="font-normal"
                 color={isLastItem ? "red" : "inherit"}
+                onClick={()=>{
+                  localStorage.removeItem('userToken')
+                  window.location.reload()
+                }}
               >
                 {label}
               </Typography>
@@ -261,10 +267,17 @@ function NavList() {
 }
 
 export default function ComplexNavbar() {
+  
   const [isNavOpen, setIsNavOpen] = React.useState(false);
   const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
+  const userData = useSelector(selectUser)
+  console.log(userData)
   //! if user login isloggedin is true
-  const isLoggedin = false;
+//  const [isloggedin,setIsloggedin]= useState(null)
+ const userToken = localStorage.getItem('userToken')
+ 
+//  userData ? setIsloggedin(true) : setIsloggedin(false)
+  // const isLoggedin = false;
 
   React.useEffect(() => {
     window.addEventListener(
@@ -307,7 +320,7 @@ export default function ComplexNavbar() {
           <Bars2Icon className="h-6 w-6" />
         </IconButton>
         <div className="absolute  pl-10 ml-5 pt-2 top-2/4  hidden -translate-x-2/4 -translate-y-2/4 lg:block" style={{ left: '88%' }}>
-          {isLoggedin ? <ProfileMenu /> : <LoginRegister />}
+          {userToken ? <ProfileMenu /> : <LoginRegister />}
         </div>
       </div>
       <MobileNav open={isNavOpen} className="overflow-scroll">

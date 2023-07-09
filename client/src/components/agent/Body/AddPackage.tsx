@@ -41,7 +41,7 @@ const AddTourPackageForm: React.FC = () => {
     price: Yup.number()
       .required("Price is required")
       .positive("Price must be positive"),
-    duration: Yup.number()
+    duration: Yup.number() 
       .required("Duration is required")
       .positive("Duration must be positive"),
   });

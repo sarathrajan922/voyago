@@ -1,5 +1,8 @@
 import { Request} from  'express'
 
 export interface CustomRequest extends Request{
-    payload?: string;
+    payload?:{
+        id: string,
+        role: string
+    };
 }

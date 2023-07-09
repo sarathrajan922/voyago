@@ -22,10 +22,16 @@ export const agentRegisterUseCase = async (
         agent.password = await authService.hashPassword(agent.password);  
     }
 
-    const {_id: agentId }= await agentRepository.addAgent(agent)
-    
-    const token = authService.generateToken(agentId.toString())
-    return token
+    const agentData= await agentRepository.addAgent(agent)
+    const payload ={
+      id: agentData?._id.toString(),
+      role: 'agent'
+    }
+    const token = authService.generateToken(payload)
+    return {
+      token,
+      agentData
+    }
 }
 
 export const agentLoginUseCase = async (
@@ -34,11 +40,11 @@ export const agentLoginUseCase = async (
     agentRepository: ReturnType<AgentDbInterface>,
     authService: ReturnType<AuthServiceInterface>
     ) => {
-        const agent: AgentInterface | null = await agentRepository.getAgentByEmail(email)
-        if(!agent){
+        const agentData: AgentInterface | null = await agentRepository.getAgentByEmail(email)
+        if(!agentData){
             throw new AppError("this user doesn't exist", HttpStatus.NOT_FOUND)
         }
-        const isPasswordCorrect = await authService.comparePassword(password,agent?.password ?? '')
+        const isPasswordCorrect = await authService.comparePassword(password,agentData?.password ?? '')
         if(!isPasswordCorrect){
             throw new AppError('sorry, your password was incorrect.Please double-check your password', HttpStatus.UNAUTHORIZED)
         }
@@ -46,8 +52,20 @@ export const agentLoginUseCase = async (
         if(!isAgentActive){
          throw new AppError('Agent blocked by Admin',HttpStatus.NOT_ACCEPTABLE)
         }
-        const token = authService.generateToken(agent?._id?.toString() ?? '')
-        return token
+
+        let id = ''
+        if(agentData){
+         id = agentData?._id?.toString() ?? ''
+        }
+        const payload ={
+         id: id,
+         role: 'agent'
+       }
+        const token = authService.generateToken(payload)
+        return {
+         token,
+         agentData
+        }
     }
 
 export const agentAddCategoryUseCase = async (

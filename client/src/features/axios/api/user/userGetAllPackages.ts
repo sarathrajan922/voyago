@@ -1,6 +1,8 @@
 import axios,{AxiosRequestConfig} from "axios";
 import BASE_URL,{urls} from "../../../../config";
+import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
 
+const api = setupAxiosInterceptors()
 export const userGetAllPackges = async ()=>{
     try{
         const config: AxiosRequestConfig = {
@@ -8,7 +10,7 @@ export const userGetAllPackges = async ()=>{
             method: 'get'
         }
 
-        const response = await axios(config);
+        const response = await api(config);
         return response?.data
     }catch(error:any){
         if(error.message === 'Request failed with status code 404'){

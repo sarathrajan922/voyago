@@ -25,7 +25,7 @@ const authController = (
 
   const userRegister = asyncHandler(async (req: Request, res: Response) => {
     const user: UserRegisterInterface = req.body;
-    const token = await userRegisterUseCase(
+    const { token, userData } = await userRegisterUseCase(
       user,
       dbRepositoryUser,
       authServices
@@ -34,14 +34,15 @@ const authController = (
       status: true,
       message: "user registered successfully",
       token,
+      userData,
     });
   });
 
   const userLogin = asyncHandler(async (req: Request, res: Response) => {
     const { email, password }: { email: string; password: string } = req.body;
 
-    const user: UserInterface = req.body;
-    const token = await userLoginUserCase(
+    // const user: UserInterface = req.body;
+    const { token, user } = await userLoginUserCase(
       email,
       password,
       dbRepositoryUser,
@@ -50,6 +51,7 @@ const authController = (
     res.json({
       status: true,
       message: "user login successful",
+      user,
       token,
     });
   });

@@ -1,10 +1,18 @@
-import { configureStore} from  '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit'
+import { userReducer } from '../slices/user/userSlice'
+import { agentReducer } from '../slices/agent/agentSlice'
 
-// import rootReducer from '../reducers/Reducer';
-import * as reduxThunk from 'redux-thunk/extend-redux';
+export const store = configureStore({
+    reducer: {
+        userData: userReducer,
+        agentData: agentReducer
+    }
+})
 
-// const store = configureStore({
-//     reducer: rootReducer
-// });
 
-// export default store
+export type State = typeof store
+
+export type RootState = ReturnType<typeof store.getState>
+
+export type AppDispatch = typeof store.dispatch
+export default store

@@ -20,7 +20,7 @@ const agentRouter = ()=>{
  router.post('/signup',upload, controller.agentRegister)
  router.post('/login', controller.agentLogin)
  router.post('/category-add', controller.addCategory)
- router.get('/get-all-category/:id', controller.getCategory)
+ router.get('/get-all-category/:id',authenticationMiddleware, controller.getCategory)
  router.patch('/delete-category', controller.deleteCategory)
  router.post('/add-tour-package',upload,controller.addPackage)
  router.get('/get-all-package/:id', controller.getAllPackages)
@@ -28,6 +28,8 @@ const agentRouter = ()=>{
  router.patch('/disable-package/:id',controller.disablePackage)
  router.put('/update-package/:id',upload,controller.updatePackage)
  router.put('/delete-package/:id',controller.deletePackage)
+
+
  return router
 }
 

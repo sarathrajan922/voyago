@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 // import configKeys from '../../config';
 import { JwtPayload } from 'jsonwebtoken'
 import configKeys from '../../config'
+import { PayloadInterface } from '../../types/common'
 
 export const authService=()=>{
 
@@ -16,7 +17,7 @@ export const authService=()=>{
        return bcrypt.compare(password,hashedPassword)
     }
 
-    const generateToken=(payload:string)=>{
+    const generateToken=(payload:PayloadInterface)=>{
         
         const token = jwt.sign({payload}, configKeys.JWT_SECRET, {
             expiresIn: "5d",
