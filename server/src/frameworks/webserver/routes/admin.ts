@@ -23,38 +23,38 @@ const adminRouter = () => {
   router.post("/login", controller.adminLogin);
   router.get(
     "/get-all-users",
-    adminRoleCheckMiddleware,
     authenticationMiddleware,
+    adminRoleCheckMiddleware,
     controller.adminGetAllUsers
   );
   router.get(
     "/get-all-agents",
-    adminRoleCheckMiddleware,
     authenticationMiddleware,
+    adminRoleCheckMiddleware,
     controller.adminGetAllAgents
   );
   router.post(
     "/block-user/:id",
-    adminRoleCheckMiddleware,
     authenticationMiddleware,
+    adminRoleCheckMiddleware,
     controller.adminBlockUser
   );
   router.post(
     "/block-agent/:id",
-    adminRoleCheckMiddleware,
     authenticationMiddleware,
+    adminRoleCheckMiddleware,
     controller.adminBlockAgent
   );
   router.get(
     "/get-all-unverified-agents",
-    adminRoleCheckMiddleware,
     authenticationMiddleware,
+    adminRoleCheckMiddleware,
     controller.getUnverifiedAgents
   );
   router.post(
     "/agent-verification/:id",
-    adminRoleCheckMiddleware,
     authenticationMiddleware,
+    adminRoleCheckMiddleware,
     controller.verifyAgent
   );
   return router;

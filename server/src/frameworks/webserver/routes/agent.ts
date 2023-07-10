@@ -22,58 +22,58 @@ const agentRouter = () => {
   router.post("/login", controller.agentLogin);
   router.post(
     "/category-add",
-    agentRoleCheckMiddleware,
     authenticationMiddleware,
+    agentRoleCheckMiddleware,
     controller.addCategory
   );
   router.get(
     "/get-all-category/:id",
-    agentRoleCheckMiddleware,
     authenticationMiddleware,
+    agentRoleCheckMiddleware,
     controller.getCategory
   );
   router.patch(
     "/delete-category",
-    agentRoleCheckMiddleware,
     authenticationMiddleware,
+    agentRoleCheckMiddleware,
     controller.deleteCategory
   );
   router.post(
     "/add-tour-package",
-    agentRoleCheckMiddleware,
     authenticationMiddleware,
+    agentRoleCheckMiddleware,
     upload,
     controller.addPackage
   );
   router.get(
     "/get-all-package/:id",
-    agentRoleCheckMiddleware,
     authenticationMiddleware,
+    agentRoleCheckMiddleware,
     controller.getAllPackages
   );
   router.get(
     "/get-package/:id",
-    agentRoleCheckMiddleware,
     authenticationMiddleware,
+    agentRoleCheckMiddleware,
     controller.getPackage
   );
   router.patch(
     "/disable-package/:id",
-    agentRoleCheckMiddleware,
     authenticationMiddleware,
+    agentRoleCheckMiddleware,
     controller.disablePackage
   );
   router.put(
     "/update-package/:id",
-    agentRoleCheckMiddleware,
     authenticationMiddleware,
+    agentRoleCheckMiddleware,
     upload,
     controller.updatePackage
   );
   router.put(
     "/delete-package/:id",
-    agentRoleCheckMiddleware,
     authenticationMiddleware,
+    agentRoleCheckMiddleware,
     controller.deletePackage
   );
 

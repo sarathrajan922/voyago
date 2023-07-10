@@ -21,7 +21,7 @@ const authenticationMiddleware = (
   }
 
   try {
-    const  {payload} : any = authService().verifyToken(token);
+    const  payload : any = authService().verifyToken(token);
    
     req.payload = payload;
     

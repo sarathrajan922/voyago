@@ -8,6 +8,7 @@ export const userRoleCheckMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
+  
   const role = req.payload?.role;
   if (role === "user") {
     next();
@@ -22,6 +23,7 @@ export const agentRoleCheckMiddleware = (
   next: NextFunction
 ) => {
   const role = req.payload?.role;
+  console.log('agentrolecheckmiddleware')
   if (role === "agent") {
     next();
   } else {
