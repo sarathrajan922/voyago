@@ -12,7 +12,7 @@ const configKeys = {
   
     // NODE_ENV: process.env.NODE_ENV as string,
   
-    // GOOGLE_AUTH_CLIENT: process.env.GOOGLE_AUTH_CLIENT as string,
+    GOOGLE_AUTH_CLIENT: process.env.GOOGLE_AUTH_CLIENT as string,
   
     // ORIGIN_PORT: process.env.ORIGIN_PORT as string,
   

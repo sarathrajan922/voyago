@@ -1,5 +1,6 @@
-import axios,{AxiosRequestConfig} from "axios";
+import {AxiosRequestConfig} from "axios";
 import BASE_URL,{urls} from "../../../../config";
+import agentSetupAxiosInterceptors from "../../interceptors/agentAxiosInterceptor";
 
 
 interface FomValues{
@@ -7,6 +8,7 @@ interface FomValues{
     agentId?: string;
 }
 
+const api = agentSetupAxiosInterceptors()
 export const addCategory = async (values: FomValues )=> {
     try{
         const config: AxiosRequestConfig = {
@@ -14,7 +16,7 @@ export const addCategory = async (values: FomValues )=> {
             method: 'post',
             data: values
         };
-        const response = await axios(config)
+        const response = await api(config)
         return response?.data
     }catch(error:any){
         if(error.message === 'Request failed with status code 409'){

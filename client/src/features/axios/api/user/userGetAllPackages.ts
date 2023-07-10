@@ -1,8 +1,8 @@
-import axios,{AxiosRequestConfig} from "axios";
+import {AxiosRequestConfig} from "axios";
 import BASE_URL,{urls} from "../../../../config";
-import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
+import userSetupAxiosInterceptors from "../../interceptors/userAxiosInterceptor";
 
-const api = setupAxiosInterceptors()
+const api = userSetupAxiosInterceptors()
 export const userGetAllPackges = async ()=>{
     try{
         const config: AxiosRequestConfig = {

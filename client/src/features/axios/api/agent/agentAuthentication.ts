@@ -3,10 +3,8 @@ import BASE_URL, { urls } from "../../../../config";
 
 //todo change the interfaces into sperate folder or file
 
-
 export const registerAgent = async (values: any) => {
   try {
-
     const config: AxiosRequestConfig = {
       url: BASE_URL + urls.AGENT_SIGNUP,
       method: "post",
@@ -47,9 +45,10 @@ export const agentLogin = async (values: agentLoign) => {
     }
     if (error.message === "Request failed with status code 401") {
       throw new Error("Incorrect Password !!");
-    }if(error.message === 'Request failed with status code 406') {
-      throw new Error("You blokced by Admin!")
-    }else {
+    }
+    if (error.message === "Request failed with status code 406") {
+      throw new Error("You blokced by Admin!");
+    } else {
       throw new Error("Login failed , Try again");
     }
   }

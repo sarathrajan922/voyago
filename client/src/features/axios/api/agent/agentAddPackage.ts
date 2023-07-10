@@ -1,21 +1,22 @@
-import axios,{AxiosRequestConfig} from "axios";
-import BASE_URL,{urls} from "../../../../config";
-
+import { AxiosRequestConfig } from "axios";
+import BASE_URL, { urls } from "../../../../config";
+import agentSetupAxiosInterceptors from "../../interceptors/agentAxiosInterceptor";
 
 //todo change this interface into another foler or file
 interface FormValues {
-    packageName: string;
-    images: FileList | null;
-    description: string;
-    category: string;
-    locations: string;
-    price: string;
-    services: string;
-    duration: string;
-  }
+  packageName: string;
+  images: FileList | null;
+  description: string;
+  category: string;
+  locations: string;
+  price: string;
+  services: string;
+  duration: string;
+}
 
-export const agentAddPackage = async (values: FormValues)=>{
-    try{
+const api = agentSetupAxiosInterceptors();
+export const agentAddPackage = async (values: FormValues) => {
+  try {
     const formData = new FormData();
 
     formData.append("packageName", values.packageName);
@@ -31,21 +32,20 @@ export const agentAddPackage = async (values: FormValues)=>{
     if (values.images) {
       formData.append("images", values.images[0]);
     }
-  
 
     const config: AxiosRequestConfig = {
-        url: BASE_URL+urls.AGENT_ADD_PACKAGE,
-        method: 'post',
-        data: formData
+      url: BASE_URL + urls.AGENT_ADD_PACKAGE,
+      method: "post",
+      data: formData,
     };
 
-    const response = await axios(config)
-    return response?.data
-  }catch(error:any){
-    if(error.message === 'Request failed with status code 409'){
-        throw new Error('This Package Name is Already Exists!')
-    }else{
-        throw new Error('Something went wrong ,Try again!')
+    const response = await api(config);
+    return response?.data;
+  } catch (error: any) {
+    if (error.message === "Request failed with status code 409") {
+      throw new Error("This Package Name is Already Exists!");
+    } else {
+      throw new Error("Something went wrong ,Try again!");
     }
   }
-}
+};
