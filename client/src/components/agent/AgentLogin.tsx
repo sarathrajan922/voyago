@@ -37,7 +37,8 @@ export default function AgentLoginForm() {
         dispatch(setAgent(data?.agentData))
         notify("Agent Logged successfully", "success");
         setTimeout(() => {
-          navigate("/agent");
+          // navigate("/agent");
+          window.location.reload()
         }, 2000);
       })
       .catch((error: any) => {

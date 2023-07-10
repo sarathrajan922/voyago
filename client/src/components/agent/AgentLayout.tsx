@@ -1,8 +1,25 @@
 
+// import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 
 export default function AgentDashBoard(){
+
+  // const [isAgentLogged, setIsAgentLogged] = useState<string | null>(null)
+
+  // useEffect(()=>{
+  //     const getToken = ()=>{
+  //       const token = localStorage.getItem('agentToken')
+  //       setIsAgentLogged(token)
+  //     }
+  //     getToken();
+  // },[])
+
+  const clearToken = ()=>{
+    localStorage.removeItem('agentToken')
+    window.location.replace('/agent')
+  }
+
   return (
     <>
       <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -102,14 +119,15 @@ export default function AgentDashBoard(){
                       </a>
                     </li>
                     
-                    <li>
-                      <a
-                        href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                        role="menuitem"
-                      >
-                        Sign out
-                      </a>
+                    <li className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" onClick={()=>{
+                      clearToken()
+                    }}>
+                      
+                     <span>
+                     Sign out
+                     </span>
+                       
+                      
                     </li>
                   </ul>
                 </div>

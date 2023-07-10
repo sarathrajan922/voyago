@@ -9,7 +9,7 @@ export const googleAuthService = () => {
       firstName: "",
       lastName: "",
       email: "",
-      profilePic: "",
+      // profilePic: "",
       isGoogleUser: true,
     };
     const ticket = await client.verifyIdToken({
@@ -24,7 +24,7 @@ export const googleAuthService = () => {
       user.firstName = firstName;
       user.lastName = lastName;
       user.email = payload.email;
-      user.profilePic = payload.picture;
+      // user.profilePic = payload.picture;
     }
     return user;
   };

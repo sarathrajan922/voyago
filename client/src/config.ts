@@ -23,7 +23,8 @@
     AGENT_UPDATE_PACKAGE: 'agent/update-package/',
     AGENT_DELETE_PACKAGE: 'agent/delete-package/',
     USER_GET_PACKAGE: 'auth/package-details/',
-    USER_BOOK_PACKAGE: 'auth/book-package'
+    USER_BOOK_PACKAGE: 'auth/book-package',
+    USER_LOGIN_WITH_GOOGLE:  'auth/login-with-google'
 
  }
  

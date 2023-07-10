@@ -44,14 +44,8 @@ import PaymentPage from './components/user/Body/PaymentPage';
                 path: 'admin/login',
                 element: <AdminLogin/>
             },
-          {
-                path: 'agent/signup',
-                element: <AgentSignupForm/>
-            },
-            {
-                path: 'agent/login',
-                element: <AgentLoginForm/>
-            },
+          
+        
             {
                 path: 'package-details/:id',
                 element: <PackageDetails/>
@@ -71,6 +65,7 @@ import PaymentPage from './components/user/Body/PaymentPage';
                 path: '/agent',
                 element: <AgentDash/>
             },
+            
             {
                 path: 'category',
                 element: <AgentCategory/>
@@ -89,6 +84,14 @@ import PaymentPage from './components/user/Body/PaymentPage';
             }
         ]
 
+    },
+    {
+        path:'agent/login',
+        element: <AgentLoginForm/>
+    },
+    {
+        path: 'agent/signup',
+        element: <AgentSignupForm/>
     },
     {
         path: '/admin',

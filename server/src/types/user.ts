@@ -4,9 +4,9 @@ export interface UserRegisterInterface {
     firstName: string,
     lastName: string,
     email: string,
-    mobile: number,
+    mobile?: number,
     password?: string,
-    isActive: boolean
+    isActive?: boolean
 }
 
 export interface UserInterface {

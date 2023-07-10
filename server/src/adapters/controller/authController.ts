@@ -5,6 +5,7 @@ import { UserRepositoryMongoDB } from "../../frameworks/database/mongodb/reposit
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import {
+  signInWithGoogle,
   userGetAllPackageUseCase,
   userLoginUserCase,
   userPackageBookingUseCase,
@@ -13,15 +14,22 @@ import {
 import { UserRegisterInterface, UserInterface } from "../../types/user";
 import { getPackageUseCase } from "../../application/useCase/auth/userAuth";
 import { CustomRequest } from "../../types/expressRequest";
+import { googleAuthService } from "../../frameworks/services/googleAuthService";
+import { GoogleAuthServiceInterface } from "../../application/services/googleServiceInterface";
+import { GoogleAuthService } from "../../frameworks/services/googleAuthService";
 
 const authController = (
   authServiceInterface: AuthServiceInterface,
   authService: AuthService,
+  googelAuthServiceInterface:GoogleAuthServiceInterface,
+  googleAuthService:GoogleAuthService,
   userDbRepositoryInterface: UserDbInterface,
   userDbRepositoryMongoDb: UserRepositoryMongoDB
 ) => {
   const dbRepositoryUser = userDbRepositoryInterface(userDbRepositoryMongoDb());
   const authServices = authServiceInterface(authService());
+  const googleAuthServices = googelAuthServiceInterface(googleAuthService())
+
 
   const userRegister = asyncHandler(async (req: Request, res: Response) => {
     const user: UserRegisterInterface = req.body;
@@ -90,12 +98,31 @@ const authController = (
     });
   });
 
+  const loginWithGoogle = asyncHandler(async (req: Request, res: Response) => {
+    const { credential }: { credential: string } = req.body;
+    const { token, user, userData} = await signInWithGoogle(
+      credential,
+      googleAuthServices,
+      dbRepositoryUser,
+      authServices
+    );
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully logged in with google',
+      token,
+      user,
+      userData
+     
+    });
+  });
+
   return {
     userRegister,
     userLogin,
     getAllPackage,
     getPackage,
     bookPackage,
+    loginWithGoogle
   };
 };
 

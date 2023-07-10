@@ -17,7 +17,7 @@ const userScheme = new Schema({
     },
     mobile:{
         type:Number,
-        required: [true,"please add a vaild mobile number"]
+        
     },
     password:{
         type:String
@@ -25,6 +25,10 @@ const userScheme = new Schema({
     isActive: {
         type: Boolean,
         default: true
+    },
+    isGoogleUser: {
+        type: Boolean,
+        default: false
     }
 })
 

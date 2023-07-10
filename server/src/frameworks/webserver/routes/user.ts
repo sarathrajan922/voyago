@@ -6,6 +6,9 @@ import authController from "../../../adapters/controller/authController";
 import express from 'express'
 import authenticationMiddleware from "../middlewares/authenticationMiddleware";
 import { userRoleCheckMiddleware } from "../middlewares/roleCheck";
+import { signInWithGoogle } from "../../../application/useCase/auth/userAuth";
+import { googleAuthServiceInterface } from "../../../application/services/googleServiceInterface";
+import { googleAuthService } from "../../services/googleAuthService";
 
 const authRouter = ()=>{
     const router = express.Router()
@@ -13,8 +16,11 @@ const authRouter = ()=>{
     const controller = authController(
         authServiceInterface,
         authService,
+        googleAuthServiceInterface,
+        googleAuthService,
         userDbRepository,
-        userRepositoryMongoDB
+        userRepositoryMongoDB,
+
     )
 
     router.post('/user/signup',controller.userRegister)
@@ -22,6 +28,7 @@ const authRouter = ()=>{
     router.get('/package-details/:id',controller.getPackage)
     router.get('/get-tour-packages',controller.getAllPackage)
     router.post('/book-package',authenticationMiddleware,userRoleCheckMiddleware,controller.bookPackage)
+    router.post("/login-with-google",controller.loginWithGoogle)
     
     return router
 }
