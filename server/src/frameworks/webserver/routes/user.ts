@@ -1,33 +1,29 @@
-import express,{ Request, Response} from 'express'
+import { authService } from "../../services/authService";
+import { authServiceInterface } from "../../../application/services/authServiceInterface";
+import { userDbRepository } from "../../../application/repository/userDBrepository";
+import { userRepositoryMongoDB } from "../../database/mongodb/repositories/userRepoMongoDB";
+import authController from "../../../adapters/controller/authController";
+import express from 'express'
+import authenticationMiddleware from "../middlewares/authenticationMiddleware";
+import { userRoleCheckMiddleware } from "../middlewares/roleCheck";
 
+const authRouter = ()=>{
+    const router = express.Router()
 
-// const userRouter = ()=>{
-//     const route = express.Router()
+    const controller = authController(
+        authServiceInterface,
+        authService,
+        userDbRepository,
+        userRepositoryMongoDB
+    )
 
-//     route.get('/', (req:Request,res:Response)=>{
-//         res.send('hello this is from localhost:8000/user(userRouter)')
-//     })
+    router.post('/user/signup',controller.userRegister)
+    router.post('/user/login',controller.userLogin)
+    router.get('/package-details/:id',controller.getPackage)
+    router.get('/get-tour-packages',controller.getAllPackage)
+    router.post('/book-package',authenticationMiddleware,userRoleCheckMiddleware,controller.bookPackage)
+    
+    return router
+}
 
-//     route.post('/signup', (req:Request,res:Response)=>{
-//         console.log(req.body)
-//         res.send({
-            
-//                 "status": "success",
-//                 "message": "User signup successful",
-//                 "data": {
-//                     "userId": "123456789",
-//                     "firstName": "john",
-//                     "lastName": "doe",
-//                     "email": "john.doe@example.com",
-//                     "mobile": 8783756349,
-//                     "password": "***********"
-//                 }
-            
-//         })
-//     })
-//     return route
-// }
-
-// export default userRouter
-
-
+export default authRouter

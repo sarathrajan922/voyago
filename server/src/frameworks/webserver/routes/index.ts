@@ -1,15 +1,12 @@
-import { Application ,Request, Response} from "express";
-// import userRouter from "./user";
+import { Application, Request, Response } from "express";
 import adminRouter from "./admin";
 import agentRouter from "./agent";
-import authRouter from "./auth";
+import userRouter from "./user";
 
-const router = (app: Application)=>{
-    app.use('/auth', authRouter())
-    // app.use('/user', userRouter())
-    app.use('/admin', adminRouter())
-    app.use('/agent', agentRouter())
-    
-}
+const router = (app: Application) => {
+  app.use("/auth", userRouter());
+  app.use("/admin", adminRouter());
+  app.use("/agent", agentRouter());
+};
 
-export default router
+export default router;
