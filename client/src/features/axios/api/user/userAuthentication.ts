@@ -72,3 +72,29 @@ export const  userLogin = async (values: LoginFormValues)=>{
 
 
 //todo user google auth login api
+
+export const loginWithGoogle = async( values: any)=>{
+  try{
+    const config: AxiosRequestConfig = {
+      url: BASE_URL+urls.USER_LOGIN_WITH_GOOGLE,
+      method: 'post',
+      data: {
+        credential:values
+      }
+    }
+
+    const response = await axios(config)
+    return response?.data
+  }catch(error: any){
+    if(error.message === 'Request failed with status code 401'){
+      throw new Error('Incorrect password !!')
+    }
+    if(error.message === 'Request failed with status code 404'){
+      throw new Error('User not exist in this Email  !!')
+    }if(error.message === 'Request failed with status code 406'){
+      throw new Error('You Blocked by Admin!!')
+    }else{
+      throw new Error('Login failed, Try again')
+    }
+  }
+}

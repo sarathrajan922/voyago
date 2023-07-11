@@ -24,7 +24,8 @@
     AGENT_DELETE_PACKAGE: 'agent/delete-package/',
     USER_GET_PACKAGE: 'auth/package-details/',
     USER_BOOK_PACKAGE: 'auth/book-package',
-    USER_LOGIN_WITH_GOOGLE:  'auth/login-with-google'
+    USER_LOGIN_WITH_GOOGLE:  'auth/login-with-google',
+    USER_GET_USER_DETAILS: 'auth/user-profile/'
 
  }
  

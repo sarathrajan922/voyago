@@ -5,6 +5,7 @@ const client = new OAuth2Client(configKeys.GOOGLE_AUTH_CLIENT);
 
 export const googleAuthService = () => {
   const verify = async (token: string) => {
+    console.log(token);
     const user = {
       firstName: "",
       lastName: "",
@@ -14,9 +15,11 @@ export const googleAuthService = () => {
     };
     const ticket = await client.verifyIdToken({
       idToken: token,
-      audience: configKeys.GOOGLE_AUTH_CLIENT,
+      audience: "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",
     });
+    console.log(ticket);
     const payload = ticket.getPayload();
+    console.log(payload);
     if (payload?.given_name && payload.email && payload.picture) {
       const nameParts = payload.given_name.trim().split(" ");
       const firstName = nameParts[0];

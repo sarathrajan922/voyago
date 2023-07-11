@@ -30,7 +30,7 @@ const AgentCategory: React.FC = () => {
   };
 
   const validationSchema: Yup.Schema<FormValues> = Yup.object({
-    name: Yup.string().required("Category Name is required"),
+    name: Yup.string().matches(/^[A-Za-z]+$/, "Category Name must contain only alphabets").required("Category Name is required"),
   });
   const onSubmit = async (values: FormValues) => {
     // Add your submit logic here

@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch} from 'react-redux'
 import { setUser } from "../../features/redux/slices/user/userSlice";
+import GoogleAuthComponent from "../common/GoogleAuthComponent";
 interface FormValues {
   email: string;
   password: string;
@@ -49,7 +50,7 @@ export default function Login() {
         }, 2000);
       })
       .catch((error: any) => {
-        notify(error.message, "error");
+        notify(error?.message, "error");
       });
   };
 
@@ -131,6 +132,7 @@ export default function Login() {
                   />
                 </div>
               </div>
+              <GoogleAuthComponent/>
 
               <div>
                 <button

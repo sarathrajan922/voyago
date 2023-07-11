@@ -5,6 +5,7 @@ import { UserRepositoryMongoDB } from "../../frameworks/database/mongodb/reposit
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import {
+  getUserDetailsUseCase,
   signInWithGoogle,
   userGetAllPackageUseCase,
   userLoginUserCase,
@@ -99,6 +100,7 @@ const authController = (
   });
 
   const loginWithGoogle = asyncHandler(async (req: Request, res: Response) => {
+    console.log(req.body)
     const { credential }: { credential: string } = req.body;
     const { token, user, userData} = await signInWithGoogle(
       credential,
@@ -116,13 +118,24 @@ const authController = (
     });
   });
 
+  const getUserDetails = asyncHandler(async(req: Request, res: Response)=>{
+    const userId = req?.params?.id
+    const userData = await getUserDetailsUseCase(userId,dbRepositoryUser)
+    res.json({
+      status: 'success',
+      message: 'successfully fetched user details',
+      userData
+    })
+  })
+
   return {
     userRegister,
     userLogin,
     getAllPackage,
     getPackage,
     bookPackage,
-    loginWithGoogle
+    loginWithGoogle,
+    getUserDetails
   };
 };
 

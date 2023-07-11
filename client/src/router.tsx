@@ -3,7 +3,7 @@ import Login from './components/user/Login'
 
 import App from './App';
 import Signup from './components/user/Signup';
-import Body from './components/user/Body/Body';
+import Body from './components/user/Pages/Body';
 import AdminLogin from './components/admin/AdminLogin';
 import AgentSignupForm from './components/agent/AgentSignup';
 
@@ -21,8 +21,9 @@ import AgentCategory from './components/agent/Body/CategoryManagement';
 import AddTourPackageForm from './components/agent/Body/AddPackage';
 import AgentPackages from './components/agent/Body/AgentPackages';
 import EditTourPackageForm from './components/agent/Body/EditPackage';
-import PackageDetails from './components/user/Body/PackageDetails';
-import PaymentPage from './components/user/Body/PaymentPage';
+import PackageDetails from './components/user/Pages/PackageDetails';
+import PaymentPage from './components/user/Pages/PaymentPage';
+import UserProfile from './components/user/Pages/Profile';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -39,6 +40,10 @@ import PaymentPage from './components/user/Body/PaymentPage';
             {
                 path: 'signup',
                 element: <Signup/>
+            },
+            {
+                path: 'profile',
+                element: <UserProfile/>
             },
             {
                 path: 'admin/login',

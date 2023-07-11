@@ -87,7 +87,7 @@ const PackageDetails: React.FC = () => {
 
           <div>
             <img
-              className="w-full max-h-[20rem] overflow-hidden"
+              className="w-full max-h-[20rem] overflow-hidden object-cover"
               src={tourPackage?.images}
               // src="https://images.unsplash.com/photo-1602828889956-45ec6cee6758?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80"
               alt=""

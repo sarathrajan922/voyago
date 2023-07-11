@@ -7,17 +7,20 @@ import { RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "@material-tailwind/react";
 import { Provider } from "react-redux";
 import store from "./features/redux/app/Store";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
+    <GoogleOAuthProvider  clientId={'177485246266-f0hdj76bejqb1rbkkj70qu2vtiqhqdhi.apps.googleusercontent.com'}> 
     <Provider store={store}>
       <ThemeProvider>
         <RouterProvider router={AppRouter} />
       </ThemeProvider>
     </Provider>
+    </GoogleOAuthProvider>
   </React.StrictMode>
 );
 

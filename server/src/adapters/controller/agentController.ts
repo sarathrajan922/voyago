@@ -56,7 +56,6 @@ const agentController = (
   const agentLogin = asyncHandler(async (req: Request, res: Response) => {
     console.log(req.body);
     const { email, password }: { email: string; password: string } = req.body;
-    const agent: AgentInterface = req.body;
     const { token, agentData } = await agentLoginUseCase(
       email,
       password,

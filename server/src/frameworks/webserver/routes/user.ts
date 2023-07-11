@@ -29,6 +29,7 @@ const authRouter = ()=>{
     router.get('/get-tour-packages',controller.getAllPackage)
     router.post('/book-package',authenticationMiddleware,userRoleCheckMiddleware,controller.bookPackage)
     router.post("/login-with-google",controller.loginWithGoogle)
+    router.get('/user-profile/:id',controller.getUserDetails)
     
     return router
 }

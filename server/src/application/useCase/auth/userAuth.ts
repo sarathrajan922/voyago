@@ -140,3 +140,12 @@ export const signInWithGoogle = async (
     };
   }
 };
+
+
+export const getUserDetailsUseCase = async(
+  userId: string,
+  userRepository: ReturnType<UserDbInterface>
+)=> {
+  const userData = await userRepository.getUserDetails(userId)
+  return userData
+}
