@@ -24,6 +24,7 @@ import EditTourPackageForm from './components/agent/Body/EditPackage';
 import PackageDetails from './components/user/Pages/PackageDetails';
 import PaymentPage from './components/user/Pages/PaymentPage';
 import UserProfile from './components/user/Pages/Profile';
+import UserProfileEdit from './components/user/Pages/ProfileEdit';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -44,6 +45,10 @@ import UserProfile from './components/user/Pages/Profile';
             {
                 path: 'profile',
                 element: <UserProfile/>
+            },
+            {
+                path: 'user-profile-edit',
+                element: <UserProfileEdit/>
             },
             {
                 path: 'admin/login',

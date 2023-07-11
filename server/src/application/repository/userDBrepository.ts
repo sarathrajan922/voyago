@@ -11,6 +11,7 @@ export const userDbRepository= (repository:ReturnType<UserRepositoryMongoDB>)=>{
     const packageBooking = async(bookingDetails: TourConfirmationInterface )=> await repository.bookPackage(bookingDetails)
     const getPackage = async(packageId: string)=> await repository.getPackage(packageId)
     const getUserDetails = async(userId: string)=> await repository.getUserDetails(userId)
+    const updateUserProfile = async(userId: string, editedUser: UserRegisterInterface)=> await repository.userProfileUpdate(userId, editedUser)
     return {
         addUser,
         getUserByEmail,
@@ -18,7 +19,8 @@ export const userDbRepository= (repository:ReturnType<UserRepositoryMongoDB>)=>{
         packageBooking,
         getPackage,
         checkUserBlock,
-        getUserDetails
+        getUserDetails,
+        updateUserProfile
     }
 
 }

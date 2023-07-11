@@ -7,6 +7,7 @@ import { Request, Response } from "express";
 import {
   getUserDetailsUseCase,
   signInWithGoogle,
+  updateUserProfileUseCase,
   userGetAllPackageUseCase,
   userLoginUserCase,
   userPackageBookingUseCase,
@@ -22,15 +23,14 @@ import { GoogleAuthService } from "../../frameworks/services/googleAuthService";
 const authController = (
   authServiceInterface: AuthServiceInterface,
   authService: AuthService,
-  googelAuthServiceInterface:GoogleAuthServiceInterface,
-  googleAuthService:GoogleAuthService,
+  googelAuthServiceInterface: GoogleAuthServiceInterface,
+  googleAuthService: GoogleAuthService,
   userDbRepositoryInterface: UserDbInterface,
   userDbRepositoryMongoDb: UserRepositoryMongoDB
 ) => {
   const dbRepositoryUser = userDbRepositoryInterface(userDbRepositoryMongoDb());
   const authServices = authServiceInterface(authService());
-  const googleAuthServices = googelAuthServiceInterface(googleAuthService())
-
+  const googleAuthServices = googelAuthServiceInterface(googleAuthService());
 
   const userRegister = asyncHandler(async (req: Request, res: Response) => {
     const user: UserRegisterInterface = req.body;
@@ -100,33 +100,60 @@ const authController = (
   });
 
   const loginWithGoogle = asyncHandler(async (req: Request, res: Response) => {
-    console.log(req.body)
+    console.log(req.body);
     const { credential }: { credential: string } = req.body;
-    const { token, user, userData} = await signInWithGoogle(
+    const { token, user, userData } = await signInWithGoogle(
       credential,
       googleAuthServices,
       dbRepositoryUser,
       authServices
     );
     res.status(200).json({
-      status: 'success',
-      message: 'Successfully logged in with google',
+      status: "success",
+      message: "Successfully logged in with google",
       token,
       user,
-      userData
-     
+      userData,
     });
   });
 
-  const getUserDetails = asyncHandler(async(req: Request, res: Response)=>{
-    const userId = req?.params?.id
-    const userData = await getUserDetailsUseCase(userId,dbRepositoryUser)
-    res.json({
-      status: 'success',
-      message: 'successfully fetched user details',
-      userData
-    })
-  })
+  const getUserDetails = asyncHandler(
+    async (req: CustomRequest, res: Response) => {
+      const userId = req.payload?.id ?? "";
+
+      const userData = await getUserDetailsUseCase(userId, dbRepositoryUser);
+      res.json({
+        status: "success",
+        message: "successfully fetched user details",
+        userData,
+      });
+    }
+  );
+
+
+
+  const userUpdateProfile = asyncHandler(
+    async(req: CustomRequest, res: Response) => {
+      const userId = req.payload?.id ?? "";
+      const updatedData: UserRegisterInterface = req.body
+      updatedData.mobile = parseInt(req?.body?.mobile)
+
+      const result = await updateUserProfileUseCase(
+        userId,
+        updatedData,
+        dbRepositoryUser
+      );
+
+      res.json({
+        status: true,
+        message: 'user profile updated successfully',
+        result
+      })
+
+
+
+    }
+  )
 
   return {
     userRegister,
@@ -135,7 +162,8 @@ const authController = (
     getPackage,
     bookPackage,
     loginWithGoogle,
-    getUserDetails
+    getUserDetails,
+    userUpdateProfile
   };
 };
 

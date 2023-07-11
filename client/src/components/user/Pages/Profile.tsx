@@ -1,66 +1,120 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
+import { getUserDetails } from "../../../features/axios/api/user/userGetProfile";
+import { UserDataApiResponse } from "../../../API/type/getUserData";
+
 
 const UserProfile: React.FC = () => {
 
 
+const [userData , setUserData] = useState<UserDataApiResponse | null>(null)
+const [userName ,setUserName] = useState<string>('')
+useEffect(()=>{
+    const getUserData = async()=>{
+        await getUserDetails().then((response)=>{
+            setUserData(response.userData)
+        }).catch((error:any)=>{
+            console.log(error.message)
+        })
+    }
+    getUserData()
     
-  return (
-    <section className="bg-white mt-0 dark:bg-gray-900">
-      <div className="pt-8 px-4 mx-auto max-w-screen-xl lg:pt-16">
-        <div className=" flex flex-col justify-evenly md:p-12 ">
-          {/* <h4 className="text-center text-gray-900 dark:text-white text-2xl md:text-2xl font-extrabold mb-2">
-            userProfile
-          </h4> */}
 
+
+},[])
+
+useEffect(()=>{
+    let userN = userData?.firstName+' '+userData?.lastName
+    setUserName(userN.toUpperCase())
+    
+})
+
+
+
+
+
+
+
+ 
+
+
+
+  return (
+    <section className=" bg-white mt-0 dark:bg-gray-900">
+      <div className=" px-4 mx-auto max-w-screen-xl lg:pt-0">
+        <div className=" flex flex-col justify-evenly md:p-12 ">
+          
+
+
+{/* 
           <div>
             <img
-              className="w-full max-h-[20rem] mt-0 overflow-hidden object-cover"
-            //   src="https://images.unsplash.com/photo-1605701877331-645ad05dcb97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80"
-            src="https://res.cloudinary.com/dk4darniv/image/upload/w_1000,ar_16:9,c_fill,g_auto,e_sharpen/v1689050866/samples/360_F_119670247_HDccziQUuo2kFpaN_sczmrj.png"
-            alt=""
+              className="w-full max-h-[14rem] mt-0 overflow-hidden object-cover"
+              src="https://res.cloudinary.com/dk4darniv/image/upload/w_1000,ar_16:9,c_fill,g_auto,e_sharpen/v1689050866/samples/360_F_119670247_HDccziQUuo2kFpaN_sczmrj.png"
+              alt=""
             />
+          </div> */}
+          {/* profile pic and name */}
+          <div className="grid lg:grid-cols-1 justify-items-center ">
+            <div className="py-5 px-2 w-full flex max-h-[15rem]">
+              <div className="pb-3 text-start w-[13rem] lg:max-w-[8rem]  text-m lg:h-[8rem] bg-gray-400  font-semibold text-gray-900 dark:text-white">
+                
+                <img className="object-cover w-full " src="https://res.cloudinary.com/dk4darniv/image/upload/v1689060759/image_apjubc.png" alt="" />
+              </div>
+              <div className="flex flex-col pb-3  ms-10 text-start  font-semibold text-gray-900 dark:text-white">
+                <h1 className="font-extrabold font-sans text-3xl">
+                  {/* SARATH RAJAN */}
+                  {
+                    userName
+                  }
+                </h1>
+                <p className="text-xs py-5">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Ipsam, assumenda.<br/>
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                </p>
+              </div>
+            </div>
           </div>
 
-          <div className="grid lg:grid-cols-1 justify-items-center ">
-            <div className="py-5 px-2 w-full  h-[30rem] max-h-[45rem]">
-              <div className="rounded overflow-hidden  hover:shadow-lg mt-6 ">
-                {/* <div className="py-3 px-3 text-start flex text-lg h-[25rem]  font-semibold text-gray-900 dark:text-white">
-                  Profile Details
-                  
-                </div> */}
-                <div className="grid lg:grid-cols-2 justify-items-center ">
-              {/* loop this div */}
-              {/* <div className="py-5 px-2 max-h-[40rem]">
-                <div className="rounded overflow-hidden hover:shadow-lg">
-                  <img
-                    src="https://images.unsplash.com/photo-1602828889956-45ec6cee6758?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80"
-                    alt=""
-                  />
-                  <div className="py-3 px-3 text-center">Heading 1</div>
+          {/* email , mobile, status  */}
+          <div className="grid lg:grid-cols-1 justify-items-center pt-5  ">
+            <div className="pt-5 px-2 w-full  flex max-h-[15rem] hover:shadow">
+              <div className="pb-3 text-start w-full lg:max-w-[25rem]  text-m    font-semibold text-gray-900 dark:text-white">
+                <div className="w-full h-[3rem]  py-5 my-2">
+                  email:
+                  <span className="px-5 text-xl font-serif ">
+                    {userData?.email}
+                  </span>
+                </div>
+                <div className="w-full h-[3rem]  py-5 my-2">
+                  mobile:
+                  <span className="px-5 text-xl font-serif">{userData?.mobile}</span>
+                </div>
+                <div className="w-full h-[3rem]  py-5 my-2">
+                  status:
+                  <span className="px-5 text-m text-green-500 ">Active</span>
                 </div>
               </div>
+            </div>
+          </div>
 
-              <div className="py-5 px-2 max-h-[40rem]">
-                <div className="rounded overflow-hidden hover:shadow-lg">
-                  <img
-                    src="https://images.unsplash.com/photo-1560625693-36619f571dca?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1330&q=80"
-                    alt=""
-                  />
-                  <div className="py-3 px-3 text-center">Heading 2</div>
-                </div>
-              </div> */}
+          {/* edit,delete button */}
 
+          <div className="inline-flex py-5 shadow-sm" role="group">
+            <button
+              type="button"
+              className="px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-900 rounded hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+            >
+              edit
+            </button>
+
+            <button
+              type="button"
               
-            </div>
-              </div>
-            </div>
-            {/* <div className="py-5 px-2 w-full bg-brown-500 max-h-[45rem]">
-              <div className="rounded  hover:shadow-lg mt-6 px-5">
-                <div className="py-3 px-3 text-center font-semibold">
-                  Booking Form
-                </div>
-              </div>
-            </div> */}
+              className="px-4 ms-5 py-2 text-xs rounded text-white font-medium bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800"
+            >
+              Delete Account
+            </button>
           </div>
         </div>
       </div>

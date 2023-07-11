@@ -34,8 +34,26 @@ export const userRepositoryMongoDB = () => {
 
   const getUserDetails = async (userId: string) => {
     const id = new Types.ObjectId(userId);
-    return await User.find({ _id: id });
+    return await User.findOne({ _id: id });
   };
+
+  const userProfileUpdate = async(
+    userId :string,
+    editedDetails: UserRegisterInterface
+  )=> {
+    const id = new Types.ObjectId(userId)
+    try{
+        const updatedUser = await User.findByIdAndUpdate(id,{
+            $set: {
+                ...editedDetails,
+            }
+        })
+        return updatedUser
+    }catch(error){
+        console.log(error)
+        throw error;
+    }
+  }
 
   return {
     addUser,
@@ -45,6 +63,7 @@ export const userRepositoryMongoDB = () => {
     getPackage,
     checkUserBlock,
     getUserDetails,
+    userProfileUpdate
   };
 };
 

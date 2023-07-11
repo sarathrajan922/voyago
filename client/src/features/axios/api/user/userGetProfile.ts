@@ -5,11 +5,11 @@ import userSetupAxiosInterceptors from "../../interceptors/userAxiosInterceptor"
 
 const api = userSetupAxiosInterceptors()
 
-export const getUserDetails = async(userId:string)=>{
+export const getUserDetails = async()=>{
     try{
         const config: AxiosRequestConfig = {
-            url: BASE_URL+urls.USER_GET_USER_DETAILS+userId,
-            method: 'post'
+            url: BASE_URL+urls.USER_GET_USER_DETAILS,
+            method: 'get'
         }
 
         const response = await api(config)

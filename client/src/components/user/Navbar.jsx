@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
   Navbar,
@@ -32,6 +32,8 @@ import {
 import { selectUser } from "../../features/redux/slices/user/userSlice";
 
 function LoginRegister() {
+
+ 
   return (
     <div className="flex justify-end">
       <Link to= {'/login'}>
@@ -80,7 +82,7 @@ const profileMenuItems = [
 function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const closeMenu = () => setIsMenuOpen(false);
-
+  const navigate = useNavigate()
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
       <MenuHandler>
@@ -107,6 +109,41 @@ function ProfileMenu() {
       <MenuList className="p-1">
         {profileMenuItems.map(({ label, icon }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
+
+          if (label === "My Profile") {
+            return (
+              <MenuItem
+                key={label}
+                onClick={() => {
+                  // Add your custom onClick logic here for "My Profile"
+                  console.log("My Profile clicked");
+                  navigate(`/profile`)
+                }}
+                className={`flex items-center gap-2 rounded ${
+                  isLastItem
+                    ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
+                    : ""
+                }`}
+              >
+                {React.createElement(icon, {
+                  className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
+                  strokeWidth: 2,
+                })}
+                <Typography
+                  as="span"
+                  variant="small"
+                  className="font-normal"
+                  color={isLastItem ? "red" : "inherit"}
+                >
+                  {label}
+                </Typography>
+              </MenuItem>
+            );
+          }
+
+
+
+
           return (
             <MenuItem
               key={label}

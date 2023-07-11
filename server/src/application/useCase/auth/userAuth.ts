@@ -149,3 +149,16 @@ export const getUserDetailsUseCase = async(
   const userData = await userRepository.getUserDetails(userId)
   return userData
 }
+
+
+export const updateUserProfileUseCase = async(
+  userId: string,
+  editedUser: UserRegisterInterface,
+  userRepository: ReturnType<UserDbInterface>
+)=>{
+  const result = await userRepository.updateUserProfile(userId, editedUser)
+  if(!result){
+    throw new AppError('could not update user profile', HttpStatus.NOT_FOUND)
+  }
+  return result
+}

@@ -29,7 +29,8 @@ const authRouter = ()=>{
     router.get('/get-tour-packages',controller.getAllPackage)
     router.post('/book-package',authenticationMiddleware,userRoleCheckMiddleware,controller.bookPackage)
     router.post("/login-with-google",controller.loginWithGoogle)
-    router.get('/user-profile/:id',controller.getUserDetails)
+    router.get('/user-profile',authenticationMiddleware,userRoleCheckMiddleware,controller.getUserDetails)
+    router.put('/user-profile-update',authenticationMiddleware,userRoleCheckMiddleware,controller.userUpdateProfile)
     
     return router
 }
