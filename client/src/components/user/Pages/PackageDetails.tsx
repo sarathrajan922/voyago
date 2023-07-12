@@ -5,6 +5,10 @@ import { userGetPackage } from "../../../features/axios/api/user/userGetPackage"
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { bookPackage } from "../../../features/axios/api/user/userBookPackage";
+import { useDispatch } from "react-redux";
+import { setBookingDetails } from "../../../features/redux/slices/user/userBookingSlice";
+
+
 
 const validationSchema = Yup.object({
   first_name: Yup.string().required("First name is required"),
@@ -32,6 +36,8 @@ const initialValues = {
 };
 
 const PackageDetails: React.FC = () => {
+
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -64,9 +70,13 @@ const PackageDetails: React.FC = () => {
       Email: values.email,
       rooms: values.rooms,
       packageId: id,
-      userId: "6498247fee731d64f1c120c3",
       travelDate: formattedDate
     }
+       
+
+    dispatch(setBookingDetails(obj))
+ 
+    //? api call for book package 
 
     await bookPackage(obj)
       .then(() => {

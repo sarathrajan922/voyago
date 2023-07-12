@@ -85,7 +85,9 @@ const authController = (
     });
   });
 
-  const bookPackage = asyncHandler(async (req: Request, res: Response) => {
+  const bookPackage = asyncHandler(async (req: CustomRequest, res: Response) => {
+    const userId = req.payload?.id ?? "";
+    req.body.userId = userId;
     const bookingDetails = req?.body;
 
     const result = await userPackageBookingUseCase(
@@ -130,13 +132,11 @@ const authController = (
     }
   );
 
-
-
   const userUpdateProfile = asyncHandler(
-    async(req: CustomRequest, res: Response) => {
+    async (req: CustomRequest, res: Response) => {
       const userId = req.payload?.id ?? "";
-      const updatedData: UserRegisterInterface = req.body
-      updatedData.mobile = parseInt(req?.body?.mobile)
+      const updatedData: UserRegisterInterface = req.body;
+      updatedData.mobile = parseInt(req?.body?.mobile);
 
       const result = await updateUserProfileUseCase(
         userId,
@@ -147,14 +147,11 @@ const authController = (
 
       res.json({
         status: true,
-        message: 'user profile updated successfully',
-        result
-      })
-
-
-
+        message: "user profile updated successfully",
+        result,
+      });
     }
-  )
+  );
 
   return {
     userRegister,
@@ -164,7 +161,7 @@ const authController = (
     bookPackage,
     loginWithGoogle,
     getUserDetails,
-    userUpdateProfile
+    userUpdateProfile,
   };
 };
 
