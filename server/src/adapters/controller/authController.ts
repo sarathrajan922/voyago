@@ -141,7 +141,8 @@ const authController = (
       const result = await updateUserProfileUseCase(
         userId,
         updatedData,
-        dbRepositoryUser
+        dbRepositoryUser,
+        authServices
       );
 
       res.json({

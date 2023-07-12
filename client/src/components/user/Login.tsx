@@ -32,8 +32,8 @@ export default function Login() {
 
   const notify = (msg: string, type: string) => {
     type === "error"
-      ? toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT })
-      : toast.success(msg, { position: toast.POSITION.BOTTOM_RIGHT });
+      ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
   };
 
   const handleSubmit = async (values: FormValues) => {
