@@ -154,8 +154,14 @@ export const getUserDetailsUseCase = async(
 export const updateUserProfileUseCase = async(
   userId: string,
   editedUser: UserRegisterInterface,
-  userRepository: ReturnType<UserDbInterface>
+  userRepository: ReturnType<UserDbInterface>,
+  authService: ReturnType<AuthServiceInterface>
 )=>{
+
+  if (editedUser.password) {
+    editedUser.password = await authService.hashPassword(editedUser.password);
+  }
+
   const result = await userRepository.updateUserProfile(userId, editedUser)
   if(!result){
     throw new AppError('could not update user profile', HttpStatus.NOT_FOUND)

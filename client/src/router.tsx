@@ -15,12 +15,12 @@ import AdminUser from './components/admin/Body/AdminUser';
 import AdminAgents from './components/admin/Body/AdminAgents';
 import AdminDash from './components/admin/Body/DashBoard';
 import AdminAgentVerification from './components/admin/Body/AdminAgentVerification';
-import AgentDash from './components/agent/Body/AgentDash';
-import AgentCategory from './components/agent/Body/CategoryManagement';
+import AgentDash from './components/agent/Pages/AgentDash';
+import AgentCategory from './components/agent/Pages/CategoryManagement';
 
-import AddTourPackageForm from './components/agent/Body/AddPackage';
-import AgentPackages from './components/agent/Body/AgentPackages';
-import EditTourPackageForm from './components/agent/Body/EditPackage';
+import AddTourPackageForm from './components/agent/Pages/AddPackage';
+import AgentPackages from './components/agent/Pages/AgentPackages';
+import EditTourPackageForm from './components/agent/Pages/EditPackage';
 import PackageDetails from './components/user/Pages/PackageDetails';
 import PaymentPage from './components/user/Pages/PaymentPage';
 import UserProfile from './components/user/Pages/Profile';
