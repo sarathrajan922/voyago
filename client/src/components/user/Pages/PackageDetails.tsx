@@ -27,23 +27,34 @@ const PackageDetails: React.FC = () => {
   })
 
   const handleIncrement = () => {
-    setPerson(person + 1);
-  };
-
-  useEffect(() => {
-    if (person === 0) {
-      setErrorMsg("No:of person is required");
-    } else {
-      setErrorMsg("");
+   
+    if(person >= 15){
+      setPerson(15)
+    }else{
+      setPerson(person + 1);
     }
-    setTotal(person * tot)
-  }, [person, tot]);
+    
+  };
 
   const handleDecrement = () => {
     if (person > 1) {
       setPerson(person - 1);
     }
   };
+
+  useEffect(() => {
+    if (person === 0) {
+      setErrorMsg("No:of person is required");
+    }if(person >15){
+      setErrorMsg('Maximum 15 person only')
+    }
+     else {
+      setErrorMsg("");
+    }
+    setTotal(person * tot)
+  }, [person, tot]);
+
+ 
   const validationSchema = Yup.object({
     first_name: Yup.string().required("First name is required"),
     last_name: Yup.string().required("Last name is required"),
@@ -333,6 +344,7 @@ const PackageDetails: React.FC = () => {
                             type="number"
                             id="person"
                             min="1"
+                            max='15'
                             name="person"
                             required
                             value={person}
