@@ -1,55 +1,100 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { PackageDataApiResponse } from "../../../API/type/getPackage";
 import { userGetPackage } from "../../../features/axios/api/user/userGetPackage";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { bookPackage } from "../../../features/axios/api/user/userBookPackage";
+
 import { useDispatch } from "react-redux";
 import { setBookingDetails } from "../../../features/redux/slices/user/userBookingSlice";
-
-
-
-const validationSchema = Yup.object({
-  first_name: Yup.string().required("First name is required"),
-  last_name: Yup.string().required("Last name is required"),
-  email: Yup.string()
-    .email("Invalid email format")
-    .required("Email is required"),
-  phone: Yup.string()
-    .matches(/^\d{10}$/, "Invalid phone format")
-    .required("Phone is required"),
-  rooms: Yup.number().required("Number of rooms is required"),
-  remember: Yup.boolean().oneOf(
-    [true],
-    "You must agree to the terms and conditions"
-  ),
-});
-
-const initialValues = {
-  first_name: "",
-  last_name: "",
-  email: "",
-  phone: "",
-  rooms: "",
-  remember: false,
-};
+import TourConfirmationModal from "./Modal";
 
 const PackageDetails: React.FC = () => {
+  const [person, setPerson] = useState(1); // Initial value for rooms
+  const [errorMsg, setErrorMsg] = useState<string>("");
+  const [total,setTotal] = useState<number>(0)
+  const [tot,setTot] = useState<number>(0)
 
-  const dispatch = useDispatch()
-  const navigate = useNavigate();
+
+  const formattedTotal = total.toLocaleString('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+  });
+
+  const formattedTot = tot.toLocaleString('en-IN',{
+    style: 'currency',
+    currency: 'INR'
+  })
+
+  const handleIncrement = () => {
+    setPerson(person + 1);
+  };
+
+  useEffect(() => {
+    if (person === 0) {
+      setErrorMsg("No:of person is required");
+    } else {
+      setErrorMsg("");
+    }
+    setTotal(person * tot)
+  }, [person, tot]);
+
+  const handleDecrement = () => {
+    if (person > 1) {
+      setPerson(person - 1);
+    }
+  };
+  const validationSchema = Yup.object({
+    first_name: Yup.string().required("First name is required"),
+    last_name: Yup.string().required("Last name is required"),
+    email: Yup.string()
+      .email("Invalid email format")
+      .required("Email is required"),
+    phone: Yup.string()
+      .matches(/^\d{10}$/, "Invalid phone format")
+      .required("Phone is required"),
+    remember: Yup.boolean().oneOf(
+      [true],
+      "You must agree to the terms and conditions"
+    ),
+    person: Yup.number().required("please fill this.."),
+  });
+
+  const initialValues = {
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    person: person,
+    remember: false,
+  };
+
+  const dispatch = useDispatch();
   const { id } = useParams();
+  interface BookedData {
+    firstName: string;
+      lastName:string;
+      Email: string;
+      person: string;
+      packageId: string;
+      travelDate: string;
+  }
 
   const [tourPackage, setTourPackage] = useState<PackageDataApiResponse | null>(
     null
   );
 
+
+ 
+
   useEffect(() => {
     const asynfun = async () => {
       await userGetPackage(id)
         .then((response) => {
-          setTourPackage(response?.result);
+          const data = response?.result
+          setTourPackage(data);
+          setTotal(data?.price)
+          setTot(data?.price)
         })
         .catch((error: any) => {
           console.log(error.message);
@@ -58,9 +103,10 @@ const PackageDetails: React.FC = () => {
     asynfun();
   }, []);
 
-  const handleSubmit = async (values: any) => {
-    console.log(values);
-    // Perform your form submission logic here
+  const [isModalOpen,setIsModalOpen]= useState<boolean>(false)
+  const [bookedDetails,setBookedDetails] = useState<BookedData>()
+
+  const bookingHandler = async(values:any)=>{
     const date = new Date();
     const formattedDate = date.toISOString();
 
@@ -68,27 +114,56 @@ const PackageDetails: React.FC = () => {
       firstName: values.first_name,
       lastName: values.last_name,
       Email: values.email,
-      rooms: values.rooms,
+      person: person.toString() ?? "",
       packageId: id,
-      travelDate: formattedDate
-    }
-       
+      travelDate: formattedDate,
+    };
 
-    dispatch(setBookingDetails(obj))
+    setBookedDetails({
+      firstName: values.first_name,
+      lastName: values.last_name,
+      Email: values.email,
+      person: person.toString() ?? "",
+      packageId: id ?? '',
+      travelDate: formattedDate,
+    })
+
+    dispatch(setBookingDetails(obj));
+
+    setIsModalOpen(true)
+    setTimeout(()=>{
+      setIsModalOpen(false)
+    },5000)
+    
  
-    //? api call for book package 
+  }
+  
 
-    await bookPackage(obj)
-      .then(() => {
-        navigate("/payment");
-      })
-      .catch((error: any) => {
-        console.log(error.message);
-      });
+
+  const handlePersonChange = (e: any) => {
+    const inputValue = parseInt(e.target.value);
+
+    if (inputValue === 0) {
+      setPerson(1);
+    }
+    setPerson(inputValue);
   };
 
   return (
     <section className="bg-white dark:bg-gray-900">
+  
+  { isModalOpen ? <TourConfirmationModal  packageDetails={bookedDetails}/> : ''}
+
+
+{/* <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+  Toggle modal
+</button> */}
+
+
+
+
+
+
       <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
         <div className=" flex flex-col justify-evenly  p-10 md:p-12 mb-8">
           <h4 className="text-center text-gray-900 dark:text-white text-2xl md:text-2xl font-extrabold mb-2">
@@ -136,10 +211,10 @@ const PackageDetails: React.FC = () => {
                   </span>
                   <br />
 
-                  <div className="py-3 px-3 text-end  text-lg font-sans text-gray-900 dark:text-white">
+                  <div className="py-3 px-3 text-end  text-lg font-serif text-gray-900 dark:text-white">
                     Starting from{" "}
-                    <span className="text-gray-500">
-                      ₹{tourPackage?.price ?? "00.00"}
+                    <span className="text-green-500 font-serif">
+                      {formattedTot}
                     </span>
                   </div>
                 </div>
@@ -154,7 +229,7 @@ const PackageDetails: React.FC = () => {
                 <Formik
                   initialValues={initialValues}
                   validationSchema={validationSchema}
-                  onSubmit={handleSubmit}
+                  onSubmit={bookingHandler}
                 >
                   <Form>
                     <div className="grid gap-6 mb-6 md:grid-cols-2">
@@ -238,25 +313,52 @@ const PackageDetails: React.FC = () => {
                           className="text-red-500"
                         />
                       </div>
+
                       <div>
                         <label
                           htmlFor="rooms"
                           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                         >
-                          No:of rooms
+                          No:of Person
                         </label>
-                        <Field
-                          type="number"
-                          id="rooms"
-                          name="rooms"
-                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                          placeholder="How many room?"
-                        />
-                        <ErrorMessage
-                          name="rooms"
-                          component="div"
-                          className="text-red-500"
-                        />
+                        <div className="flex">
+                          <button
+                            type="button"
+                            onClick={handleDecrement}
+                            className="px-5 mr-2 py-1 bg-gray-200  text-gray-700 rounded focus:outline-none"
+                          >
+                            -
+                          </button>
+                          <Field
+                            type="number"
+                            id="person"
+                            min="1"
+                            name="person"
+                            required
+                            value={person}
+                            onChange={handlePersonChange}
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-md focus:ring-blue-500 focus:border-blue-500 p-2.5 w-20 text-center outline-none"
+                            placeholder=""
+                          />
+
+                          <button
+                            type="button"
+                            onClick={handleIncrement}
+                            className="px-5 mx-2 py-1 bg-gray-200 text-gray-700 rounded focus:outline-none"
+                          >
+                            +
+                          </button>
+                        </div>
+                        <span className="text-red-500 text-sm ">
+                          {errorMsg}
+                        </span>
+                      </div>
+
+                      <div>
+                        <div className="w-[8rem] h-[2rem] lg:mt-8 mt-2">
+                          <span className="pt-10 ps-2 text-m  font-serif">Total:</span>
+                          <span className="pr-4 text-l text-green-400">{formattedTotal}</span>
+                        </div>
                       </div>
                     </div>
 
@@ -291,6 +393,7 @@ const PackageDetails: React.FC = () => {
 
                     <div className="py-3 px-3 text-center">
                       <button
+                       data-modal-target="popup-modal" data-modal-toggle="popup-modal"
                         type="submit"
                         className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                       >

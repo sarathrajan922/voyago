@@ -17,9 +17,9 @@ const tourConfirmSchema = new Schema({
         type: String,
         required: [true, 'please valid  date']
     },
-    rooms: {
+    person: {
         type: Number,
-        required: [true, 'please add no:of room required']
+        required: [true, 'please add no:of person required']
     },
     packageId: {
         type: String,
@@ -28,6 +28,10 @@ const tourConfirmSchema = new Schema({
     userId: {
         type: String,
         required: [true, 'please add userId']
+    },
+    payment: {
+        type:String,
+        default: 'pending'
     }
 
 

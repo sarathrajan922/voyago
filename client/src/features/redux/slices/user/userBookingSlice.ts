@@ -5,7 +5,7 @@ interface BookData{
     firstName: string,
       lastName: string,
       Email:string,
-      rooms: string,
+      person: string,
       packageId: string|undefined,
       travelDate: string
 }
