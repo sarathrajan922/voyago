@@ -3,96 +3,8 @@ import { getBookedDetails } from "../../../features/axios/api/user/userGetBooked
 import { PackageDataApiResponse } from "../../../API/type/getPackage";
 
 import { useParams } from "react-router-dom";
+import StripeContainer from "./payment/StripeContainer";
 
-
-
-// import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-
-// const PUBLIC_KEY = 'pk_test_51NTMmoSFPChhJoiCyHv0p246ZZcYUdKzG5qhm6h3VoenVooZ4eTi51ZLzj1JnnvwTYpo69aIbPeTxXPtbrUpevtd00sWerjYF7';
-// const stripeTestPromise = loadStripe(PUBLIC_KEY);
-
-// const PaymentForm: React.FC = () => {
-
-//    const [success, setSuccess] = useState(false);
-//    const stripe = useStripe();
-//    const elements = useElements();
-
-//    const CARD_OPTIONS: StripeCardElementOptions = {
-//       iconStyle: "solid", // Update the value to "solid"
-//       style: {
-//         base: {
-//           iconColor: "#c4f0ff",
-//           color: "#00000",
-//           fontWeight: 500,
-//           fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
-//           fontSize: "16px",
-//           fontSmoothing: "antialiased",
-//           ":-webkit-autofill": { color: "#fce883" },
-//           "::placeholder": { color: "#87bbfd" }
-//         },
-//         invalid: {
-//           iconColor: "#ffc7ee",
-//           color: "#ffc7ee"
-//         }
-//       }
-//     };
-
-//    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-//       e.preventDefault();
-
-//       if (!stripe || !elements) {
-//          return;
-//       }
-
-//       const cardElement = elements.getElement(CardElement);
-
-//       if (!cardElement) {
-//          return;
-//       }
-
-//       const { error, paymentMethod }= await stripe.createPaymentMethod({
-//          type: 'card',
-//          card: cardElement
-//       });
-
-//       if (!error) {
-//          try {
-//             const { id } = paymentMethod;
-//             const response = await axios.post(BASE_URL + 'auth/user/payment', {
-//                amount: 1000,
-//                id
-//             });
-
-//             if (response.data.success) {
-//                setSuccess(true);
-//             }
-//          } catch (error: any) {
-//             console.log('Something went wrong');
-//          }
-//       } else {
-//          console.log('Error:', error);
-//       }
-//    };
-
-//    return (
-//       <>
-//       {!success ?
-//         <form onSubmit={handleSubmit}>
-//             <fieldset className="FormGroup">
-//                 <div className="FormRow">
-//                     <CardElement options={CARD_OPTIONS}/>
-//                 </div>
-//             </fieldset>
-//             <button>Pay</button>
-//         </form>
-//         :
-//        <div>
-//            <h2>You just bought a sweet spatula congrats this is the best decision of you're life</h2>
-//        </div>
-//         }
-//       </>
-//    );
-// }
 
 const PaymentPage: React.FC = () => {
   const { id } = useParams();
@@ -103,6 +15,16 @@ const PaymentPage: React.FC = () => {
     name: "",
     person: "",
   });
+  interface Obj{
+   person:string;
+   packageId: string
+ }
+
+  const [obj,setObj]= useState<Obj>({
+   person:'',
+   packageId: ''
+  })
+  console.log(obj)
   const [total, setTotal] = useState<number>(0);
 
   const formattedTotal = total.toLocaleString("en-IN", {
@@ -120,9 +42,15 @@ const PaymentPage: React.FC = () => {
         name: data?.result?.firstName + " " + data?.result?.lastName,
         person: data?.result?.person,
       });
+      setObj({
+         person:data?.result?.person.toString(),
+         packageId: packageDetails._id
+      })
     };
     getUserBookedData();
   }, [id]);
+
+ 
 
   return (
     <section className="bg-white dark:bg-gray-900">
@@ -195,8 +123,13 @@ const PaymentPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-gray-500 my-5  justify-items-center w-full lg:h-[30rem] min-h-[20rem]">
-
+          <div className="my-5  justify-items-center w-full lg:h-[30rem] min-h-[20rem]">
+            <div>
+         {
+            tourPackage && <StripeContainer obj={obj}/>
+         }
+          
+            </div>
           
           </div>
         </div>

@@ -76,7 +76,7 @@ export const userRepositoryMongoDB = () => {
   const getPrice = async(packageId: string)=>{
    
     const id = new Types.ObjectId(packageId)
-    const price = await TourPackage.findOne({id},{price: 1})
+    const price = await TourPackage.findOne({_id: id},{price: 1})
     return price
     
   }

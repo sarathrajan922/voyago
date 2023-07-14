@@ -25,6 +25,7 @@ export const createPaymentIntentU = async (
     if(amount){
         const count = parseInt(person)
         price = amount?.price* count
+        console.log(price)
     }else{
         throw new AppError('someting went wrong',HttpStatus.INTERNAL_SERVER_ERROR)
     }
