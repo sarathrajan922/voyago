@@ -1,4 +1,4 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model} from "mongoose";
 
 const packageSchema = new Schema({
   agentId: {

@@ -1,11 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { userReducer } from '../slices/user/userSlice'
 import { agentReducer } from '../slices/agent/agentSlice'
-
+import { userBookReducer } from '../slices/user/userBookingSlice'
 export const store = configureStore({
     reducer: {
         userData: userReducer,
-        agentData: agentReducer
+        agentData: agentReducer,
+        userBookData: userBookReducer
     }
 })
 

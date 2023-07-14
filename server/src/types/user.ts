@@ -23,7 +23,8 @@ export interface TourConfirmationInterface {
     lastName : string,
     Email: string,
     travelDate: string,
-    rooms: number,
+    person: number,
     packageId: string,
-    userId: string
+    userId: string,
+    payment: string
 }

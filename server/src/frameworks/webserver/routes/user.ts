@@ -9,6 +9,8 @@ import { userRoleCheckMiddleware } from "../middlewares/roleCheck";
 import { signInWithGoogle } from "../../../application/useCase/auth/userAuth";
 import { googleAuthServiceInterface } from "../../../application/services/googleServiceInterface";
 import { googleAuthService } from "../../services/googleAuthService";
+import configKeys from "../../../config";
+
 
 const authRouter = ()=>{
     const router = express.Router()
@@ -31,6 +33,8 @@ const authRouter = ()=>{
     router.post("/login-with-google",controller.loginWithGoogle)
     router.get('/user-profile',authenticationMiddleware,userRoleCheckMiddleware,controller.getUserDetails)
     router.put('/user-profile-update',authenticationMiddleware,userRoleCheckMiddleware,controller.userUpdateProfile)
+    router.get('/user-get-package-booked-data/:id', authenticationMiddleware,userRoleCheckMiddleware,controller.getUserBookedDetails)
+    
     
     return router
 }
