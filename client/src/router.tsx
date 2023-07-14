@@ -61,7 +61,7 @@ import UserProfileEdit from './components/user/Pages/ProfileEdit';
                 element: <PackageDetails/>
             },
             {
-                path: 'payment',
+                path: 'payment/:id',
                 element: <PaymentPage/>
             }
 

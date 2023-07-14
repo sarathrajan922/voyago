@@ -168,3 +168,16 @@ export const updateUserProfileUseCase = async(
   }
   return result
 }
+
+export const  getUserBookedDetailsUseCase = async(
+  userId: string,
+  packageId: string,
+  userRepository: ReturnType<UserDbInterface>
+) =>{
+  const result = await userRepository.getUserBookedDetails(userId,packageId)
+  if(!result){
+    throw new AppError('could not the details',HttpStatus.NOT_FOUND)
+  }
+
+  return result
+}

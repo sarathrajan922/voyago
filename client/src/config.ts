@@ -26,8 +26,8 @@
     USER_BOOK_PACKAGE: 'auth/book-package',
     USER_LOGIN_WITH_GOOGLE:  'auth/login-with-google',
     USER_GET_USER_DETAILS: 'auth/user-profile',
-    USER_UPDATE_PROFILE: 'auth/user-profile-update'
-
+    USER_UPDATE_PROFILE: 'auth/user-profile-update',
+    USER_GET_TOUR_BOOKED_DETAILS: 'auth/user-get-package-booked-data/'
  }
  
  const BASE_URL= 'http://localhost:8000/';

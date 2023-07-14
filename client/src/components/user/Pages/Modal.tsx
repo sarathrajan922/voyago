@@ -1,33 +1,38 @@
-import { Fragment, useRef, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
-import { bookPackage } from '../../../features/axios/api/user/userBookPackage'
-import { useNavigate } from 'react-router-dom'
+import { Fragment, useRef, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { bookPackage } from "../../../features/axios/api/user/userBookPackage";
+import { useNavigate } from "react-router-dom";
 
-export default function TourConfirmationModal({packageDetails}:any) {
-   const navigate = useNavigate()
-  const [open, setOpen] = useState(true)
+export default function TourConfirmationModal({ packageDetails,packageId }: any) {
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(true);
 
-  const cancelButtonRef = useRef(null)
+  const cancelButtonRef = useRef(null);
 
-  const submitHandler = async()=>{
-    console.log("packageDetails")
-    console.log(packageDetails)
-    
+  const submitHandler = async () => {
+    console.log("packageDetails");
+    console.log(packageDetails);
+
     //? api call for book package
     await bookPackage(packageDetails)
       .then(() => {
-        navigate("/payment");
+        navigate(`/payment/${packageId}`);
       })
       .catch((error: any) => {
         console.log(error.message);
       });
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        initialFocus={cancelButtonRef}
+        onClose={setOpen}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -55,15 +60,21 @@ export default function TourConfirmationModal({packageDetails}:any) {
                 <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
                     <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                      <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
+                      <ExclamationTriangleIcon
+                        className="h-6 w-6 text-red-600"
+                        aria-hidden="true"
+                      />
                     </div>
                     <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                      <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
+                      <Dialog.Title
+                        as="h3"
+                        className="text-base font-semibold leading-6 text-gray-900"
+                      >
                         Booking Confirmation
                       </Dialog.Title>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          Are you sure you want to Book this package? 
+                          Are you sure you want to Book this package?
                         </p>
                       </div>
                     </div>
@@ -92,5 +103,5 @@ export default function TourConfirmationModal({packageDetails}:any) {
         </div>
       </Dialog>
     </Transition.Root>
-  )
+  );
 }

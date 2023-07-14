@@ -12,28 +12,25 @@ import TourConfirmationModal from "./Modal";
 const PackageDetails: React.FC = () => {
   const [person, setPerson] = useState(1); // Initial value for rooms
   const [errorMsg, setErrorMsg] = useState<string>("");
-  const [total,setTotal] = useState<number>(0)
-  const [tot,setTot] = useState<number>(0)
+  const [total, setTotal] = useState<number>(0);
+  const [tot, setTot] = useState<number>(0);
 
-
-  const formattedTotal = total.toLocaleString('en-IN', {
-    style: 'currency',
-    currency: 'INR',
+  const formattedTotal = total.toLocaleString("en-IN", {
+    style: "currency",
+    currency: "INR",
   });
 
-  const formattedTot = tot.toLocaleString('en-IN',{
-    style: 'currency',
-    currency: 'INR'
-  })
+  const formattedTot = tot.toLocaleString("en-IN", {
+    style: "currency",
+    currency: "INR",
+  });
 
   const handleIncrement = () => {
-   
-    if(person >= 15){
-      setPerson(15)
-    }else{
+    if (person >= 15) {
+      setPerson(15);
+    } else {
       setPerson(person + 1);
     }
-    
   };
 
   const handleDecrement = () => {
@@ -45,16 +42,15 @@ const PackageDetails: React.FC = () => {
   useEffect(() => {
     if (person === 0) {
       setErrorMsg("No:of person is required");
-    }if(person >15){
-      setErrorMsg('Maximum 15 person only')
     }
-     else {
+    if (person > 15) {
+      setErrorMsg("Maximum 15 person only");
+    } else {
       setErrorMsg("");
     }
-    setTotal(person * tot)
+    setTotal(person * tot);
   }, [person, tot]);
 
- 
   const validationSchema = Yup.object({
     first_name: Yup.string().required("First name is required"),
     last_name: Yup.string().required("Last name is required"),
@@ -81,31 +77,28 @@ const PackageDetails: React.FC = () => {
   };
 
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id } = useParams(); 
   interface BookedData {
     firstName: string;
-      lastName:string;
-      Email: string;
-      person: string;
-      packageId: string;
-      travelDate: string;
+    lastName: string;
+    Email: string;
+    person: string;
+    packageId: string;
+    travelDate: string;
   }
 
   const [tourPackage, setTourPackage] = useState<PackageDataApiResponse | null>(
     null
   );
 
-
- 
-
   useEffect(() => {
     const asynfun = async () => {
       await userGetPackage(id)
         .then((response) => {
-          const data = response?.result
+          const data = response?.result;
           setTourPackage(data);
-          setTotal(data?.price)
-          setTot(data?.price)
+          setTotal(data?.price);
+          setTot(data?.price);
         })
         .catch((error: any) => {
           console.log(error.message);
@@ -114,10 +107,10 @@ const PackageDetails: React.FC = () => {
     asynfun();
   }, []);
 
-  const [isModalOpen,setIsModalOpen]= useState<boolean>(false)
-  const [bookedDetails,setBookedDetails] = useState<BookedData>()
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [bookedDetails, setBookedDetails] = useState<BookedData>();
 
-  const bookingHandler = async(values:any)=>{
+  const bookingHandler = async (values: any) => {
     const date = new Date();
     const formattedDate = date.toISOString();
 
@@ -135,21 +128,17 @@ const PackageDetails: React.FC = () => {
       lastName: values.last_name,
       Email: values.email,
       person: person.toString() ?? "",
-      packageId: id ?? '',
+      packageId: id ?? "",
       travelDate: formattedDate,
-    })
+    });
 
     dispatch(setBookingDetails(obj));
 
-    setIsModalOpen(true)
-    setTimeout(()=>{
-      setIsModalOpen(false)
-    },5000)
-    
- 
-  }
-  
-
+    setIsModalOpen(true);
+    setTimeout(() => {
+      setIsModalOpen(false);
+    }, 5000);
+  };
 
   const handlePersonChange = (e: any) => {
     const inputValue = parseInt(e.target.value);
@@ -162,18 +151,11 @@ const PackageDetails: React.FC = () => {
 
   return (
     <section className="bg-white dark:bg-gray-900">
-  
-  { isModalOpen ? <TourConfirmationModal  packageDetails={bookedDetails}/> : ''}
-
-
-{/* <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-  Toggle modal
-</button> */}
-
-
-
-
-
+      {isModalOpen ? (
+        <TourConfirmationModal packageDetails={bookedDetails} packageId={id} />
+      ) : (
+        ""
+      )}
 
       <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
         <div className=" flex flex-col justify-evenly  p-10 md:p-12 mb-8">
@@ -185,7 +167,6 @@ const PackageDetails: React.FC = () => {
             <img
               className="w-full max-h-[20rem] overflow-hidden object-cover"
               src={tourPackage?.images}
-              // src="https://images.unsplash.com/photo-1602828889956-45ec6cee6758?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80"
               alt=""
             />
           </div>
@@ -193,9 +174,6 @@ const PackageDetails: React.FC = () => {
           <div className="grid lg:grid-cols-2 justify-items-center ">
             <div className="py-5 px-2 max-h-[45rem]">
               <div className="rounded overflow-hidden hover:shadow-lg mt-6 ">
-                {/* <div className="py-3 px-3 text-center text-lg font-semibold text-gray-900 dark:text-white">
-                  Package Details
-                </div> */}
                 <div className="ms-2 px-1">
                   <h2 className="font-semibold mt-3 mb-1">
                     {tourPackage?.packageName ?? "packageName"}
@@ -233,10 +211,6 @@ const PackageDetails: React.FC = () => {
             </div>
             <div className="py-5 px-2 max-h-[45rem]">
               <div className="rounded  hover:shadow-lg mt-6 px-5">
-                {/* <div className="py-3 px-3 text-center font-semibold">
-                  Booking Form
-                </div> */}
-
                 <Formik
                   initialValues={initialValues}
                   validationSchema={validationSchema}
@@ -344,7 +318,7 @@ const PackageDetails: React.FC = () => {
                             type="number"
                             id="person"
                             min="1"
-                            max='15'
+                            max="15"
                             name="person"
                             required
                             value={person}
@@ -368,8 +342,12 @@ const PackageDetails: React.FC = () => {
 
                       <div>
                         <div className="w-[8rem] h-[2rem] lg:mt-8 mt-2">
-                          <span className="pt-10 ps-2 text-m  font-serif">Total:</span>
-                          <span className="pr-4 text-l text-green-400">{formattedTotal}</span>
+                          <span className="pt-10 ps-2 text-m  font-serif">
+                            Total:
+                          </span>
+                          <span className="pr-4 text-l text-green-400">
+                            {formattedTotal}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -405,7 +383,8 @@ const PackageDetails: React.FC = () => {
 
                     <div className="py-3 px-3 text-center">
                       <button
-                       data-modal-target="popup-modal" data-modal-toggle="popup-modal"
+                        data-modal-target="popup-modal"
+                        data-modal-toggle="popup-modal"
                         type="submit"
                         className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                       >
@@ -414,120 +393,6 @@ const PackageDetails: React.FC = () => {
                     </div>
                   </Form>
                 </Formik>
-
-                {/* <form>
-                  <div className="grid gap-6 mb-6 md:grid-cols-2">
-                    <div>
-                      <label
-                        htmlFor="first_name"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
-                        First name
-                      </label>
-                      <input
-                        type="text"
-                        id="first_name"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="John"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="last_name"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
-                        Last name
-                      </label>
-                      <input
-                        type="text"
-                        id="last_name"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Doe"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="email"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Enter valid Email"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="phone"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
-                        Mobile
-                      </label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="123-45-678"
-                        pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="rooms"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >
-                        No:of rooms
-                      </label>
-                      <input
-                        type="number"
-                        id="rooms"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="How many room?"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex items-start mb-6">
-                    <div className="flex items-center h-5">
-                      <input
-                        id="remember"
-                        type="checkbox"
-                        value=""
-                        className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                        required
-                      />
-                    </div>
-                    <label
-                      htmlFor="remember"
-                      className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      I agree with the{" "}
-                      <a
-                        href="#"
-                        className="text-blue-600 hover:underline dark:text-blue-500"
-                      >
-                        terms and conditions
-                      </a>
-                      .
-                    </label>
-                  </div>
-                  <div className="py-3 px-3 text-center">
-                    <button
-                      type="submit"
-                      className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                    >
-                      Book
-                    </button>
-                  </div>
-                </form> */}
               </div>
             </div>
           </div>
