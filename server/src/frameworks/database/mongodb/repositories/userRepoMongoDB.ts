@@ -87,7 +87,7 @@ export const userRepositoryMongoDB = () => {
     //populate
     const data = await TourConfirm.find({userId: userId}).populate({
       path: 'packageId',
-      select: "_id agentId packageName description price images duration",
+      select: "_id agentId packageName description price images duration category locations services",
       model: TourPackage
     })
     return data
@@ -105,7 +105,7 @@ export const userRepositoryMongoDB = () => {
   //     },
   //     {
   //       $lookup: {
-  //         from: `TourPackage`, // Replace with the actual name of the collection in the database
+  //         from: `tourPackages`, // Replace with the actual name of the collection in the database
   //         localField: 'packageId',
   //         foreignField: '_id',
   //         as: 'package'
