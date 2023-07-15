@@ -81,6 +81,49 @@ export const userRepositoryMongoDB = () => {
     
   }
 
+  const getAllBookings = async(userId: string)=>{
+    // const data = await TourConfirm.find({userId: userId})
+    // return data
+    //populate
+    const data = await TourConfirm.find({userId: userId}).populate({
+      path: 'packageId',
+      select: "_id agentId packageName description price images duration",
+      model: TourPackage
+    })
+    return data
+    // aagregtion
+  //   const data = await TourConfirm.aggregate([
+  //     {
+  //       $match: { userId: userId }
+  //     },
+  //     {
+  //       $addFields: {
+  //         packageObjectId: {
+  //           $toObjectId: '$packageId'
+  //         }
+  //       }
+  //     },
+  //     {
+  //       $lookup: {
+  //         from: `TourPackage`, // Replace with the actual name of the collection in the database
+  //         localField: 'packageId',
+  //         foreignField: '_id',
+  //         as: 'package'
+  //       }
+  //     },
+  //     {
+  //       $unwind: '$package'
+  //     },
+  //     {
+  //       $addFields: {
+  //         packagePrice: '$package.price'
+  //       }
+  //     }
+  //   ]).exec()
+  //   console.log(data)
+  // return data
+  }
+
   return {
     addUser,
     getUserByEmail,
@@ -91,7 +134,8 @@ export const userRepositoryMongoDB = () => {
     getUserDetails,
     userProfileUpdate,
     getUserBookedDetails,
-    getPrice
+    getPrice,
+    getAllBookings
   };
 };
 

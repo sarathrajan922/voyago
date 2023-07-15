@@ -34,7 +34,7 @@ const authRouter = ()=>{
     router.get('/user-profile',authenticationMiddleware,userRoleCheckMiddleware,controller.getUserDetails)
     router.put('/user-profile-update',authenticationMiddleware,userRoleCheckMiddleware,controller.userUpdateProfile)
     router.get('/user-get-package-booked-data/:id', authenticationMiddleware,userRoleCheckMiddleware,controller.getUserBookedDetails)
-    
+    router.get('/user-get-all-bookings', authenticationMiddleware,userRoleCheckMiddleware,controller.getAllBookings)
     
     return router
 }
