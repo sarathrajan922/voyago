@@ -21,3 +21,24 @@ export const getBookedDetails = async (packageId: any) => {
     }
   }
 };
+
+
+
+
+export const getAllBookedData = async()=>{
+  try{
+    const config: AxiosRequestConfig = {
+      url: BASE_URL+urls.USER_GET_ALL_BOOKING,
+      method: 'get'
+    }
+    const response = await api(config)
+    console.log(response?.data?.result)
+    return response?.data?.result
+  }catch(err:any){
+    if(err.message === 'Request failed with status code 404'){
+      throw new Error('No booking detils available  for this user')
+    }else{
+      throw new Error('something went wrong!')
+    }
+  }
+}

@@ -181,3 +181,14 @@ export const  getUserBookedDetailsUseCase = async(
 
   return result
 }
+
+export const getAllBookingsUseCase = async(
+  userId: string,
+  userRepository: ReturnType<UserDbInterface> 
+)=>{
+  const result = await userRepository.getAllBookings(userId)
+  if(!result){
+    throw new  AppError('this user have no booking',HttpStatus.NOT_FOUND)
+  }
+  return result
+}

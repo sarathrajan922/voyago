@@ -5,6 +5,7 @@ import { UserRepositoryMongoDB } from "../../frameworks/database/mongodb/reposit
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import {
+  getAllBookingsUseCase,
   getUserBookedDetailsUseCase,
   getUserDetailsUseCase,
   signInWithGoogle,
@@ -168,6 +169,15 @@ const authController = (
       result
     })
   })
+  const getAllBookings = asyncHandler(async(req: CustomRequest, res: Response)=>{
+    const userId = req.payload?.id ?? '';
+    const result = await getAllBookingsUseCase(userId,dbRepositoryUser)
+    res.json({
+      status: true,
+      message: 'user booked details fetched successfully',
+      result
+    })
+  })
 
   return {
     userRegister,
@@ -178,7 +188,8 @@ const authController = (
     loginWithGoogle,
     getUserDetails,
     userUpdateProfile,
-    getUserBookedDetails
+    getUserBookedDetails,
+    getAllBookings
   };
 };
 
