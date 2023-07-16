@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 // import { useParams } from "react-router-dom";
 import PaymentSuccessModal from "./PaymentSuccessModal";
+import { userPaymentSuccess } from "../../../../features/axios/api/user/userPaymentSuccess";
 // import { enrollStudent } from "../../../api/endpoints/course/course";
 
 const PaymentFrom: React.FC = () => {
@@ -40,8 +41,13 @@ const PaymentFrom: React.FC = () => {
       setMessage(error.message ?? "Something went wrong");
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
       setMessage("Payment status:" + paymentIntent.status);
-      console.log('success')
-      setOpen(true);
+      const tourId = localStorage.getItem('tourId')
+     const res=  await userPaymentSuccess(tourId)
+     if(res){
+      window.localStorage.removeItem('tourId')
+       console.log('success')
+       setOpen(true);
+     }
     } else {
       setMessage("An unexpected error occurred.");
     }
