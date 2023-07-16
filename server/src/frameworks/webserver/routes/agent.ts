@@ -77,6 +77,9 @@ const agentRouter = () => {
     controller.deletePackage
   );
 
+  router.get('/get-all-booking',
+  authenticationMiddleware,agentRoleCheckMiddleware,controller.agentGetAllBooking)
+
   return router;
 };
 

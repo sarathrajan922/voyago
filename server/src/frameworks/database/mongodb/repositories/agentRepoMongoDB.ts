@@ -7,6 +7,7 @@ import {
 import Category from "../models/categoryModel";
 import TourPackage from "../models/tourPackageModel";
 import { Types } from "mongoose";
+import TourConfirm from "../models/tourConfirmDetails";
 
 export const agentRepositoryMongoDB = () => {
   const addAgent = async (agent: AgentRegisterInterface) => {
@@ -17,9 +18,9 @@ export const agentRepositoryMongoDB = () => {
     return Agent.findOne({ email });
   };
 
-  const checkAgentBlock = async (email: string)=>{
-    return Agent.findOne({email: email, isActive: true})
-  }
+  const checkAgentBlock = async (email: string) => {
+    return Agent.findOne({ email: email, isActive: true });
+  };
 
   const checkCategoryExist = async (agentId: String, categoryName: String) => {
     return await Category.findOne({
@@ -84,11 +85,26 @@ export const agentRepositoryMongoDB = () => {
     }
   };
 
-  const deletePackage = async (packageId: string)=>{
-    const id = new Types.ObjectId(packageId)
-    const deletePackage = await TourPackage.findByIdAndDelete(id)
-    return deletePackage
-  }
+  const deletePackage = async (packageId: string) => {
+    const id = new Types.ObjectId(packageId);
+    const deletePackage = await TourPackage.findByIdAndDelete(id);
+    return deletePackage;
+  };
+
+  const getAllBookings = async (agentId: string) => {
+    // const id = new Types.ObjectId(agentId)
+
+    const packages = await TourPackage.find({ agentId: agentId });
+    const packageIds = packages.map((pkg) => pkg._id);
+    // console.log(packages)
+
+    // console.log(packageIds)
+
+    const data = await TourConfirm.find({ packageId: { $in: packageIds } });
+    // console.log(data)
+
+    return data;
+  };
 
   return {
     addAgent,
@@ -103,7 +119,8 @@ export const agentRepositoryMongoDB = () => {
     disablePackage,
     updatePackage,
     deletePackage,
-    checkAgentBlock
+    checkAgentBlock,
+    getAllBookings,
   };
 };
 

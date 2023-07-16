@@ -163,3 +163,11 @@ return result
    const result = await agentRepository.deletePackage(packageId)
    return result
  }
+
+ export const AgentGetAllBookingsUseCase = async(
+   agentId: string,
+   agentRepository: ReturnType<AgentDbInterface>
+ )=>{
+   const result = await agentRepository.getAllBookings(agentId)
+   return result 
+ }

@@ -1,16 +1,12 @@
 import { PaymentElement } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
-// import { useParams } from "react-router-dom";
 import PaymentSuccessModal from "./PaymentSuccessModal";
 import { userPaymentSuccess } from "../../../../features/axios/api/user/userPaymentSuccess";
-// import { enrollStudent } from "../../../api/endpoints/course/course";
 
 const PaymentFrom: React.FC = () => {
   const stripe = useStripe();
   const elements = useElements();
-//   const { courseId } = useParams();
-
   const [message, setMessage] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [open, setOpen] = useState(false);
@@ -26,28 +22,27 @@ const PaymentFrom: React.FC = () => {
 
     setIsProcessing(true);
 
-
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `${window.location.origin}/`
+        return_url: `${window.location.origin}/`,
       },
       redirect: "if_required",
     });
 
     if (error) {
-        console.log(error.message)
+      console.log(error.message);
       setMessage(error.message ?? "Something went wrong");
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
       setMessage("Payment status:" + paymentIntent.status);
-      const tourId = localStorage.getItem('tourId')
-     const res=  await userPaymentSuccess(tourId)
-     if(res){
-      window.localStorage.removeItem('tourId')
-       console.log('success')
-       setOpen(true);
-     }
+      const tourId = localStorage.getItem("tourId");
+      const res = await userPaymentSuccess(tourId);
+      if (res) {
+        window.localStorage.removeItem("tourId");
+        console.log("success");
+        setOpen(true);
+      }
     } else {
       setMessage("An unexpected error occurred.");
     }
@@ -59,18 +54,18 @@ const PaymentFrom: React.FC = () => {
     <div>
       <PaymentSuccessModal open={open} setOpen={setOpen} />
       <form
-        id='payment-form'
+        id="payment-form"
         onSubmit={handleSubmit}
-        className='border-solid border-gray-300 rounded-lg p-4 my-4 shadow-md'
+        className="border-solid border-gray-300 rounded-lg p-4 my-4 shadow-md"
       >
-        <PaymentElement id='payment-element' />
+        <PaymentElement id="payment-element" />
 
         <button
           disabled={isProcessing || !stripe || !elements}
-          id='submit'
-          className=' bg-red-300 border-radius-radius rounded-md text-white border-0 py-3 px-4 mt-4 font-semibold cursor-pointer transition-all duration-200'
+          id="submit"
+          className=" bg-red-300 border-radius-radius rounded-md text-white border-0 py-3 px-4 mt-4 font-semibold cursor-pointer transition-all duration-200"
         >
-          <span id='button-text'>
+          <span id="button-text">
             {isProcessing ? "Processing ..." : "Pay now"}
           </span>
         </button>
@@ -78,8 +73,8 @@ const PaymentFrom: React.FC = () => {
         {/* Show any error or success messages */}
         {message && (
           <div
-            id='payment-message'
-            className='hidden bg-blue-900 text-green-500 p-4 m-4 rounded-lg text-sm'
+            id="payment-message"
+            className="hidden bg-blue-900 text-green-500 p-4 m-4 rounded-lg text-sm"
           >
             {message}
           </div>

@@ -5,6 +5,7 @@ import { AgentRepositoryMongoDB } from "../../frameworks/database/mongodb/reposi
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import {
+  AgentGetAllBookingsUseCase,
   addTourPackageUseCase,
   agentAddCategoryUseCase,
   agentLoginUseCase,
@@ -23,6 +24,8 @@ import {
   AgentAddCategoryInterface,
 } from "../../types/agent";
 import { CustomRequest } from "../../types/expressRequest";
+import AppError from "../../utils/appError";
+import { HttpStatus } from "../../types/httpStatus";
 
 const agentController = (
   authServiceInterface: AuthServiceInterface,
@@ -196,6 +199,17 @@ const agentController = (
     }
   );
 
+  const agentGetAllBooking = asyncHandler(async(req: CustomRequest, res:Response)=>{
+    const agentId = req?.payload?.id ?? '';
+    const result = await AgentGetAllBookingsUseCase(agentId,dbRepositoryAgent)
+    res.json({
+      status: true, 
+      message: 'fetching agent booking details successful',
+      result
+    })
+  
+  })
+
   return {
     agentRegister,
     agentLogin,
@@ -208,6 +222,7 @@ const agentController = (
     disablePackage,
     updatePackage,
     deletePackage,
+    agentGetAllBooking
   };
 };
 
