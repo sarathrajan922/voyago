@@ -106,6 +106,12 @@ export const agentRepositoryMongoDB = () => {
     return data;
   };
 
+  const checkAgentVerified = async(agentId: string)=>{
+    const id = new Types.ObjectId(agentId)
+    const result = await Agent.findOne({ _id:  id, isVerified: true });
+   return result ? true :  false
+  }
+
   return {
     addAgent,
     getAgentByEmail,
@@ -121,6 +127,7 @@ export const agentRepositoryMongoDB = () => {
     deletePackage,
     checkAgentBlock,
     getAllBookings,
+    checkAgentVerified
   };
 };
 

@@ -171,3 +171,11 @@ return result
    const result = await agentRepository.getAllBookings(agentId)
    return result 
  }
+
+ export const checkAgentVerificationUseCase = async(
+   agentId: string,
+   agentRepository: ReturnType<AgentDbInterface>
+ ) => {
+   const result = await agentRepository.checkAgentVerified(agentId)
+   return result
+ }

@@ -10,6 +10,7 @@ import {
   agentAddCategoryUseCase,
   agentLoginUseCase,
   agentRegisterUseCase,
+  checkAgentVerificationUseCase,
   deleteCategoryUseCase,
   deletePackageUseCase,
   disablepackageUseCase,
@@ -209,6 +210,15 @@ const agentController = (
     })
   
   })
+  const checkAgentVerified = asyncHandler(async(req: CustomRequest,res:Response)=>{
+    const agentId = req?.payload?.id ?? ''
+    const result = await checkAgentVerificationUseCase(agentId,dbRepositoryAgent)
+    res.json({
+      status: true,
+      message: 'successfully checked agent verified or not',
+      result
+    })
+  })
 
   return {
     agentRegister,
@@ -222,7 +232,8 @@ const agentController = (
     disablePackage,
     updatePackage,
     deletePackage,
-    agentGetAllBooking
+    agentGetAllBooking,
+    checkAgentVerified
   };
 };
 

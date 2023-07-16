@@ -80,7 +80,10 @@ const agentRouter = () => {
   router.get('/get-all-booking',
   authenticationMiddleware,agentRoleCheckMiddleware,controller.agentGetAllBooking)
 
+  router.get('/isVerified',authenticationMiddleware,agentRoleCheckMiddleware,controller.checkAgentVerified)
+
   return router;
 };
+
 
 export default agentRouter;
