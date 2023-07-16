@@ -25,11 +25,15 @@ import {
   InboxArrowDownIcon,
   LifebuoyIcon,
   PowerIcon,
+  
   RocketLaunchIcon,
   Bars2Icon,
+  
   PhoneIcon,
 } from "@heroicons/react/24/outline";
 import { selectUser } from "../../features/redux/slices/user/userSlice";
+
+
 
 function LoginRegister() {
 
@@ -64,6 +68,10 @@ const profileMenuItems = [
   {
     label: "Edit Profile",
     icon: Cog6ToothIcon,
+  },
+  {
+    label: "Booking Details",
+    icon: Square3Stack3DIcon
   },
   {
     label: "Inbox",
@@ -116,7 +124,7 @@ function ProfileMenu() {
                 key={label}
                 onClick={() => {
                   // Add your custom onClick logic here for "My Profile"
-                  console.log("My Profile clicked");
+                 
                   navigate(`/profile`)
                 }}
                 className={`flex items-center gap-2 rounded ${
@@ -140,6 +148,69 @@ function ProfileMenu() {
               </MenuItem>
             );
           }
+
+          if (label === "Booking Details") {
+            return (
+              <MenuItem
+                key={label}
+                onClick={() => {
+                  // Add your custom onClick logic here for "My Profile"
+                 
+                  navigate(`/booked-details`)
+                }}
+                className={`flex items-center gap-2 rounded ${
+                  isLastItem
+                    ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
+                    : ""
+                }`}
+              >
+                {React.createElement(icon, {
+                  className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
+                  strokeWidth: 2,
+                })}
+                <Typography
+                  as="span"
+                  variant="small"
+                  className="font-normal"
+                  color={isLastItem ? "red" : "inherit"}
+                >
+                  {label}
+                </Typography>
+              </MenuItem>
+            );
+          }
+
+          if (label === "Edit Profile") {
+            return (
+              <MenuItem
+                key={label}
+                onClick={() => {
+                  // Add your custom onClick logic here for "My Profile"
+                 
+                  navigate(`/user-profile-edit`)
+                }}
+                className={`flex items-center gap-2 rounded ${
+                  isLastItem
+                    ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
+                    : ""
+                }`}
+              >
+                {React.createElement(icon, {
+                  className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
+                  strokeWidth: 2,
+                })}
+                <Typography
+                  as="span"
+                  variant="small"
+                  className="font-normal"
+                  color={isLastItem ? "red" : "inherit"}
+                >
+                  {label}
+                </Typography>
+              </MenuItem>
+            );
+          }
+
 
 
 
@@ -264,27 +335,50 @@ function NavListMenu() {
   );
 }
 
-// nav list component
-const navListItems = [
-  {
-    label: "Account",
-    icon: UserCircleIcon,
-  },
-  {
-    label: "Community",
-    icon: CubeTransparentIcon,
-  },
-  {
-    label: "Contact",
-    icon: PhoneIcon,
-  },
-];
+
+
 
 function NavList() {
+ const navigate = useNavigate()
+ // nav list component
+  const navListItems = [
+    {
+      label: "Account",
+      icon: UserCircleIcon,
+      action: () => {
+        // Action for Account
+        console.log("Account clicked");
+         navigate('/profile')
+        
+      },
+    },
+    {
+      label: "Community",
+      icon: CubeTransparentIcon,
+      action: () => {
+        // Action for Account
+        console.log("community clicked");
+        
+      },
+    },
+    {
+      label: "Contact",
+      icon: PhoneIcon,
+      action: () => {
+        // Action for Account
+        console.log("contact clicked");
+      },
+    },
+    
+  ];
+  
   return (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
       <NavListMenu />
-      {navListItems.map(({ label, icon }, key) => (
+      {navListItems.map(({ label, icon,action }, key) => (
+
+        
+       
         <Typography
           key={label}
           as="a"
@@ -292,7 +386,9 @@ function NavList() {
           variant="small"
           color="blue-gray"
           className="font-normal"
+          onClick={action}
         >
+          
           <MenuItem className="flex items-center gap-2 lg:rounded-full">
             {React.createElement(icon, { className: "h-[18px] w-[18px]" })}{" "}
             {label}

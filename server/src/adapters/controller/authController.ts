@@ -8,6 +8,7 @@ import {
   getAllBookingsUseCase,
   getUserBookedDetailsUseCase,
   getUserDetailsUseCase,
+  paymentStatusChangeUseCase,
   signInWithGoogle,
   updateUserProfileUseCase,
   userGetAllPackageUseCase,
@@ -179,6 +180,16 @@ const authController = (
     })
   })
 
+  const paymentStatusChange = asyncHandler(async(req:CustomRequest,res:Response)=>{
+    const {tourId} = req.body
+    const result = await paymentStatusChangeUseCase(tourId, dbRepositoryUser)
+    res.json({
+      status: true,
+      message: 'user payment status changed successfully',
+      result
+    })
+  })
+
   return {
     userRegister,
     userLogin,
@@ -189,7 +200,8 @@ const authController = (
     getUserDetails,
     userUpdateProfile,
     getUserBookedDetails,
-    getAllBookings
+    getAllBookings,
+    paymentStatusChange
   };
 };
 

@@ -124,6 +124,15 @@ export const userRepositoryMongoDB = () => {
   // return data
   }
 
+  const paymentStatusChange=async (tourId:string) => {
+    const id = new Types.ObjectId(tourId)
+    const result = await TourConfirm.findByIdAndUpdate({_id: id},{
+      $set: {"payment" : 'success'}
+  })
+
+  return result
+  }
+
   return {
     addUser,
     getUserByEmail,
@@ -135,7 +144,8 @@ export const userRepositoryMongoDB = () => {
     userProfileUpdate,
     getUserBookedDetails,
     getPrice,
-    getAllBookings
+    getAllBookings,
+    paymentStatusChange
   };
 };
 
