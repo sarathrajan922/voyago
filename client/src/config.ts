@@ -28,7 +28,8 @@
     USER_GET_USER_DETAILS: 'auth/user-profile',
     USER_UPDATE_PROFILE: 'auth/user-profile-update',
     USER_GET_TOUR_BOOKED_DETAILS: 'auth/user-get-package-booked-data/',
-    USER_GET_ALL_BOOKING: 'auth/user-get-all-bookings'
+    USER_GET_ALL_BOOKING: 'auth/user-get-all-bookings',
+    USER_PAYMENT_STATUS_CHANGE: 'auth/user-Pay-status-change'
  }
  
  const BASE_URL= 'http://localhost:8000/';

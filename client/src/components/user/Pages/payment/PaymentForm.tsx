@@ -40,7 +40,7 @@ const PaymentFrom: React.FC = () => {
       setMessage(error.message ?? "Something went wrong");
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
       setMessage("Payment status:" + paymentIntent.status);
-      console.log('successssssssssssssssssssssss')
+      console.log('success')
       setOpen(true);
     } else {
       setMessage("An unexpected error occurred.");

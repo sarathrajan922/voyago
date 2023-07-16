@@ -192,3 +192,14 @@ export const getAllBookingsUseCase = async(
   }
   return result
 }
+
+export const paymentStatusChangeUseCase = async(
+  tourId: string,
+  userDbRepository: ReturnType<UserDbInterface>
+) => {
+  const result = await userDbRepository.paymentStatusChange(tourId)
+  if(!result){
+    throw new AppError('payment Status not changed ',HttpStatus.NOT_MODIFIED)
+  }
+  return result
+}

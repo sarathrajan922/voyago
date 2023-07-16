@@ -20,11 +20,12 @@ const PaymentPage: React.FC = () => {
    packageId: string
  }
 
+
   const [obj,setObj]= useState<Obj>({
    person:'',
    packageId: ''
   })
-  console.log(obj)
+  
   const [total, setTotal] = useState<number>(0);
 
   const formattedTotal = total.toLocaleString("en-IN", {
@@ -36,6 +37,9 @@ const PaymentPage: React.FC = () => {
     const getUserBookedData = async () => {
       const data = await getBookedDetails(id);
       const packageDetails = data?.result?.packageId;
+      const tourId = data?.result?._id;
+      console.log(tourId)
+      window.localStorage.setItem('tourId', tourId)
       setTourPackage(packageDetails);
       setTotal(packageDetails?.price * data?.result?.person);
       setPersonalData({
