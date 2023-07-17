@@ -70,7 +70,7 @@ console.log(modalData)
     <section className=" bg-white mt-0 dark:bg-gray-900">
       <div className=" px-4 mx-auto max-w-screen-xl  lg:pt-0">
         <div className=" flex flex-col my-14 justify-center md:p-12 ">
-          <div className="lg:w-[60rem] b min-h-[20rem] pb-16 mt-1 min-w-[25rem] lg:mb-16 px-10 lg:ms-16 lg:h-[20rem]">
+          <div className="lg:w-[65rem] b min-h-[20rem] pb-16 mt-1 min-w-[25rem] lg:mb-16 px-10 lg:ms-16 lg:h-[20rem]">
             <h2 className="text-center text-gray-900  dark:text-white text-m md:text-xl font-extrabold mb-5">
               <span className="text-black-500">Booking Details</span>
             </h2>

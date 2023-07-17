@@ -179,3 +179,14 @@ return result
    const result = await agentRepository.checkAgentVerified(agentId)
    return result
  }
+
+ export const getAgentProfileUseCase = async(
+   agentId: string,
+   agentRepository: ReturnType<AgentDbInterface>
+ )=> {
+   const result = await agentRepository.getAgentProfile(agentId)
+   if(!result){
+     throw new AppError('could not find agent profile',HttpStatus.NOT_FOUND)
+   }
+   return result
+ }

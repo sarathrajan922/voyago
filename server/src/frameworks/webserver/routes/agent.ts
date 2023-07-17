@@ -27,7 +27,7 @@ const agentRouter = () => {
     controller.addCategory
   );
   router.get(
-    "/get-all-category/:id",
+    "/get-all-category",
     authenticationMiddleware,
     agentRoleCheckMiddleware,
     controller.getCategory
@@ -46,7 +46,7 @@ const agentRouter = () => {
     controller.addPackage
   );
   router.get(
-    "/get-all-package/:id",
+    "/get-all-package/",
     authenticationMiddleware,
     agentRoleCheckMiddleware,
     controller.getAllPackages
@@ -81,6 +81,8 @@ const agentRouter = () => {
   authenticationMiddleware,agentRoleCheckMiddleware,controller.agentGetAllBooking)
 
   router.get('/isVerified',authenticationMiddleware,agentRoleCheckMiddleware,controller.checkAgentVerified)
+
+  router.get('/get-profile',authenticationMiddleware,agentRoleCheckMiddleware,controller.getAgentProfile)
 
   return router;
 };

@@ -100,16 +100,32 @@ export const agentRepositoryMongoDB = () => {
 
     // console.log(packageIds)
 
-    const data = await TourConfirm.find({ packageId: { $in: packageIds } });
+    const bookedData = await TourConfirm.find({ packageId: { $in: packageIds } });
     // console.log(data)
+    const tourPackageIds = bookedData.map((doc)=> doc.packageId)
 
-    return data;
+    const packageData = await TourPackage.find({_id: { $in: tourPackageIds}})
+ 
+    console.log(packageData)
+
+    return {
+      bookedData,
+      packageData
+    }
   };
 
   const checkAgentVerified = async(agentId: string)=>{
     const id = new Types.ObjectId(agentId)
     const result = await Agent.findOne({ _id:  id, isVerified: true });
    return result ? true :  false
+
+  }
+
+
+  const getAgentProfile = async(agentId: string)=> {
+    const id = new Types.ObjectId(agentId)
+    const result = await Agent.findOne({_id: id})
+    return result
   }
 
   return {
@@ -127,7 +143,8 @@ export const agentRepositoryMongoDB = () => {
     deletePackage,
     checkAgentBlock,
     getAllBookings,
-    checkAgentVerified
+    checkAgentVerified,
+    getAgentProfile
   };
 };
 

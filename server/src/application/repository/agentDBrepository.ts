@@ -18,6 +18,7 @@ export const  agentDbRepository = (repository: ReturnType<AgentRepositoryMongoDB
     const deletePackage = async(packageId: string)=> await repository.deletePackage(packageId)
     const getAllBookings = async(agentId: string)=> await repository.getAllBookings(agentId)
     const checkAgentVerified = async(agentId: string)=> await repository.checkAgentVerified(agentId)
+    const getAgentProfile = async(agentId: string)=> await repository.getAgentProfile(agentId)
     return {
         addAgent,
         getAgentByEmail,
@@ -33,7 +34,8 @@ export const  agentDbRepository = (repository: ReturnType<AgentRepositoryMongoDB
         deletePackage,
         checkAgentBlock,
         getAllBookings,
-        checkAgentVerified
+        checkAgentVerified,
+        getAgentProfile
     }
 }
 
