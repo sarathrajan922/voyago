@@ -19,6 +19,7 @@ export const  agentDbRepository = (repository: ReturnType<AgentRepositoryMongoDB
     const getAllBookings = async(agentId: string)=> await repository.getAllBookings(agentId)
     const checkAgentVerified = async(agentId: string)=> await repository.checkAgentVerified(agentId)
     const getAgentProfile = async(agentId: string)=> await repository.getAgentProfile(agentId)
+    const agentProfileUpdate = async(agentId: string, editedData: AgentRegisterInterface)=> await repository.agentProfileUpdate(agentId,editedData)
     return {
         addAgent,
         getAgentByEmail,
@@ -35,7 +36,8 @@ export const  agentDbRepository = (repository: ReturnType<AgentRepositoryMongoDB
         checkAgentBlock,
         getAllBookings,
         checkAgentVerified,
-        getAgentProfile
+        getAgentProfile,
+        agentProfileUpdate
     }
 }
 

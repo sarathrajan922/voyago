@@ -92,7 +92,7 @@ const AgentAllBookings: React.FC = () => {
                         scope="row"
                         className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
-                        {packageData[index].packageName}
+                        {packageData[index]?.packageName}
                       </th>
                       <td className="px-6 py-4">{x?.Email}</td>
                       <td className="px-6 py-4">

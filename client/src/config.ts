@@ -31,7 +31,8 @@
     USER_GET_ALL_BOOKING: 'auth/user-get-all-bookings',
     USER_PAYMENT_STATUS_CHANGE: 'auth/user-Pay-status-change',
     AGENT_GET_ALL_BOOKING: 'agent/get-all-booking',
-    AGENT_VERIFICATION_CHECK: 'agent/isVerified'
+    AGENT_VERIFICATION_CHECK: 'agent/isVerified',
+    AGENT_GET_PROFILE: 'agent/get-profile'
  }
  
  const BASE_URL= 'http://localhost:8000/';

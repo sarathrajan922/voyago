@@ -9,6 +9,7 @@ import {
   addTourPackageUseCase,
   agentAddCategoryUseCase,
   agentLoginUseCase,
+  agentProfileUpdateUseCase,
   agentRegisterUseCase,
   checkAgentVerificationUseCase,
   deleteCategoryUseCase,
@@ -234,6 +235,17 @@ const agentController = (
     })
   })
 
+  const agentProfileUpdate = asyncHandler(async(req:CustomRequest,res: Response)=>{
+    const agentId = req?.payload?.id ?? ''
+    const updatedData: AgentRegisterInterface = req.body;
+    const result = await agentProfileUpdateUseCase(agentId,updatedData,dbRepositoryAgent)
+    res.json({
+      status: true,
+      message:'successfully updated agent details',
+      result
+    })
+  })
+
   return {
     agentRegister,
     agentLogin,
@@ -248,7 +260,8 @@ const agentController = (
     deletePackage,
     agentGetAllBooking,
     checkAgentVerified,
-    getAgentProfile
+    getAgentProfile,
+    agentProfileUpdate
   };
 };
 

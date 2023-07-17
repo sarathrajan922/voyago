@@ -190,3 +190,15 @@ return result
    }
    return result
  }
+
+ export const agentProfileUpdateUseCase = async(
+   agentId: string,
+   editedData: AgentRegisterInterface,
+   agentRepository: ReturnType<AgentDbInterface> 
+ )=>{
+   const result = await agentRepository.agentProfileUpdate(agentId,editedData)
+   if(!result){
+      throw new AppError('could not update agent profile',HttpStatus.NOT_MODIFIED)
+   }
+   return result
+ }

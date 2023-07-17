@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 const UserProfile: React.FC = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState<UserDataApiResponse | null>(null);
-  const [userName, setUserName] = useState<string>("");
   useEffect(() => {
     const getUserData = async () => {
       await getUserDetails()
@@ -20,10 +19,7 @@ const UserProfile: React.FC = () => {
     getUserData();
   }, []);
 
-  useEffect(() => {
-    let userN = userData?.firstName + " " + userData?.lastName;
-    setUserName(userN.toUpperCase());
-  });
+
 
   const editUser = () => {
     navigate("/user-profile-edit");
@@ -54,7 +50,7 @@ const UserProfile: React.FC = () => {
                 <div className="flex flex-col pb-3  ms-10 text-start  font-semibold text-gray-900 dark:text-white">
                   <h1 className="font-extrabold font-sans text-3xl">
                     {/* SARATH RAJAN */}
-                    {userName}
+                    {(userData?.firstName + " " + userData?.lastName).toUpperCase()}
                   </h1>
                   <p className="text-xs py-5">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.

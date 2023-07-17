@@ -128,6 +128,24 @@ export const agentRepositoryMongoDB = () => {
     return result
   }
 
+  const agentProfileUpdate = async (
+    agentId: string,
+    editedDetails: AgentRegisterInterface
+  ) => {
+    const id = new Types.ObjectId(agentId);
+    try {
+      const updatedAgent = await Agent.findByIdAndUpdate(id, {
+        $set: {
+          ...editedDetails,
+        },
+      });
+      return updatedAgent;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+
   return {
     addAgent,
     getAgentByEmail,
@@ -144,7 +162,8 @@ export const agentRepositoryMongoDB = () => {
     checkAgentBlock,
     getAllBookings,
     checkAgentVerified,
-    getAgentProfile
+    getAgentProfile,
+    agentProfileUpdate
   };
 };
 

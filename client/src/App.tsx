@@ -4,7 +4,7 @@ import Navbar from "./components/user/Navbar";
 // import Signup from './components/user/Signup/Signup';
 import Footer from "./components/user/Footer";
 import { Outlet } from "react-router-dom";
-import { PropagateLoader}  from "react-spinners"
+import { CircleLoader, PropagateLoader, PulseLoader}  from "react-spinners"
 import AdminDashBoard from "./components/admin/AdminLayout";
 import AgentDashBoard from "./components/agent/AgentLayout";
 import AgentLoginForm from "./components/agent/AgentLogin";
@@ -33,7 +33,12 @@ export function Agent() {
     getToken();
   }, []);
 
-  return !islogged ?( <PropagateLoader color="#36d7b7" />): (
+  return !islogged ?( <div className=" w-full flex justify-center  h-full ">
+  <div className="py-52">
+  <PulseLoader color="#1bacbf "/>
+  </div>
+  
+</div>): (
   
     <>{isAgentLogged ? <> <AgentDashBoard /> <Outlet/></> : <AgentLoginForm />}</>
   ) 

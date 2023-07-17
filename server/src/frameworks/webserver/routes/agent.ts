@@ -18,8 +18,15 @@ const agentRouter = () => {
     agentRepositoryMongoDB
   );
 
-  router.post("/signup", upload, controller.agentRegister);
-  router.post("/login", controller.agentLogin);
+  router.post(
+    "/signup",
+  upload,
+  controller.agentRegister);
+
+  router.post(
+    "/login",
+  controller.agentLogin);
+
   router.post(
     "/category-add",
     authenticationMiddleware,
@@ -78,11 +85,24 @@ const agentRouter = () => {
   );
 
   router.get('/get-all-booking',
-  authenticationMiddleware,agentRoleCheckMiddleware,controller.agentGetAllBooking)
+  authenticationMiddleware,
+  agentRoleCheckMiddleware,
+  controller.agentGetAllBooking)
 
-  router.get('/isVerified',authenticationMiddleware,agentRoleCheckMiddleware,controller.checkAgentVerified)
+  router.get('/isVerified',
+  authenticationMiddleware,
+  agentRoleCheckMiddleware,
+  controller.checkAgentVerified)
 
-  router.get('/get-profile',authenticationMiddleware,agentRoleCheckMiddleware,controller.getAgentProfile)
+  router.get('/get-profile',
+  authenticationMiddleware,
+  agentRoleCheckMiddleware,
+  controller.getAgentProfile)
+
+ router.put('/agent-profile-update',
+ authenticationMiddleware,
+ agentRoleCheckMiddleware,
+ controller.agentProfileUpdate)
 
   return router;
 };

@@ -30,7 +30,7 @@ const agentScheme = new Schema({
     },
     idProof_img: {
         type: String,
-        required: [true,"please upload id proof image"]
+        // required: [true,"please upload id proof image"]
     }
 })
 

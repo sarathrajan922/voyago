@@ -28,6 +28,7 @@ import UserProfileEdit from './components/user/Pages/ProfileEdit';
 import BookingDetailsComponent from './components/user/Pages/BookingDetails';
 import AgentAllBookings from './components/agent/Pages/AllBookings';
 import AgentProfile from './components/agent/Pages/AgentProfile';
+import AgentProfileEdit from './components/agent/Pages/AgentProfileEdit';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -106,6 +107,10 @@ import AgentProfile from './components/agent/Pages/AgentProfile';
             {
                 path: 'profile',
                 element: <AgentProfile/> 
+            },
+            {
+                path: 'agent-profile-edit',
+                element: <AgentProfileEdit/>
             }
         ]
 
