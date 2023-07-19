@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 const UserProfile: React.FC = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState<UserDataApiResponse | null>(null);
-  const [userName, setUserName] = useState<string>("");
   useEffect(() => {
     const getUserData = async () => {
       await getUserDetails()
@@ -20,10 +19,7 @@ const UserProfile: React.FC = () => {
     getUserData();
   }, []);
 
-  useEffect(() => {
-    let userN = userData?.firstName + " " + userData?.lastName;
-    setUserName(userN.toUpperCase());
-  });
+
 
   const editUser = () => {
     navigate("/user-profile-edit");
@@ -42,29 +38,29 @@ const UserProfile: React.FC = () => {
             />
           </div> */}
           {/* profile pic and name */}
-          <div className="grid lg:grid-cols-1 justify-items-center ">
-            <div className="py-5 px-2 w-full flex max-h-[15rem]">
-              <div className="pb-3 text-start w-[13rem] lg:max-w-[8rem]  text-m lg:h-[8rem] bg-gray-400  font-semibold text-gray-900 dark:text-white">
-                <img
-                  className="object-cover w-full "
-                  src="https://res.cloudinary.com/dk4darniv/image/upload/v1689060759/image_apjubc.png"
-                  alt=""
-                />
-              </div>
-              <div className="flex flex-col pb-3  ms-10 text-start  font-semibold text-gray-900 dark:text-white">
-                <h1 className="font-extrabold font-sans text-3xl">
-                  {/* SARATH RAJAN */}
-                  {userName}
-                </h1>
-                <p className="text-xs py-5">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Ipsam, assumenda.
-                  <br />
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                </p>
+            <div className="grid lg:grid-cols-1 justify-items-center ">
+              <div className="py-5 px-2 w-full flex max-h-[15rem]">
+                <div className="pb-3 text-start w-[13rem] lg:max-w-[8rem]  text-m lg:h-[8rem]  font-semibold text-gray-900 dark:text-white">
+                  <img
+                    className="object-cover w-full "
+                    src="https://res.cloudinary.com/dk4darniv/image/upload/v1689060759/image_apjubc.png"
+                    alt=""
+                  />
+                </div>
+                <div className="flex flex-col pb-3  ms-10 text-start  font-semibold text-gray-900 dark:text-white">
+                  <h1 className="font-extrabold font-sans text-3xl">
+                    {/* SARATH RAJAN */}
+                    {(userData?.firstName + " " + userData?.lastName).toUpperCase()}
+                  </h1>
+                  <p className="text-xs py-5">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Ipsam, assumenda.
+                    <br />
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
 
           {/* email , mobile, status  */}
           <div className="grid lg:grid-cols-1 justify-items-center pt-5  ">

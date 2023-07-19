@@ -24,9 +24,9 @@ const AgentPackages: React.FC = () => {
     GetALLPackagesApiResponse[] | null
   >(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(4);
+  const [itemsPerPage] = useState(3);
   const [status, setStatus] = useState(false);
-  const [selectedCategory,setSelectedCategory] =useState<string>("All")
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
   useEffect(() => {
     const callPackage = async () => {
       const data: any = await getAllPackages();
@@ -46,9 +46,8 @@ const AgentPackages: React.FC = () => {
   }, [status]);
 
   const getAllPackages = async () => {
-    //! replace the agent id with logged agentId
-    const agentId = "64941a796b4f3bd48f57ecfa";
-    return await agentAllPackage(agentId)
+  
+    return await agentAllPackage()
       .then((response) => {
         return response;
       })
@@ -129,9 +128,7 @@ const AgentPackages: React.FC = () => {
   };
 
   const getCategory = async () => {
-    //! replace the parms with logged agentId
-    const agentId = "64941a796b4f3bd48f57ecfa";
-    return await getAgentCategory(agentId)
+    return await getAgentCategory()
       .then((response) => {
         return response;
       })
@@ -164,10 +161,8 @@ const AgentPackages: React.FC = () => {
 
   return (
     <div className="p-4 sm:ml-64">
-     
       <div className="p-4  mt-14">
         <div className="grid grid-cols-3 gap-4 mb-4">
-          
           <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray">
             <p className="text-2xl text-gray-400 dark:text-gray-500">
               Tour Packages
@@ -182,7 +177,7 @@ const AgentPackages: React.FC = () => {
               <Option
                 key={"allcategory"}
                 onClick={() => {
-                  setSelectedCategory('All')
+                  setSelectedCategory("All");
                   const data = serarchData("", AllPackages);
                   SetAllPackages(data ?? null);
                 }}
@@ -194,7 +189,7 @@ const AgentPackages: React.FC = () => {
                   return (
                     <Option
                       onClick={() => {
-                        setSelectedCategory(x.name)
+                        setSelectedCategory(x.name);
                         const data = searchWithCategory(x?.name, AllPackages);
                         SetAllPackages(data ?? null);
                       }}
@@ -303,7 +298,7 @@ const AgentPackages: React.FC = () => {
 
         {/* list of pakages */}
 
-        <div className="grid lg:grid-cols-4 lg:gap-3 justify-items-center">
+        <div className="grid lg:grid-cols-3 lg:gap-3 justify-items-center">
           {/* first card */}
 
           {/* loop this one */}
@@ -354,14 +349,13 @@ const AgentPackages: React.FC = () => {
                       </div>
                       <div className="grid grid-flow-col px-3 gap-3 pb-5 ">
                         <Link to={`/agent/edit-package/${x?._id}`}>
-                        <button
-                          type="button"
-                          className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-xs px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                        >
-                          Edit/Delete
-                        </button>
+                          <button
+                            type="button"
+                            className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-xs px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                          >
+                            Edit/Delete
+                          </button>
                         </Link>
-                       
 
                         {x?.isDisabled ? (
                           <button
