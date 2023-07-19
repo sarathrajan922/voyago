@@ -9,6 +9,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useDispatch} from 'react-redux'
 import { setUser } from "../../features/redux/slices/user/userSlice";
 import GoogleAuthComponent from "../common/GoogleAuthComponent";
+import { useEffect, useState } from "react";
+import { CircleLoader, PropagateLoader, PulseLoader } from "react-spinners";
 interface FormValues {
   email: string;
   password: string;
@@ -22,6 +24,18 @@ const validationSchema = Yup.object({
 });
 
 export default function Login() {
+  const [isLogin,setIsLogin] = useState<boolean | null>(null)
+
+  useEffect(()=>{
+    const isLoginCheck = async()=>{
+      const token = window.localStorage.getItem('userToken');
+    setIsLogin(true)
+      if(token){
+        navigate('/')
+      }
+    }
+    isLoginCheck()
+  })
 
   const dispatch = useDispatch()
   const navigate = useNavigate();
@@ -29,6 +43,9 @@ export default function Login() {
     email: "",
     password: "",
   };
+
+
+
 
   const notify = (msg: string, type: string) => {
     type === "error"
@@ -54,7 +71,12 @@ export default function Login() {
       });
   };
 
-  return (
+  return   !isLogin ? <div className=" w-full flex justify-center  h-full ">
+  <div className="py-52">
+    <CircleLoader color="#1bacbf " />
+  </div>
+</div> :   (
+   
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 ">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
