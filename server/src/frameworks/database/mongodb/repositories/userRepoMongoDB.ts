@@ -8,6 +8,7 @@ import TourConfirm from "../models/tourConfirmDetails";
 import { Types } from "mongoose";
 
 export const userRepositoryMongoDB = () => {
+
   const addUser = async (user: UserRegisterInterface) => {
     return await User.create(user);
   };
@@ -58,13 +59,41 @@ export const userRepositoryMongoDB = () => {
   const getUserBookedDetails = async (userId: string, packageId: string) => {
     // const id = new Types.ObjectId(userId)
     try {
-      const data = await TourConfirm.findOne({ userId, packageId }).populate({
-        path: "packageId",
-        select:
-          "agentId packageName description price locations category images duration services",
-        model: TourPackage,
-      });
-      return data;
+      // const data = await TourConfirm.findOne({ userId, packageId }).populate({
+      //   path: "packageId",
+      //   select:
+      //     "agentId packageName description price locations category images duration services",
+      //   model: TourPackage,
+      // });
+      const newData = await TourConfirm.aggregate([
+        {
+          $match:{userId,packageId}
+        },
+        {
+          $addFields: {
+            packageIdObj: {
+              $toObjectId: "$packageId"
+            }
+          }
+        },
+        {
+          $lookup: {
+            from: "tourPackages",
+            localField: "packageIdObj",
+            foreignField: "_id",
+            as: "packageDetails"
+          }
+        },
+        {
+          $unwind: "$packageDetails"
+        }
+      ])
+      
+    
+
+      console.log('current data format')
+      console.log(newData)
+      return newData;
     } catch (error) {
       console.log(error);
       throw error;
@@ -90,6 +119,7 @@ export const userRepositoryMongoDB = () => {
       select: "_id agentId packageName description price images duration category locations services",
       model: TourPackage
     })
+    
     return data
     // aagregtion
   //   const data = await TourConfirm.aggregate([

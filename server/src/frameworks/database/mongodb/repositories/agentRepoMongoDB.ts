@@ -97,6 +97,7 @@ export const agentRepositoryMongoDB = () => {
     const packages = await TourPackage.find({ agentId: agentId });
     const packageIds = packages.map((pkg) => pkg._id);
     // console.log(packages)
+ 
 
     // console.log(packageIds)
 
