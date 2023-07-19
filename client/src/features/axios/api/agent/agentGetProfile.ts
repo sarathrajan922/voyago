@@ -12,7 +12,8 @@ export const getAgentProfile = async () => {
     };
 
     const response = await api(config);
-    return response?.data;
+    console.log(response?.data?.result)
+    return response?.data?.result;
   } catch (error: any) {
     if (error.message === "Request failed with status code 404") {
       throw new Error("No agent found!");

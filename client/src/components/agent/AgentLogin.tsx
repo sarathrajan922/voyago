@@ -6,6 +6,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { agentLogin } from "../../features/axios/api/agent/agentAuthentication";
 import { setAgent } from "../../features/redux/slices/agent/agentSlice";
+import { useEffect, useState } from "react";
+import { CircleLoader, PropagateLoader, PulseLoader } from "react-spinners";  
 
 interface FormValues {
   email: string;
@@ -18,8 +20,18 @@ const validationSchema = Yup.object({
 });
 
 export default function AgentLoginForm() {
+
   const dispatch = useDispatch()
   const navigate = useNavigate();
+  const [isload,setIsLoad] = useState<boolean | null>(null)
+
+  useEffect(()=>{
+  const token = window.localStorage.getItem('agentToken')
+  setIsLoad(true)
+  if(token){
+    navigate('/agent')
+  }
+  },[])
   const initialValues = {
     email: "",
     password: "",
@@ -46,7 +58,11 @@ export default function AgentLoginForm() {
       });
   };
 
-  return (
+  return  !isload ? <div className=" w-full flex justify-center  h-full ">
+  <div className="py-52">
+    <CircleLoader color="#1bacbf " />
+  </div>
+</div> :  (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 ">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
         <img

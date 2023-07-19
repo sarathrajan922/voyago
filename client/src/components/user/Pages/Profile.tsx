@@ -97,12 +97,12 @@ const UserProfile: React.FC = () => {
               edit
             </button>
 
-            <button
+            {/* <button
               type="button"
               className="px-4 ms-5 py-2 text-xs rounded text-white font-medium bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800"
             >
               Delete Account
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
