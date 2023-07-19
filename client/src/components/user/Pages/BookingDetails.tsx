@@ -1,47 +1,23 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import { getAllBookedData } from "../../../features/axios/api/user/userGetBookedDetails";
+import { GetAllBookingDetailsApiResponse } from "../../../API/type/getAllBookedData";
+import { CircleLoader } from "react-spinners";
 
-
-interface PackageId {
-  _id: string;
-  agentId: string;
-  packageName: string;
-  description: string;
-  price: number;
-  images: string;
-  duration: number;
-  category: string;
-  locations: string;
-  services: string;
-}
-interface Result {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  Email: string;
-  travelDate: string;
-  person: number;
-  packageId: PackageId;
-  userId: string;
-  payment: string;
-  __v: number;
-}
 const BookingDetailsComponent: React.FC = () => {
-  const [bookedDetails, setBookedDetails] = useState<Result[] | null>(null);
-  const [modalData, setModalData] = useState<Result | null>(null);
+  const [isLogin,setIsLogin] = useState<boolean | null>(null)
+  const [bookedDetails, setBookedDetails] = useState<
+    GetAllBookingDetailsApiResponse[] | null
+  >(null);
+  const [modalData, setModalData] =
+    useState<GetAllBookingDetailsApiResponse | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(3);
-  const [state,setState]= useState<boolean>(false)
-//   const [isModalOpen,setIsmodalOpen] = useState<boolean> (false) 
+  const [state, setState] = useState<boolean>(false);
 
- 
-console.log(modalData)
-  const viewSummary = (data: Result) => {
-    
-      setState(!state)
+  const viewSummary = (data: GetAllBookingDetailsApiResponse) => {
+    setState(!state);
     setModalData(data);
-  
   };
 
   const goToPreviousPage = () => {
@@ -55,18 +31,17 @@ console.log(modalData)
   useEffect(() => {
     const getBookingDetails = async () => {
       const data = await getAllBookedData();
-      console.log(data);
+      setIsLogin(true)
       setBookedDetails(data.reverse());
-      
     };
     getBookingDetails();
   }, []);
 
-
-
-  
-
-  return (
+  return !isLogin ? <div className=" w-full flex justify-center  h-full ">
+  <div className="py-52">
+    <CircleLoader color="#1bacbf " />
+  </div>
+</div> :  (
     <section className=" bg-white mt-0 dark:bg-gray-900">
       <div className=" px-4 mx-auto max-w-screen-xl  lg:pt-0">
         <div className=" flex flex-col my-14 justify-center md:p-12 ">
@@ -74,7 +49,7 @@ console.log(modalData)
             <h2 className="text-center text-gray-900  dark:text-white text-m md:text-xl font-extrabold mb-5">
               <span className="text-black-500">Booking Details</span>
             </h2>
-           
+
             {bookedDetails ? (
               <>
                 <div className="relative overflow-x-auto lg:mt-4 mt-10 shadow-md sm:rounded-lg">
@@ -111,7 +86,6 @@ console.log(modalData)
                           currentPage * itemsPerPage
                         )
                         .map((x, index) => {
-                          console.log(x);
                           const travelDate = new Date(x?.travelDate);
                           const formattedTravelDate = travelDate.toLocaleString(
                             "en-US",
@@ -130,14 +104,14 @@ console.log(modalData)
                                 scope="row"
                                 className="px-6 py-4 font-bold text-m text-gray-900 whitespace-nowrap dark:text-white"
                               >
-                                {x?.packageId?.packageName.toUpperCase()}
+                                {x?.packageDetails?.packageName.toUpperCase()}
                               </th>
                               <td className="px-6 py-4">{x?.Email}</td>
                               <td className="px-6 py-4">{x?.person}</td>
                               <td className="px-6 py-4">{x?.payment}</td>
                               <td className="px-6 py-4 text-green-400">
                                 {(
-                                  x?.person * x?.packageId?.price
+                                  x?.person * x?.packageDetails?.price
                                 ).toLocaleString("en-IN", {
                                   style: "currency",
                                   currency: "INR",
@@ -165,7 +139,6 @@ console.log(modalData)
                     </tbody>
                   </table>
                 </div>
-               
 
                 <div className="justify-center mx-[35%] lg:mx-[40%]">
                   <div className="flex mt-10">
@@ -193,122 +166,116 @@ console.log(modalData)
             ) : (
               <div>No booking detials available</div>
             )}
-
-
           </div>
-       
- <div
-    id="staticModal"
-    data-modal-backdrop="static"
-    tabIndex={-1}
-    aria-hidden="true"
-    className="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
-  >
-    <div className="relative w-full max-w-2xl max-h-full">
-      <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-        <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-            Booking summary
-          </h3>
-          <button
-            type="button"
-            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-            data-modal-hide="staticModal"
-          >
-            <svg
-              className="w-3 h-3"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 14"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-              />
-            </svg>
-            <span className="sr-only">Close modal</span>
-          </button>
-        </div>
 
-        <div className="p-6 space-y-6">
-          <div className="lg:max-w-[10rem] lg:max-h-[8rem]  lg:flex">
-            <img src={modalData?.packageId?.images} alt="" />
-            <div className="lg:ms-10 lg:mt-0 mt-3">
-              <span className="text-sm font-bold">PackageName:</span>
-              <span className="text-sm font-bold text-gray-500">
-                {modalData?.packageId.packageName.toUpperCase()}
-              </span>
-              <br />
-              <span className="text-sm font-bold">Date:</span>
-              <span className="text-sm font-bold text-gray-500">
-                {modalData?.travelDate}
-              </span>
-              <br />
-              <span className="text-sm font-bold">Category:</span>
-              <span className="text-sm font-bold text-gray-500">
-                {modalData?.packageId?.category}
-              </span>
-              <br />
-              <span className="text-sm font-bold">Duration:</span>
-              <span className="text-sm font-bold text-gray-500">
-                {modalData?.packageId?.duration}
-              </span>
-              <br />
+          <div
+            id="staticModal"
+            data-modal-backdrop="static"
+            tabIndex={-1}
+            aria-hidden="true"
+            className="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+          >
+            <div className="relative w-full max-w-2xl max-h-full">
+              <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                    Booking summary
+                  </h3>
+                  <button
+                    type="button"
+                    className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    data-modal-hide="staticModal"
+                  >
+                    <svg
+                      className="w-3 h-3"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 14 14"
+                    >
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                      />
+                    </svg>
+                    <span className="sr-only">Close modal</span>
+                  </button>
+                </div>
+
+                <div className="p-6 space-y-6">
+                  <div className="lg:max-w-[10rem] lg:max-h-[8rem]  lg:flex">
+                    <img src={modalData?.packageDetails?.images} alt="" />
+                    <div className="lg:ms-10 lg:mt-0 mt-3">
+                      <span className="text-sm font-bold">PackageName:</span>
+                      <span className="text-sm font-bold text-gray-500">
+                        {modalData?.packageDetails.packageName.toUpperCase()}
+                      </span>
+                      <br />
+                      <span className="text-sm font-bold">Date:</span>
+                      <span className="text-sm font-bold text-gray-500">
+                        {modalData?.travelDate}
+                      </span>
+                      <br />
+                      <span className="text-sm font-bold">Category:</span>
+                      <span className="text-sm font-bold text-gray-500">
+                        {modalData?.packageDetails?.category}
+                      </span>
+                      <br />
+                      <span className="text-sm font-bold">Duration:</span>
+                      <span className="text-sm font-bold text-gray-500">
+                        {modalData?.packageDetails?.duration}
+                      </span>
+                      <br />
+                    </div>
+                  </div>
+
+                  <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                    {modalData?.packageDetails?.description}
+                  </p>
+
+                  <div>
+                    <span className="text-sm font-bold">Name:</span>
+                    <span className="text-sm font-bold text-gray-500">
+                      {(
+                        modalData?.firstName +
+                        " " +
+                        modalData?.lastName
+                      ).toUpperCase()}
+                    </span>
+                    <br />
+                    <span className="text-sm font-bold">Email:</span>
+                    <span className="text-sm font-bold text-gray-500">
+                      {modalData?.Email}
+                    </span>
+                    <br />
+                    <span className="text-sm font-bold">No:of People:</span>
+                    <span className="text-sm font-bold text-gray-500">
+                      {modalData?.person}
+                    </span>
+                    <br />
+                    <span className="text-sm font-bold">Payment Status:</span>
+                    <span className="text-sm font-serif text-gray-500">
+                      {modalData?.payment}
+                    </span>
+                    <br />
+                  </div>
+                  <div className="my-1 text-green-600">
+                    Amount:{" "}
+                    {modalData &&
+                      (
+                        modalData?.person * modalData?.packageDetails?.price
+                      ).toLocaleString("en-IN", {
+                        style: "currency",
+                        currency: "INR",
+                      })}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-
-          <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-            {modalData?.packageId?.description}
-          </p>
-
-          <div>
-            <span className="text-sm font-bold">Name:</span>
-            <span className="text-sm font-bold text-gray-500">
-              {(
-                modalData?.firstName +
-                " " +
-                modalData?.lastName
-              ).toUpperCase()}
-            </span>
-            <br />
-            <span className="text-sm font-bold">Email:</span>
-            <span className="text-sm font-bold text-gray-500">
-              {modalData?.Email}
-            </span>
-            <br />
-            <span className="text-sm font-bold">No:of People:</span>
-            <span className="text-sm font-bold text-gray-500">
-              {modalData?.person}
-            </span>
-            <br />
-            <span className="text-sm font-bold">Payment Status:</span>
-            <span className="text-sm font-serif text-gray-500">
-              {modalData?.payment}
-            </span>
-            <br />
-          </div>
-          <div className="my-1 text-green-600">
-            Amount:{" "}
-            {modalData &&
-              (
-                modalData?.person * modalData?.packageId?.price
-              ).toLocaleString("en-IN", {
-                style: "currency",
-                currency: "INR",
-              })}
-          </div>
-        </div>
-
-       
-      </div>
-    </div>
-  </div>  
-
-          
         </div>
       </div>
     </section>
