@@ -238,7 +238,8 @@ const agentController = (
   const agentProfileUpdate = asyncHandler(async(req:CustomRequest,res: Response)=>{
     const agentId = req?.payload?.id ?? ''
     const updatedData: AgentRegisterInterface = req.body;
-    const result = await agentProfileUpdateUseCase(agentId,updatedData,dbRepositoryAgent)
+    updatedData.mobile = parseInt(req?.body?.mobile);   
+    const result = await agentProfileUpdateUseCase(agentId,updatedData,dbRepositoryAgent, authServices)
     res.json({
       status: true,
       message:'successfully updated agent details',

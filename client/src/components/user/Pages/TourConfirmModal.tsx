@@ -11,9 +11,7 @@ export default function TourConfirmationModal({ packageDetails,packageId }: any)
   const cancelButtonRef = useRef(null);
 
   const submitHandler = async () => {
-    console.log("packageDetails");
-    console.log(packageDetails);
-
+   
     //? api call for book package
     await bookPackage(packageDetails)
       .then(() => {

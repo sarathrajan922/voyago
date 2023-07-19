@@ -194,8 +194,12 @@ return result
  export const agentProfileUpdateUseCase = async(
    agentId: string,
    editedData: AgentRegisterInterface,
-   agentRepository: ReturnType<AgentDbInterface> 
+   agentRepository: ReturnType<AgentDbInterface>,
+   authService: ReturnType<AuthServiceInterface>
  )=>{
+   if (editedData.password) {
+      editedData.password = await authService.hashPassword(editedData.password);
+    }
    const result = await agentRepository.agentProfileUpdate(agentId,editedData)
    if(!result){
       throw new AppError('could not update agent profile',HttpStatus.NOT_MODIFIED)
