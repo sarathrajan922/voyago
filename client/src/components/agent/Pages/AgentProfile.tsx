@@ -18,17 +18,18 @@ interface Result {
 const AgentProfile: React.FC = () => {
     const navigate = useNavigate()
   const [agentData, setAgentData] = useState<Result | null>(null);
+  const [isLoad,setIsLoad] = useState<boolean>(false)
 
   useEffect(() => {
     const getAgent = async () => {
-      const data = await getAgentProfile();
-      if (data) {
-       
-        setAgentData(data?.result);
-      } else {
-        console.log("data not found");
+       await getAgentProfile().then((data)=>{
+        console.log(data)
+        setAgentData(data);
+        setIsLoad(true)
+       }).catch((error:any)=>{
+        console.log('data not found!')
+       }); 
       }
-    };
     getAgent();
   }, []);
 
@@ -44,10 +45,10 @@ const AgentProfile: React.FC = () => {
             <p className="text-2xl text-gray-400 dark:text-gray-500">
               Agent Profile
             </p>
-          </div>
+          </div>    
         </div>
 
-        {agentData ? (
+        {isLoad ? (
           <>
             <div className="grid lg:grid-cols-1 justify-items-center ">
               <div className="py-5 px-2 w-full flex max-h-[15rem]">
