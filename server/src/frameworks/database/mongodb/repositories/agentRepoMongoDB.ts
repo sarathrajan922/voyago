@@ -6,7 +6,7 @@ import {
 } from "../../../../types/agent";
 import Category from "../models/categoryModel";
 import TourPackage from "../models/tourPackageModel";
-import { Types } from "mongoose";
+import { Aggregate, Types } from "mongoose";
 import TourConfirm from "../models/tourConfirmDetails";
 
 export const agentRepositoryMongoDB = () => {
@@ -92,7 +92,7 @@ export const agentRepositoryMongoDB = () => {
   };
 
   const getAllBookings = async (agentId: string) => {
-    // const id = new Types.ObjectId(agentId)
+ 
 
     const packages = await TourPackage.find({ agentId: agentId });
     const packageIds = packages.map((pkg) => pkg._id);
@@ -109,10 +109,42 @@ export const agentRepositoryMongoDB = () => {
  
     console.log(packageData)
 
-    return {
-      bookedData,
-      packageData
-    }
+
+    // aggregation
+
+    const data = await TourConfirm.aggregate([
+      {
+        $match: { agentId }
+      },
+      {
+        $addFields: {
+          packageIdObj: {
+            $toObjectId: "$packageId",
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: 'tourPackages',
+          localField: 'packageIdObj',
+          foreignField: "_id",
+          as: 'packageDetails'
+        }
+      },
+      {
+        $unwind: '$packageDetails'
+      },
+      
+    ])
+
+    console.log('aggregated data')
+    console.log(data)
+
+    // return {
+    //   bookedData,
+    //   packageData
+    // }
+    return data
   };
 
   const checkAgentVerified = async(agentId: string)=>{
