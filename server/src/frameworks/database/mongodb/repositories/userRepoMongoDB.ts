@@ -8,7 +8,6 @@ import TourConfirm from "../models/tourConfirmDetails";
 import { Types } from "mongoose";
 
 export const userRepositoryMongoDB = () => {
-
   const addUser = async (user: UserRegisterInterface) => {
     return await User.create(user);
   };
@@ -57,111 +56,106 @@ export const userRepositoryMongoDB = () => {
   };
 
   const getUserBookedDetails = async (userId: string, packageId: string) => {
-    // const id = new Types.ObjectId(userId)
     try {
-      // const data = await TourConfirm.findOne({ userId, packageId }).populate({
-      //   path: "packageId",
-      //   select:
-      //     "agentId packageName description price locations category images duration services",
-      //   model: TourPackage,
-      // });
       const newData = await TourConfirm.aggregate([
         {
-          $match:{userId,packageId}
+          $match: { userId, packageId },
         },
         {
           $addFields: {
             packageIdObj: {
-              $toObjectId: "$packageId"
-            }
-          }
+              $toObjectId: "$packageId",
+            },
+          },
         },
         {
           $lookup: {
             from: "tourPackages",
             localField: "packageIdObj",
             foreignField: "_id",
-            as: "packageDetails"
-          }
+            as: "packageDetails",
+          },
         },
         {
-          $unwind: "$packageDetails"
-        }
-      ])
-      
-    
+          $unwind: "$packageDetails",
+        },
+      ]);
 
-      console.log('current data format')
-      console.log(newData)
       return newData;
     } catch (error) {
       console.log(error);
       throw error;
     }
-
-    
   };
 
-  const getPrice = async(packageId: string)=>{
-   
-    const id = new Types.ObjectId(packageId)
-    const price = await TourPackage.findOne({_id: id},{price: 1})
-    return price
-    
-  }
+  const getPrice = async (packageId: string) => {
+    const id = new Types.ObjectId(packageId);
+    const price = await TourPackage.findOne({ _id: id }, { price: 1 });
+    return price;
+  };
 
-  const getAllBookings = async(userId: string)=>{
+  const getAllBookings = async (userId: string) => {
     // const data = await TourConfirm.find({userId: userId})
     // return data
     //populate
-    const data = await TourConfirm.find({userId: userId}).populate({
-      path: 'packageId',
-      select: "_id agentId packageName description price images duration category locations services",
-      model: TourPackage
-    })
-    
-    return data
+    // const data = await TourConfirm.find({ userId: userId }).populate({
+    //   path: "packageId",
+    //   select:
+    //     "_id agentId packageName description price images duration category locations services",
+    //   model: TourPackage,
+    // });
+
+  //   console.log('current  Data format')
+  //  console.log(data)
+    // return data; 
     // aagregtion
-  //   const data = await TourConfirm.aggregate([
-  //     {
-  //       $match: { userId: userId }
-  //     },
-  //     {
-  //       $addFields: {
-  //         packageObjectId: {
-  //           $toObjectId: '$packageId'
-  //         }
-  //       }
-  //     },
-  //     {
-  //       $lookup: {
-  //         from: `tourPackages`, // Replace with the actual name of the collection in the database
-  //         localField: 'packageId',
-  //         foreignField: '_id',
-  //         as: 'package'
-  //       }
-  //     },
-  //     {
-  //       $unwind: '$package'
-  //     },
-  //     {
-  //       $addFields: {
-  //         packagePrice: '$package.price'
-  //       }
-  //     }
-  //   ]).exec()
-  //   console.log(data)
-  // return data
-  }
+      const newdata = await TourConfirm.aggregate([
+        {
+          $match: { userId: userId }
+        },
+        {
+          $addFields: {
+            packageIdObj: {
+              $toObjectId: "$packageId",
+            },
+          },
+        },
+        {
+          $lookup: {
+            from: "tourPackages",
+            localField: "packageIdObj",
+            foreignField: "_id",
+            as: "packageDetails",
+          },
+        },
+        {
+          $unwind: '$packageDetails'
+        },
+        {
+          $addFields: {
+            packagePrice: '$package.price'
+          }
+        }
+      ]).exec()
 
-  const paymentStatusChange=async (tourId:string) => {
-    const id = new Types.ObjectId(tourId)
-    const result = await TourConfirm.findByIdAndUpdate({_id: id},{
-      $set: {"payment" : 'success'}
-  })
+      console.log('aggreation result')
+      console.log(newdata)
 
-  return result
-  }
+
+    return newdata
+  };
+
+  const paymentStatusChange = async (tourId: string) => {
+    const id = new Types.ObjectId(tourId);
+    const result = await TourConfirm.findByIdAndUpdate(
+      { _id: id },
+      {
+        $set: { payment: "success" },
+      }
+    );
+
+    return result;
+  };
 
   return {
     addUser,
@@ -175,7 +169,7 @@ export const userRepositoryMongoDB = () => {
     getUserBookedDetails,
     getPrice,
     getAllBookings,
-    paymentStatusChange
+    paymentStatusChange,
   };
 };
 
