@@ -1,57 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { agentGetAllBookings } from "../../../features/axios/api/agent/agentGetAllBooking";
+import { GetAllBookingDetailsApiResponse } from "../../../API/type/getAllBookedData";
+import { CircleLoader } from "react-spinners";
 
 const AgentAllBookings: React.FC = () => {
-  interface Result {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    Email: string;
-    travelDate: string;
-    person: number;
-    packageId: string;
-    userId: string;
-    payment: string;
-    __v: number;
-  }
-  interface PackageDataInterface {
-    _id: string;
-    agentId: string;
-    packageName: string;
-    description: string;
-    price: number;
-    locations: string;
-    category: string;
-    isDisabled: boolean;
-    images: string;
-    duration: number;
-    services: string;
-    __v: number;
-  }
 
-  const [bookedData, setBookedData] = useState<Result[] | null>(null);
-  const [packageData, setPackageData] = useState<PackageDataInterface[] | null>(
-    null
-  );
+  const [isLogin,setIsLoad] = useState<boolean | null>(null)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(3);
+ 
+  const [bookedData, setBookedData] = useState<GetAllBookingDetailsApiResponse[] | null>(null);
 
-  console.log(bookedData);
+  const goToPreviousPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
+  const goToNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
   useEffect(() => {
     const getAllBookings = async () => {
       const result = await agentGetAllBookings();
       if (result) {
-        const bookedData = result.bookedData;
-        const packageData = result.packageData;
-        console.log(bookedData);
-        console.log(packageData);
-        setBookedData(bookedData);
-        setPackageData(packageData);
-        // setBookedData(result);
+       
+        
+       setIsLoad(true)
+        setBookedData(result);
+       
       }
     };
 
     getAllBookings();
   }, []);
-  return (
+  return  !isLogin ? <div className=" w-full flex justify-center  h-full ">
+  <div className="py-52">
+    <CircleLoader color="#1bacbf " />
+  </div>
+</div> :  (
     <div className="p-4 sm:ml-64">
       <div className="p-4  mt-14">
         <div className="grid grid-cols-3 gap-4 mb-4">
@@ -84,19 +70,22 @@ const AgentAllBookings: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {bookedData && packageData ? (
-                bookedData.map((x: Result, index) => {
+              {bookedData && bookedData ? (
+                bookedData?.slice(
+                  (currentPage - 1) * itemsPerPage,
+                  currentPage * itemsPerPage
+                ).map((x: GetAllBookingDetailsApiResponse) => {
                   return (
                     <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
-                        {packageData[index]?.packageName}
+                        {x?.packageDetails?.packageName}
                       </th>
                       <td className="px-6 py-4">{x?.Email}</td>
                       <td className="px-6 py-4">
-                        {(x?.person * packageData[index]?.price).toLocaleString(
+                        {(x?.person * x?.packageDetails?.price).toLocaleString(
                           "en-IN",
                           {
                             style: "currency",
@@ -131,6 +120,30 @@ const AgentAllBookings: React.FC = () => {
             </tbody>
           </table>
         </div>
+
+        
+        <div className="justify-center mx-[35%] lg:mx-[40%]">
+                  <div className="flex mt-10">
+                    <button
+                      onClick={goToPreviousPage}
+                      disabled={currentPage === 1}
+                      className="flex items-center justify-center px-3 h-8 text-xs font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    >
+                      Previous
+                    </button>
+
+                    <button
+                      onClick={goToNextPage}
+                      disabled={
+                        currentPage ===
+                        Math.ceil(bookedData?.length ?? 0 / itemsPerPage)
+                      }
+                      className="flex items-center justify-center px-3 h-8 ml-3 text-xs font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
       </div>
     </div>
   );
