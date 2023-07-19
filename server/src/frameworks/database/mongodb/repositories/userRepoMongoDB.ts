@@ -95,21 +95,8 @@ export const userRepositoryMongoDB = () => {
   };
 
   const getAllBookings = async (userId: string) => {
-    // const data = await TourConfirm.find({userId: userId})
-    // return data
-    //populate
-    // const data = await TourConfirm.find({ userId: userId }).populate({
-    //   path: "packageId",
-    //   select:
-    //     "_id agentId packageName description price images duration category locations services",
-    //   model: TourPackage,
-    // });
-
-  //   console.log('current  Data format')
-  //  console.log(data)
-    // return data; 
-    // aagregtion
-      const newdata = await TourConfirm.aggregate([
+  
+      const data = await TourConfirm.aggregate([
         {
           $match: { userId: userId }
         },
@@ -137,12 +124,7 @@ export const userRepositoryMongoDB = () => {
           }
         }
       ]).exec()
-
-      console.log('aggreation result')
-      console.log(newdata)
-
-
-    return newdata
+    return data
   };
 
   const paymentStatusChange = async (tourId: string) => {
