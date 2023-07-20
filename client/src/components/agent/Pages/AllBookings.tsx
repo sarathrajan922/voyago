@@ -10,7 +10,7 @@ const AgentAllBookings: React.FC = () => {
   const [itemsPerPage] = useState(3);
  
   const [bookedData, setBookedData] = useState<GetAllBookingDetailsApiResponse[] | null>(null);
- console.log(bookedData)
+
   const goToPreviousPage = () => {
     setCurrentPage((prevPage) => prevPage - 1);
   };

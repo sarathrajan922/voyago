@@ -19,6 +19,7 @@ import {
   getAgentProfileUseCase,
   getAllPackageUseCase,
   getPackageUseCase,
+  paymentAlertUseCase,
   updatePackageUseCase,
 } from "../../application/useCase/auth/agentAuth";
 import {
@@ -246,6 +247,30 @@ const agentController = (
       result
     })
   })
+  const paymentAlertMessage = asyncHandler(async(req:CustomRequest,res:Response)=>{
+    const agentId = req?.payload?.id ?? ''
+    const price = req?.body?.price.toLocaleString(
+      "en-IN",
+      {
+        style: "currency",
+        currency: "INR",
+      }
+    )
+    const message = `Your booked Package '` +req?.body?.packageName+`' amount of  `+ price+` is still pending`;
+    console.log(message)
+    const obj = {
+      agentId,
+      userId: req?.body?.userId,
+      message
+    }
+
+    const result = await paymentAlertUseCase(obj,dbRepositoryAgent)
+    res.json({
+      status: true,
+      message: 'successfully sent message to the  user',
+      result
+    })
+  })
 
   return {
     agentRegister,
@@ -262,7 +287,8 @@ const agentController = (
     agentGetAllBooking,
     checkAgentVerified,
     getAgentProfile,
-    agentProfileUpdate
+    agentProfileUpdate,
+    paymentAlertMessage
   };
 };
 
