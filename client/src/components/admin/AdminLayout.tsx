@@ -1,8 +1,16 @@
-import AdminDash from "./Body/DashBoard";
-import AdminUser from "./Body/AdminUser";
-import { Link } from "react-router-dom";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/img-redundant-alt */
+// import AdminDash from "./Body/DashBoard";
+// import AdminUser from "./Body/AdminUser";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function AdminDashBoard() {
+  const navigate = useNavigate()
+
+  const  logouAdmin = async()=>{
+    window.localStorage.removeItem('adminToken');
+    navigate('/admin/login')
+  }
   return (
     <>
       <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -75,7 +83,7 @@ export default function AdminDashBoard() {
                   </div>
                   <ul className="py-1" role="none">
                     <li>
-                      <a
+                      <a  
                         href="#"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                         role="menuitem"
@@ -103,7 +111,7 @@ export default function AdminDashBoard() {
                     </li>
                     <li>
                       <a
-                        href="#"
+                       onClick={logouAdmin}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                         role="menuitem"
                       >

@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "bootstrap": "^5.3.0"
+    "apexcharts": "^3.41.0",
+    "bootstrap": "^5.3.0",
+    "react-apexcharts": "^1.4.1",
+    "recharts": "^2.7.2"
   }
 }
