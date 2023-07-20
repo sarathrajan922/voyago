@@ -206,3 +206,14 @@ return result
    }
    return result
  }
+
+ export const paymentAlertUseCase = async(
+   obj:any,
+   agentRepository: ReturnType<AgentDbInterface>
+ )=>{
+   const result = await agentRepository.paymentAlert(obj)
+   if(!result){
+      throw new AppError('could not add alert message into DB',HttpStatus.NOT_MODIFIED)
+   }
+   return result
+ }

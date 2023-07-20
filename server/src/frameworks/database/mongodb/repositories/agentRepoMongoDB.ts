@@ -8,6 +8,7 @@ import Category from "../models/categoryModel";
 import TourPackage from "../models/tourPackageModel";
 import { Aggregate, Types } from "mongoose";
 import TourConfirm from "../models/tourConfirmDetails";
+import UserAlertMsg from "../models/userAlertMessageModel";
 
 export const agentRepositoryMongoDB = () => {
   const addAgent = async (agent: AgentRegisterInterface) => {
@@ -150,7 +151,8 @@ export const agentRepositoryMongoDB = () => {
 
 
   const paymentAlert = async(obj:any)=>{
-    console.log(obj)
+    const result = await UserAlertMsg.create(obj);
+    return result
   }
 
   return {
