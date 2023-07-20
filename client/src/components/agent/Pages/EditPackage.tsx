@@ -140,9 +140,9 @@ const EditTourPackageForm: React.FC = () => {
   }, []);
 
   const getCategory = async () => {
-    //! replace the parms with logged agentId
-    const agentId = "64941a796b4f3bd48f57ecfa";
-    return await getAgentCategory(agentId)
+    
+  
+    return await getAgentCategory()
       .then((response) => {
         return response;
       })

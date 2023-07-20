@@ -71,9 +71,8 @@ const AgentCategory: React.FC = () => {
   }, [status]);
 
   const getAllCategory = async () => {
-     //! replace the params with logged agentId
-    const agentId = "64941a796b4f3bd48f57ecfa"
-  return  await getAgentCategory(agentId).then((response)=>{
+    
+  return  await getAgentCategory().then((response)=>{
       return response
     }).catch((error:any)=>{
       notify(error.message, "error");

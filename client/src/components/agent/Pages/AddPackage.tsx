@@ -8,6 +8,7 @@ import { agentAddPackage } from "../../../features/axios/api/agent/agentAddPacka
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { getAgentCategory } from "../../../features/axios/api/agent/agentGetAllCategory";
+import { agentVerificationCheck } from "../../../features/axios/api/agent/agentVerificationCheck";
 interface FormValues {
   packageName: string;
   images: FileList | null;
@@ -20,6 +21,23 @@ interface FormValues {
 }
 
 const AddTourPackageForm: React.FC = () => {
+ 
+  const [isVerified, setIsVerified] = useState<boolean | null >(null);
+
+  useEffect(()=>{
+    const checkVerified = async()=>{
+    const result = await agentVerificationCheck()
+    if(result?.result){
+      setIsVerified(true)
+    }else{
+      setIsVerified(false)
+    }
+    }
+  checkVerified()
+  },[])
+
+  
+
   const initialValues: FormValues = {
     packageName: "",
     images: null,
@@ -84,9 +102,9 @@ const AddTourPackageForm: React.FC = () => {
   }, []);
 
   const getCategory = async () => {
-    //! replace the parms with logged agentId
-    const agentId = "64941a796b4f3bd48f57ecfa";
-    return await getAgentCategory(agentId)
+  
+    
+    return await getAgentCategory()
       .then((response) => {
         return response;
       })
@@ -95,10 +113,10 @@ const AddTourPackageForm: React.FC = () => {
       });
   };
 
-  const [isVerified, setIsVerified] = useState(false);
+  
 
-  //! agent is verified change the isVerified into true
-  //todo get agent data and check agent is verified or not
+
+
 
   return (
     <div className="p-4 sm:ml-64">

@@ -26,6 +26,9 @@ import PaymentPage from './components/user/Pages/PaymentPage';
 import UserProfile from './components/user/Pages/Profile';
 import UserProfileEdit from './components/user/Pages/ProfileEdit';
 import BookingDetailsComponent from './components/user/Pages/BookingDetails';
+import AgentAllBookings from './components/agent/Pages/AllBookings';
+import AgentProfile from './components/agent/Pages/AgentProfile';
+import AgentProfileEdit from './components/agent/Pages/AgentProfileEdit';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -96,6 +99,18 @@ import BookingDetailsComponent from './components/user/Pages/BookingDetails';
             {
                 path: 'edit-package/:id',
                 element: <EditTourPackageForm/>
+            },
+            {
+                path: 'all-bookings',
+                element: <AgentAllBookings/>
+            },
+            {
+                path: 'profile',
+                element: <AgentProfile/> 
+            },
+            {
+                path: 'agent-profile-edit',
+                element: <AgentProfileEdit/>
             }
         ]
 

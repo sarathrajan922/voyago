@@ -26,8 +26,8 @@ export const agentAddPackage = async (values: FormValues) => {
     formData.append("locations", values.locations);
 
     formData.append("services", values.services);
-    //! replace agentId with logged agentid
-    formData.append("agentId", "64941a796b4f3bd48f57ecfa");
+    // //! replace agentId with logged agentid
+    // formData.append("agentId", "64941a796b4f3bd48f57ecfa");
     formData.append("price", values.price);
     if (values.images) {
       formData.append("images", values.images[0]);

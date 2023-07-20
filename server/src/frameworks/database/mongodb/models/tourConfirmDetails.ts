@@ -32,6 +32,10 @@ const tourConfirmSchema = new Schema({
     payment: {
         type:String,
         default: 'pending'
+    },
+    agentId: {
+        type: String,
+        required: [true, 'agnetId is missing please add!']
     }
 
 

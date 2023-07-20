@@ -3,15 +3,22 @@ import BASE_URL, { urls } from "../../../../config";
 import agentSetupAxiosInterceptors from "../../interceptors/agentAxiosInterceptor";
 
 const api = agentSetupAxiosInterceptors();
-export const getAgentCategory = async () => {
+
+export const getAgentProfile = async () => {
   try {
     const config: AxiosRequestConfig = {
-      url: BASE_URL + urls.AGENT_GET_ALL_CATEGORY,
+      url: BASE_URL + urls.AGENT_GET_PROFILE,
       method: "get",
     };
+
     const response = await api(config);
-    return response?.data;
+    console.log(response?.data?.result)
+    return response?.data?.result;
   } catch (error: any) {
-    throw new Error("Somthing went wrong try Again!");
+    if (error.message === "Request failed with status code 404") {
+      throw new Error("No agent found!");
+    } else {
+      throw new Error("somthing went wrong!");
+    }
   }
 };

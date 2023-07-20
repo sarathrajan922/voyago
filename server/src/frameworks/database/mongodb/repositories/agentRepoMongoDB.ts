@@ -6,7 +6,8 @@ import {
 } from "../../../../types/agent";
 import Category from "../models/categoryModel";
 import TourPackage from "../models/tourPackageModel";
-import { Types } from "mongoose";
+import { Aggregate, Types } from "mongoose";
+import TourConfirm from "../models/tourConfirmDetails";
 
 export const agentRepositoryMongoDB = () => {
   const addAgent = async (agent: AgentRegisterInterface) => {
@@ -17,9 +18,9 @@ export const agentRepositoryMongoDB = () => {
     return Agent.findOne({ email });
   };
 
-  const checkAgentBlock = async (email: string)=>{
-    return Agent.findOne({email: email, isActive: true})
-  }
+  const checkAgentBlock = async (email: string) => {
+    return Agent.findOne({ email: email, isActive: true });
+  };
 
   const checkCategoryExist = async (agentId: String, categoryName: String) => {
     return await Category.findOne({
@@ -84,11 +85,99 @@ export const agentRepositoryMongoDB = () => {
     }
   };
 
-  const deletePackage = async (packageId: string)=>{
-    const id = new Types.ObjectId(packageId)
-    const deletePackage = await TourPackage.findByIdAndDelete(id)
-    return deletePackage
+  const deletePackage = async (packageId: string) => {
+    const id = new Types.ObjectId(packageId);
+    const deletePackage = await TourPackage.findByIdAndDelete(id);
+    return deletePackage;
+  };
+
+  const getAllBookings = async (agentId: string) => {
+ 
+
+    const packages = await TourPackage.find({ agentId: agentId });
+    const packageIds = packages.map((pkg) => pkg._id);
+    // console.log(packages)
+ 
+
+    // console.log(packageIds)
+
+    const bookedData = await TourConfirm.find({ packageId: { $in: packageIds } });
+    // console.log(data)
+    const tourPackageIds = bookedData.map((doc)=> doc.packageId)
+
+    const packageData = await TourPackage.find({_id: { $in: tourPackageIds}})
+ 
+    console.log(packageData)
+
+
+    // aggregation
+
+    const data = await TourConfirm.aggregate([
+      {
+        $match: { agentId }
+      },
+      {
+        $addFields: {
+          packageIdObj: {
+            $toObjectId: "$packageId",
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: 'tourPackages',
+          localField: 'packageIdObj',
+          foreignField: "_id",
+          as: 'packageDetails'
+        }
+      },
+      {
+        $unwind: '$packageDetails'
+      },
+      
+    ])
+
+    console.log('aggregated data')
+    console.log(data)
+
+    // return {
+    //   bookedData,
+    //   packageData
+    // }
+    return data
+  };
+
+  const checkAgentVerified = async(agentId: string)=>{
+    const id = new Types.ObjectId(agentId)
+    const result = await Agent.findOne({ _id:  id, isVerified: true });
+   return result ? true :  false
+
   }
+
+
+  const getAgentProfile = async(agentId: string)=> {
+    const id = new Types.ObjectId(agentId)
+    const result = await Agent.findOne({_id: id})
+    return result
+  }
+
+  const agentProfileUpdate = async (
+    agentId: string,
+    editedDetails: AgentRegisterInterface
+  ) => {
+    const id = new Types.ObjectId(agentId);
+    try {
+      const updatedAgent = await Agent.findByIdAndUpdate(id, {
+        $set: {
+          ...editedDetails,
+        },
+      });
+      return updatedAgent;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
 
   return {
     addAgent,
@@ -103,7 +192,11 @@ export const agentRepositoryMongoDB = () => {
     disablePackage,
     updatePackage,
     deletePackage,
-    checkAgentBlock
+    checkAgentBlock,
+    getAllBookings,
+    checkAgentVerified,
+    getAgentProfile,
+    agentProfileUpdate
   };
 };
 

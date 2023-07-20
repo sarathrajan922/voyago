@@ -163,3 +163,46 @@ return result
    const result = await agentRepository.deletePackage(packageId)
    return result
  }
+
+ export const AgentGetAllBookingsUseCase = async(
+   agentId: string,
+   agentRepository: ReturnType<AgentDbInterface>
+ )=>{
+   const result = await agentRepository.getAllBookings(agentId)
+   return result 
+ }
+
+ export const checkAgentVerificationUseCase = async(
+   agentId: string,
+   agentRepository: ReturnType<AgentDbInterface>
+ ) => {
+   const result = await agentRepository.checkAgentVerified(agentId)
+   return result
+ }
+
+ export const getAgentProfileUseCase = async(
+   agentId: string,
+   agentRepository: ReturnType<AgentDbInterface>
+ )=> {
+   const result = await agentRepository.getAgentProfile(agentId)
+   if(!result){
+     throw new AppError('could not find agent profile',HttpStatus.NOT_FOUND)
+   }
+   return result
+ }
+
+ export const agentProfileUpdateUseCase = async(
+   agentId: string,
+   editedData: AgentRegisterInterface,
+   agentRepository: ReturnType<AgentDbInterface>,
+   authService: ReturnType<AuthServiceInterface>
+ )=>{
+   if (editedData.password) {
+      editedData.password = await authService.hashPassword(editedData.password);
+    }
+   const result = await agentRepository.agentProfileUpdate(agentId,editedData)
+   if(!result){
+      throw new AppError('could not update agent profile',HttpStatus.NOT_MODIFIED)
+   }
+   return result
+ }

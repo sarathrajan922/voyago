@@ -15,7 +15,7 @@ export const googleAuthService = () => {
     };
     const ticket = await client.verifyIdToken({
       idToken: token,
-      audience: "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",
+      audience: "761849749944-pi94r5hl0n2t0ql4q7n08hl2a212k386.apps.googleusercontent.com",
     });
     console.log(ticket);
     const payload = ticket.getPayload();

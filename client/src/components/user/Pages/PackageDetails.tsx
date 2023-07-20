@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { PackageDataApiResponse } from "../../../API/type/getPackage";
 import { userGetPackage } from "../../../features/axios/api/user/userGetPackage";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -7,7 +8,7 @@ import * as Yup from "yup";
 
 import { useDispatch } from "react-redux";
 import { setBookingDetails } from "../../../features/redux/slices/user/userBookingSlice";
-import TourConfirmationModal from "./Modal";
+import TourConfirmationModal from "./TourConfirmModal";
 
 const PackageDetails: React.FC = () => {
   const [person, setPerson] = useState(1); // Initial value for rooms
@@ -77,7 +78,7 @@ const PackageDetails: React.FC = () => {
   };
 
   const dispatch = useDispatch();
-  const { id } = useParams(); 
+  const { id } = useParams();
   interface BookedData {
     firstName: string;
     lastName: string;
@@ -85,11 +86,13 @@ const PackageDetails: React.FC = () => {
     person: string;
     packageId: string;
     travelDate: string;
+    agentId: string;
   }
 
   const [tourPackage, setTourPackage] = useState<PackageDataApiResponse | null>(
     null
   );
+  console.log(tourPackage);
 
   useEffect(() => {
     const asynfun = async () => {
@@ -121,6 +124,7 @@ const PackageDetails: React.FC = () => {
       person: person.toString() ?? "",
       packageId: id,
       travelDate: formattedDate,
+      agentId: tourPackage?.agentId,
     };
 
     setBookedDetails({
@@ -130,6 +134,7 @@ const PackageDetails: React.FC = () => {
       person: person.toString() ?? "",
       packageId: id ?? "",
       travelDate: formattedDate,
+      agentId: tourPackage?.agentId ?? "",
     });
 
     dispatch(setBookingDetails(obj));
@@ -366,12 +371,12 @@ const PackageDetails: React.FC = () => {
                         className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                       >
                         I agree with the{" "}
-                        <a
-                          href="#"
+                        <Link
+                          to="#"
                           className="text-blue-600 hover:underline dark:text-blue-500"
                         >
                           terms and conditions
-                        </a>
+                        </Link>
                         .
                       </label>
                       <ErrorMessage

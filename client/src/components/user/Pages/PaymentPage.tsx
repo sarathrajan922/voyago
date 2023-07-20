@@ -1,31 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { getBookedDetails } from "../../../features/axios/api/user/userGetBookedDetails";
 import { PackageDataApiResponse } from "../../../API/type/getPackage";
-
 import { useParams } from "react-router-dom";
 import StripeContainer from "./payment/StripeContainer";
-
 
 const PaymentPage: React.FC = () => {
   const { id } = useParams();
   const [tourPackage, setTourPackage] = useState<PackageDataApiResponse | null>(
     null
   );
+  console.log(tourPackage);
   const [personalData, setPersonalData] = useState({
     name: "",
     person: "",
   });
-  interface Obj{
-   person:string;
-   packageId: string
- }
+  interface Obj {
+    person: string;
+    packageId: string;
+  }
 
+  const [obj, setObj] = useState<Obj>({
+    person: "",
+    packageId: "",
+  });
 
-  const [obj,setObj]= useState<Obj>({
-   person:'',
-   packageId: ''
-  })
-  
   const [total, setTotal] = useState<number>(0);
 
   const formattedTotal = total.toLocaleString("en-IN", {
@@ -36,25 +34,25 @@ const PaymentPage: React.FC = () => {
   useEffect(() => {
     const getUserBookedData = async () => {
       const data = await getBookedDetails(id);
-      const packageDetails = data?.result?.packageId;
-      const tourId = data?.result?._id;
-      console.log(tourId)
-      window.localStorage.setItem('tourId', tourId)
+
+      const packageDetails = data?.result[0]?.packageDetails;
+
+      const tourId = data?.result[0]?._id;
+
+      window.localStorage.setItem("tourId", tourId);
       setTourPackage(packageDetails);
-      setTotal(packageDetails?.price * data?.result?.person);
+      setTotal(packageDetails?.price * data?.result[0]?.person);
       setPersonalData({
-        name: data?.result?.firstName + " " + data?.result?.lastName,
-        person: data?.result?.person,
+        name: data?.result[0]?.firstName + " " + data?.result[0]?.lastName,
+        person: data?.result[0]?.person,
       });
       setObj({
-         person:data?.result?.person.toString(),
-         packageId: packageDetails._id
-      })
+        person: data?.result[0]?.person.toString(),
+        packageId: data?.result[0]?.packageId,
+      });
     };
     getUserBookedData();
   }, [id]);
-
- 
 
   return (
     <section className="bg-white dark:bg-gray-900">
@@ -128,13 +126,7 @@ const PaymentPage: React.FC = () => {
           </div>
 
           <div className="my-5  justify-items-center w-full lg:h-[30rem] min-h-[20rem]">
-            <div>
-         {
-            tourPackage && <StripeContainer obj={obj}/>
-         }
-          
-            </div>
-          
+            <div>{tourPackage && <StripeContainer obj={obj} />}</div>
           </div>
         </div>
       </div>
@@ -143,4 +135,3 @@ const PaymentPage: React.FC = () => {
 };
 
 export default PaymentPage;
-

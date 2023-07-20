@@ -5,14 +5,18 @@ import { AgentRepositoryMongoDB } from "../../frameworks/database/mongodb/reposi
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import {
+  AgentGetAllBookingsUseCase,
   addTourPackageUseCase,
   agentAddCategoryUseCase,
   agentLoginUseCase,
+  agentProfileUpdateUseCase,
   agentRegisterUseCase,
+  checkAgentVerificationUseCase,
   deleteCategoryUseCase,
   deletePackageUseCase,
   disablepackageUseCase,
   getAgentCategoryUseCase,
+  getAgentProfileUseCase,
   getAllPackageUseCase,
   getPackageUseCase,
   updatePackageUseCase,
@@ -23,6 +27,8 @@ import {
   AgentAddCategoryInterface,
 } from "../../types/agent";
 import { CustomRequest } from "../../types/expressRequest";
+import AppError from "../../utils/appError";
+import { HttpStatus } from "../../types/httpStatus";
 
 const agentController = (
   authServiceInterface: AuthServiceInterface,
@@ -81,9 +87,10 @@ const agentController = (
     });
   });
 
-  const getCategory = asyncHandler(async (req: Request, res: Response) => {
-    const objId = req.params.id;
-    const result = await getAgentCategoryUseCase(objId, dbRepositoryAgent);
+  const getCategory = asyncHandler(async (req: CustomRequest, res: Response) => {
+   
+    const agentId = req?.payload?.id ?? ''
+    const result = await getAgentCategoryUseCase(agentId, dbRepositoryAgent);
     res.json({
       status: true,
       message: "All categories of the requested agent",
@@ -108,8 +115,10 @@ const agentController = (
     });
   });
 
-  const addPackage = asyncHandler(async (req: Request, res: Response) => {
+  const addPackage = asyncHandler(async (req: CustomRequest, res: Response) => {
     const data = req?.body;
+    const agentId = req?.payload?.id ?? ''
+    data.agentId = agentId
     if (req.file) {
       data.images = req.file.path;
     }
@@ -126,8 +135,8 @@ const agentController = (
 
   const getAllPackages = asyncHandler(
     async (req: CustomRequest, res: Response) => {
-      const agentId = req.params.id;
-      // const agentId = req?.payload ?? ''
+     
+      const agentId = req?.payload?.id ?? ''
       const result = await getAllPackageUseCase(agentId, dbRepositoryAgent);
       res.json({
         status: true,
@@ -196,6 +205,48 @@ const agentController = (
     }
   );
 
+  const agentGetAllBooking = asyncHandler(async(req: CustomRequest, res:Response)=>{
+    const agentId = req?.payload?.id ?? '';
+    const result = await AgentGetAllBookingsUseCase(agentId,dbRepositoryAgent)
+    res.json({
+      status: true, 
+      message: 'fetching agent booking details successful',
+      result
+    })
+  
+  })
+  const checkAgentVerified = asyncHandler(async(req: CustomRequest,res:Response)=>{
+    const agentId = req?.payload?.id ?? ''
+    const result = await checkAgentVerificationUseCase(agentId,dbRepositoryAgent)
+    res.json({
+      status: true,
+      message: 'successfully checked agent verified or not',
+      result
+    })
+  })
+
+  const getAgentProfile = asyncHandler(async(req:CustomRequest,res:Response)=>{
+    const agentId = req?.payload?.id ?? ''
+    const result = await getAgentProfileUseCase(agentId,dbRepositoryAgent)
+    res.json({
+      status: true,
+      message: 'successfully fetched agent profile',
+      result
+    })
+  })
+
+  const agentProfileUpdate = asyncHandler(async(req:CustomRequest,res: Response)=>{
+    const agentId = req?.payload?.id ?? ''
+    const updatedData: AgentRegisterInterface = req.body;
+    updatedData.mobile = parseInt(req?.body?.mobile);   
+    const result = await agentProfileUpdateUseCase(agentId,updatedData,dbRepositoryAgent, authServices)
+    res.json({
+      status: true,
+      message:'successfully updated agent details',
+      result
+    })
+  })
+
   return {
     agentRegister,
     agentLogin,
@@ -208,6 +259,10 @@ const agentController = (
     disablePackage,
     updatePackage,
     deletePackage,
+    agentGetAllBooking,
+    checkAgentVerified,
+    getAgentProfile,
+    agentProfileUpdate
   };
 };
 
