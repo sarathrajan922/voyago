@@ -92,29 +92,9 @@ export const agentRepositoryMongoDB = () => {
   };
 
   const getAllBookings = async (agentId: string) => {
- 
-
-    const packages = await TourPackage.find({ agentId: agentId });
-    const packageIds = packages.map((pkg) => pkg._id);
-    // console.log(packages)
- 
-
-    // console.log(packageIds)
-
-    const bookedData = await TourConfirm.find({ packageId: { $in: packageIds } });
-    // console.log(data)
-    const tourPackageIds = bookedData.map((doc)=> doc.packageId)
-
-    const packageData = await TourPackage.find({_id: { $in: tourPackageIds}})
- 
-    console.log(packageData)
-
-
-    // aggregation
-
     const data = await TourConfirm.aggregate([
       {
-        $match: { agentId }
+        $match: { agentId },
       },
       {
         $addFields: {
@@ -125,41 +105,30 @@ export const agentRepositoryMongoDB = () => {
       },
       {
         $lookup: {
-          from: 'tourPackages',
-          localField: 'packageIdObj',
+          from: "tourPackages",
+          localField: "packageIdObj",
           foreignField: "_id",
-          as: 'packageDetails'
-        }
+          as: "packageDetails",
+        },
       },
       {
-        $unwind: '$packageDetails'
+        $unwind: "$packageDetails",
       },
-      
-    ])
-
-    console.log('aggregated data')
-    console.log(data)
-
-    // return {
-    //   bookedData,
-    //   packageData
-    // }
-    return data
+    ]);
+    return data;
   };
 
-  const checkAgentVerified = async(agentId: string)=>{
-    const id = new Types.ObjectId(agentId)
-    const result = await Agent.findOne({ _id:  id, isVerified: true });
-   return result ? true :  false
+  const checkAgentVerified = async (agentId: string) => {
+    const id = new Types.ObjectId(agentId);
+    const result = await Agent.findOne({ _id: id, isVerified: true });
+    return result ? true : false;
+  };
 
-  }
-
-
-  const getAgentProfile = async(agentId: string)=> {
-    const id = new Types.ObjectId(agentId)
-    const result = await Agent.findOne({_id: id})
-    return result
-  }
+  const getAgentProfile = async (agentId: string) => {
+    const id = new Types.ObjectId(agentId);
+    const result = await Agent.findOne({ _id: id });
+    return result;
+  };
 
   const agentProfileUpdate = async (
     agentId: string,
@@ -179,6 +148,11 @@ export const agentRepositoryMongoDB = () => {
     }
   };
 
+
+  const paymentAlert = async(obj:any)=>{
+    console.log(obj)
+  }
+
   return {
     addAgent,
     getAgentByEmail,
@@ -196,7 +170,8 @@ export const agentRepositoryMongoDB = () => {
     getAllBookings,
     checkAgentVerified,
     getAgentProfile,
-    agentProfileUpdate
+    agentProfileUpdate,
+    paymentAlert
   };
 };
 

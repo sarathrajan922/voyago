@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import { getUsers } from "../../../../features/axios/api/admin/adminGetAllUsers";
+import { CircleLoader } from "react-spinners";
 
 const UserChart = () => {
+    const [isload, setIsLoad] = useState(null)
   useEffect(() => {
     const getAllUsers = async () => {
       const data = await getUsers();
+      setIsLoad(true)
       if(data){
-        console.log(data?.userData)
         const userData = data?.userData
         let Active = 0
         let Block = 0
@@ -20,7 +22,7 @@ const UserChart = () => {
         });
         setSeries([Active,Block])
 
-        console.log(Active, +" "+ Block)
+  
       } 
     };
     getAllUsers();
@@ -50,7 +52,11 @@ const UserChart = () => {
 
   const [series, setSeries] = useState([0,0]);
 
-  return (
+  return !isload ? <div className=" w-full flex justify-center  h-full ">
+  <div className="py-52">
+    <CircleLoader color="#1bacbf " />
+  </div>
+</div> : (
     <div id="chart">
       <ReactApexChart options={option} series={series} type="pie" width={380} />
     </div>

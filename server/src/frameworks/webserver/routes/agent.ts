@@ -104,6 +104,9 @@ const agentRouter = () => {
  agentRoleCheckMiddleware,
  controller.agentProfileUpdate)
 
+
+ router.post('/alert-message',authenticationMiddleware,agentRoleCheckMiddleware)
+
   return router;
 };
 
