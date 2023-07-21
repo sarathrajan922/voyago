@@ -203,3 +203,14 @@ export const paymentStatusChangeUseCase = async(
   }
   return result
 }
+
+export const getAlertMsgUseCase = async(
+  userId: string,
+  userDbRepository: ReturnType<UserDbInterface>
+)=> {
+  const result = await userDbRepository.getAlertMsg(userId)
+  if(!result){
+    throw new Error('could not find alert messages')
+  }
+  return result
+}

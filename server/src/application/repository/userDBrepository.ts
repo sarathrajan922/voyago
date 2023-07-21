@@ -16,6 +16,7 @@ export const userDbRepository= (repository:ReturnType<UserRepositoryMongoDB>)=>{
     const getPrice = async(packageId: string)=> await repository.getPrice(packageId)
     const getAllBookings= async(userId: string)=> await repository.getAllBookings(userId)
     const paymentStatusChange = async(tourId: string) => repository.paymentStatusChange(tourId)
+    const getAlertMsg = async(userId: string)=> repository.getAlertMsg(userId)
     return {
         addUser,
         getUserByEmail,
@@ -28,7 +29,8 @@ export const userDbRepository= (repository:ReturnType<UserRepositoryMongoDB>)=>{
         getUserBookedDetails,
         getPrice,
         getAllBookings,
-        paymentStatusChange
+        paymentStatusChange,
+        getAlertMsg
     }
 
 }

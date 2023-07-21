@@ -36,6 +36,7 @@ const authRouter = ()=>{
     router.get('/user-get-package-booked-data/:id', authenticationMiddleware,userRoleCheckMiddleware,controller.getUserBookedDetails)
     router.get('/user-get-all-bookings', authenticationMiddleware,userRoleCheckMiddleware,controller.getAllBookings)
     router.post('/user-Pay-status-change',authenticationMiddleware,userRoleCheckMiddleware,controller.paymentStatusChange)
+    router.get('/user-get-alert-messages',authenticationMiddleware,userRoleCheckMiddleware,controller.getAlertMsg)
     return router
 }
 
