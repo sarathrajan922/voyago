@@ -35,6 +35,7 @@ import { selectUser } from "../../features/redux/slices/user/userSlice";
 
 
 
+
 function LoginRegister() {
 
  
@@ -89,9 +90,14 @@ const profileMenuItems = [
 
 function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  // const [isAlertOpen, setIsAlertOpen] = useState(null)
+
   const closeMenu = () => setIsMenuOpen(false);
   const navigate = useNavigate()
   return (
+    
+ 
+
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
       <MenuHandler>
         <Button
@@ -114,6 +120,8 @@ function ProfileMenu() {
           />
         </Button>
       </MenuHandler>
+    
+      
       <MenuList className="p-1">
         {profileMenuItems.map(({ label, icon }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
@@ -212,6 +220,38 @@ function ProfileMenu() {
           }
 
 
+          if (label === "Inbox") {
+            return (
+              <MenuItem
+                key={label}
+                onClick={() => {
+                  console.log('inbox cliked')
+                  
+                }}
+                className={`flex items-center gap-2 rounded ${
+                  isLastItem
+                    ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
+                    : ""
+                }`}
+              >
+                {React.createElement(icon, {
+                  className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
+                  strokeWidth: 2,
+                })}
+                <Typography
+                  as="span"
+                  variant="small"
+                  className="font-normal"
+                  color={isLastItem ? "red" : "inherit"}
+                >
+                  {label}
+                </Typography>
+              </MenuItem>
+            );
+          }
+          
+
+
 
 
 
@@ -246,6 +286,8 @@ function ProfileMenu() {
         })}
       </MenuList>
     </Menu>
+  
+
   );
 }
 

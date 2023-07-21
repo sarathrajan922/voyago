@@ -33,7 +33,9 @@
     AGENT_GET_ALL_BOOKING: 'agent/get-all-booking',
     AGENT_VERIFICATION_CHECK: 'agent/isVerified',
     AGENT_GET_PROFILE: 'agent/get-profile',
-    AGENT_UPDATE_PROFILE: 'agent/agent-profile-update'
+    AGENT_UPDATE_PROFILE: 'agent/agent-profile-update',
+    USER_GET_ALERT_MESSAGES: 'auth/user-get-alert-messages',
+    AGENT_CREATE_ALERT_MESSAGE: 'agent/alert-message',
  }
  
  const BASE_URL= 'http://localhost:8000/';

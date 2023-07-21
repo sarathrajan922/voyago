@@ -5,6 +5,7 @@ import { UserRepositoryMongoDB } from "../../frameworks/database/mongodb/reposit
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import {
+  getAlertMsgUseCase,
   getAllBookingsUseCase,
   getUserBookedDetailsUseCase,
   getUserDetailsUseCase,
@@ -190,6 +191,18 @@ const authController = (
     })
   })
 
+
+  const getAlertMsg = asyncHandler(async(req: CustomRequest, res: Response)=>{
+    const userId = req?.payload?.id ?? ''
+    const result = await getAlertMsgUseCase(userId,dbRepositoryUser)
+    res.json({
+      status: true,
+      message: 'Alert message fetched successfully',
+      result
+    })
+  }
+  )
+
   return {
     userRegister,
     userLogin,
@@ -201,7 +214,8 @@ const authController = (
     userUpdateProfile,
     getUserBookedDetails,
     getAllBookings,
-    paymentStatusChange
+    paymentStatusChange,
+    getAlertMsg
   };
 };
 

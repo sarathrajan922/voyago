@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { agentGetAllBookings } from "../../../features/axios/api/agent/agentGetAllBooking";
 import { GetAllBookingDetailsApiResponse } from "../../../API/type/getAllBookedData";
 import { CircleLoader } from "react-spinners";
-
+import { createAlertMsg } from "../../../features/axios/api/agent/agentCreateAlertMsg";
+import { ToastContainer, toast } from "react-toastify";
 const AgentAllBookings: React.FC = () => {
 
   const [isLogin,setIsLoad] = useState<boolean | null>(null)
@@ -17,6 +18,11 @@ const AgentAllBookings: React.FC = () => {
 
   const goToNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
+  };
+  const notify = (msg: string, type: string) => {
+    type === "error"
+      ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
   };
 
   useEffect(() => {
@@ -33,6 +39,21 @@ const AgentAllBookings: React.FC = () => {
 
     getAllBookings();
   }, []);
+
+  const alertHandler= async(x:any)=>{
+    
+    const obj = {
+      userId: x.userId,
+      packageName: x?.packageDetails.packageName,
+         price: x?.person * x?.packageDetails?.price
+    }  
+    const result = await createAlertMsg(obj)
+    if(result){
+      notify('informed!','success')
+    }else{
+      notify('something went wrong!','error')
+    }
+  } 
   return  !isLogin ? <div className=" w-full flex justify-center  h-full ">
   <div className="py-52">
     <CircleLoader color="#1bacbf " />
@@ -47,7 +68,7 @@ const AgentAllBookings: React.FC = () => {
             </p>
           </div>
         </div>
-
+        <ToastContainer/>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -104,7 +125,10 @@ const AgentAllBookings: React.FC = () => {
                       </td>
                       <td className="px-6 py-4">
                         {x?.payment === "pending" ? (
-                          <button className="font-medium  text-blue-600 dark:text-blue-500 hover:underline">
+                          <button className="font-medium  text-blue-600 dark:text-blue-500 hover:underline"
+                          onClick={()=>{
+                            alertHandler(x)
+                          }}>
                             Inform
                           </button>
                         ) : (

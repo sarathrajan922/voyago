@@ -6,6 +6,7 @@ import {
 import TourPackage from "../models/tourPackageModel";
 import TourConfirm from "../models/tourConfirmDetails";
 import { Types } from "mongoose";
+import UserAlertMsg from "../models/userAlertMessageModel";
 
 export const userRepositoryMongoDB = () => {
   const addUser = async (user: UserRegisterInterface) => {
@@ -139,6 +140,42 @@ export const userRepositoryMongoDB = () => {
     return result;
   };
 
+  const getAlertMsg = async(userId: string)=>{
+    const data = await UserAlertMsg.aggregate([
+      {
+        $match: {userId}
+      },
+      {
+        $addFields: {
+          agentIdObj: {
+            $toObjectId: "$agentId",
+          },
+        },
+      },
+      {
+        $lookup: {
+          from : 'agents',
+          localField: 'agentIdObj',
+          foreignField: '_id',
+          as: 'agentDetails'
+        }
+      },
+      {
+        $unwind: "$agentDetails"
+      },
+      {
+        $project: {
+          agentId: 1,
+          message: 1,
+          agentDetails: 1
+        }
+      }
+    ])
+
+    console.log(data)
+    return data
+  }
+
   return {
     addUser,
     getUserByEmail,
@@ -152,6 +189,8 @@ export const userRepositoryMongoDB = () => {
     getPrice,
     getAllBookings,
     paymentStatusChange,
+    getAlertMsg
+
   };
 };
 
