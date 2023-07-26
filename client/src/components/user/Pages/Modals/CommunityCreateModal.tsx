@@ -1,6 +1,6 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FormikHelpers } from "formik";
@@ -12,7 +12,8 @@ interface FormValues {
   communityName: string;
 }
 
-export default function ComunityCreateModal({ setModal }: any) {
+export default function ComunityCreateModal({ setModal ,setStatus }: any) {
+    const navigate = useNavigate()
   const initialValues: FormValues = {
     communityName: "",
   };
@@ -38,6 +39,13 @@ export default function ComunityCreateModal({ setModal }: any) {
 
     createCommunity(values.communityName).then((response)=>{
         notify("community created successfully", "success");
+        setTimeout(()=>{
+            // window.location.reload();
+            setModal()
+            setStatus(false)
+            
+            
+        },2000)
     }).catch((err:any)=>{
         notify(err.message, "error");
     })
