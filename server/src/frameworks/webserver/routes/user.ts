@@ -38,7 +38,8 @@ const authRouter = ()=>{
     router.post('/user-Pay-status-change',authenticationMiddleware,userRoleCheckMiddleware,controller.paymentStatusChange)
     router.get('/user-get-alert-messages',authenticationMiddleware,userRoleCheckMiddleware,controller.getAlertMsg)
     router.post('/user-create-community',authenticationMiddleware,userRoleCheckMiddleware,controller.createCommnuity)
+    router.get('/get-all-community',authenticationMiddleware,userRoleCheckMiddleware,controller.getAllCommunity)
     return router
 }
-            
+
 export default authRouter

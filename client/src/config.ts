@@ -36,7 +36,8 @@
     AGENT_UPDATE_PROFILE: 'agent/agent-profile-update',
     USER_GET_ALERT_MESSAGES: 'auth/user-get-alert-messages',
     AGENT_CREATE_ALERT_MESSAGE: 'agent/alert-message',
-    USER_CREATE_COMMUNITY: 'auth/user-create-community'
+    USER_CREATE_COMMUNITY: 'auth/user-create-community',
+    USER_GET_ALL_COMMUNITIES: 'auth/get-all-community',
  }
  
  const BASE_URL= 'http://localhost:8000/';

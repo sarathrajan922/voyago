@@ -179,8 +179,12 @@ export const userRepositoryMongoDB = () => {
   }
 
   const createCommunity = async(obj:CommunityInterface)=>{
-   
     const result = await Community.create(obj)
+    return result
+  }
+
+  const getAllCommunity = async()=>{
+    const result = await Community.find({})
     return result
   }
 
@@ -198,7 +202,8 @@ export const userRepositoryMongoDB = () => {
     getAllBookings,
     paymentStatusChange,
     getAlertMsg,
-    createCommunity
+    createCommunity,
+    getAllCommunity
 
   };
 };

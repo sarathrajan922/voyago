@@ -19,6 +19,7 @@ export const userDbRepository= (repository:ReturnType<UserRepositoryMongoDB>)=>{
     const paymentStatusChange = async(tourId: string) => repository.paymentStatusChange(tourId)
     const getAlertMsg = async(userId: string)=> repository.getAlertMsg(userId)
     const createCommunity = async(obj:CommunityInterface)=> repository.createCommunity(obj)
+    const getAllCommunity = async()=> repository.getAllCommunity()
     return {
         addUser,
         getUserByEmail,
@@ -33,7 +34,8 @@ export const userDbRepository= (repository:ReturnType<UserRepositoryMongoDB>)=>{
         getAllBookings,
         paymentStatusChange,
         getAlertMsg,
-        createCommunity
+        createCommunity,
+        getAllCommunity
     }
 
 }
