@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import ComunityCreateModal from "../Modals/CommunityCreateModal";
 import { GetAllCommunityApiResponse } from "../../../../API/type/getAllCommunity";
 import { GetAllCommunity } from "../../../../features/axios/api/user/userGetAllCommunity";
+import CommunityGroupShimme from "../../../common/communityGroupShimmer";
 
 const Community: React.FC = () => {
     
   const [communities, setCommunities] = useState<GetAllCommunityApiResponse[] | null>(null)
   const [status, setStatus] = useState<boolean>(true)
+  const [chatHead,setChatHead] = useState<GetAllCommunityApiResponse | null>(null)
   useEffect(()=>{
     const getAllCommunity = async()=>{
         GetAllCommunity().then((response)=>{
@@ -22,11 +24,14 @@ const Community: React.FC = () => {
   const [selectedChat, setSelectedChat] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   
-  const chatHandler = (group: number) => {
+  const chatHandler = (group: number,doc: GetAllCommunityApiResponse) => {
     console.log("cliked");
 
     setSelectedChat(group);
+    setChatHead(doc)
   };
+
+
   useEffect(() => {}, [selectedChat]);
   return (
     <section className=" bg-white mb-20 mt-10  dark:bg-gray-900">
@@ -68,7 +73,7 @@ const Community: React.FC = () => {
                 communities && communities ? communities.map((doc,index)=>{
                     return (
                         <div
-                        onClick={() => chatHandler(index)}
+                        onClick={() => chatHandler(index,doc)}
                         className={
                           `border-b pl-4 border-gray-100 py-2 mr-2 flex items-center gap-2 cursor-pointer  rounded ` +
                           (selectedChat === index ? "bg-light-blue-50" : "")
@@ -83,20 +88,23 @@ const Community: React.FC = () => {
                       </div>
                     )
                 })
-                : <div className="text-gray-600 flex justify-center my-[50%]" > 
-                    No Community Found
-                </div>
+                : <CommunityGroupShimme/>
             }
             
             </div>
           </div>
           <div className="bg-green-50 rounded w-2/3 p-2 flex flex-col">
-            <div className="w-full h-[5rem] flex gap-4 bg-blue-100">
+
+
+            {/* chat heading section */}
+            { chatHead &&  chatHead ?  <div className="w-full h-[5rem] flex gap-4 bg-blue-100">
               <div className="w-10 h-10 mt-3 ms-3 bg-teal-400 rounded-full flex items-center ">
-                <div className="w-full text-center opacity-50 font-bold">G</div>
+                <div className="w-full text-center opacity-50 font-bold">{chatHead?.communityName[0].toUpperCase()}</div>
               </div>
-              <span className="text-gray-800 mt-4 font-bold">group 1</span>
-            </div>
+              <span className="text-gray-800 mt-4 font-bold">{chatHead?.communityName}</span>
+            </div> : 'select a chat'
+           }
+
             <div className="flex-grow h-[35rem] overflow-y-scroll my-1">
               messages
             </div>
