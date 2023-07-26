@@ -5,7 +5,7 @@ import configKeys from "../../config";
 const serverConfig = (server:Server) => {
     const startServer = () => {
         server.listen(configKeys.PORT, () => {
-            console.log(`Server listening on Port ${configKeys.PORT}`);
+            console.log(`Backend Server running on Port ${configKeys.PORT}`);
         })
     }
     return {
