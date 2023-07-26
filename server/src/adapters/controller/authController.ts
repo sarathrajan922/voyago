@@ -5,6 +5,7 @@ import { UserRepositoryMongoDB } from "../../frameworks/database/mongodb/reposit
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import {
+  createCommunityUseCase,
   getAlertMsgUseCase,
   getAllBookingsUseCase,
   getUserBookedDetailsUseCase,
@@ -200,8 +201,27 @@ const authController = (
       message: 'Alert message fetched successfully',
       result
     })
-  }
-  )
+  })
+
+
+  const createCommnuity = asyncHandler(async(req:CustomRequest,res:Response)=>{
+    const userId = req?.payload?.id ?? ''
+   
+    const {communityName } = req.body
+    const obj = {
+      communityName,
+      admin: userId
+    }
+
+    console.log(obj)
+    const result = await createCommunityUseCase(obj,dbRepositoryUser)
+    res.json({
+      status: true,
+      message: 'community create Success',
+      result
+    })
+  })
+
 
   return {
     userRegister,
@@ -215,7 +235,8 @@ const authController = (
     getUserBookedDetails,
     getAllBookings,
     paymentStatusChange,
-    getAlertMsg
+    getAlertMsg,
+    createCommnuity
   };
 };
 

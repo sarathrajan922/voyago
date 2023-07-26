@@ -37,7 +37,8 @@ const authRouter = ()=>{
     router.get('/user-get-all-bookings', authenticationMiddleware,userRoleCheckMiddleware,controller.getAllBookings)
     router.post('/user-Pay-status-change',authenticationMiddleware,userRoleCheckMiddleware,controller.paymentStatusChange)
     router.get('/user-get-alert-messages',authenticationMiddleware,userRoleCheckMiddleware,controller.getAlertMsg)
+    router.post('/user-create-community',authenticationMiddleware,userRoleCheckMiddleware,controller.createCommnuity)
     return router
 }
-
+            
 export default authRouter

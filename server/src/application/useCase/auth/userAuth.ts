@@ -8,6 +8,8 @@ import { AuthServiceInterface } from "../../services/authServiceInterface";
 import { UserDbInterface } from "../../repository/userDBrepository";
 import { UserInterface } from "../../../types/user";
 import { GoogleAuthServiceInterface } from "../../services/googleServiceInterface";
+import { CommunityInterface } from "../../../types/community";
+import { isJsxFragment } from "typescript";
 
 export const userRegisterUseCase = async (
   user: UserRegisterInterface,
@@ -211,6 +213,17 @@ export const getAlertMsgUseCase = async(
   const result = await userDbRepository.getAlertMsg(userId)
   if(!result){
     throw new Error('could not find alert messages')
+  }
+  return result
+}
+
+export const createCommunityUseCase = async(
+  obj: CommunityInterface,
+  userDbRepository: ReturnType<UserDbInterface> 
+)=> {
+  const result = await userDbRepository.createCommunity(obj)
+  if(!result){
+    throw new Error('could not create community')
   }
   return result
 }
