@@ -7,6 +7,8 @@ import TourPackage from "../models/tourPackageModel";
 import TourConfirm from "../models/tourConfirmDetails";
 import { Types } from "mongoose";
 import UserAlertMsg from "../models/userAlertMessageModel";
+import Community from "../models/communityModel";
+import { CommunityInterface } from "../../../../types/community";
 
 export const userRepositoryMongoDB = () => {
   const addUser = async (user: UserRegisterInterface) => {
@@ -176,6 +178,16 @@ export const userRepositoryMongoDB = () => {
     return data
   }
 
+  const createCommunity = async(obj:CommunityInterface)=>{
+    const result = await Community.create(obj)
+    return result
+  }
+
+  const getAllCommunity = async()=>{
+    const result = await Community.find({})
+    return result
+  }
+
   return {
     addUser,
     getUserByEmail,
@@ -189,7 +201,9 @@ export const userRepositoryMongoDB = () => {
     getPrice,
     getAllBookings,
     paymentStatusChange,
-    getAlertMsg
+    getAlertMsg,
+    createCommunity,
+    getAllCommunity
 
   };
 };

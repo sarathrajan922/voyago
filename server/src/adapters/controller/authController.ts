@@ -5,8 +5,10 @@ import { UserRepositoryMongoDB } from "../../frameworks/database/mongodb/reposit
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import {
+  createCommunityUseCase,
   getAlertMsgUseCase,
   getAllBookingsUseCase,
+  getAllCommunityUseCase,
   getUserBookedDetailsUseCase,
   getUserDetailsUseCase,
   paymentStatusChangeUseCase,
@@ -89,21 +91,23 @@ const authController = (
     });
   });
 
-  const bookPackage = asyncHandler(async (req: CustomRequest, res: Response) => {
-    const userId = req.payload?.id ?? "";
-    req.body.userId = userId;
-    const bookingDetails = req?.body;
+  const bookPackage = asyncHandler(
+    async (req: CustomRequest, res: Response) => {
+      const userId = req.payload?.id ?? "";
+      req.body.userId = userId;
+      const bookingDetails = req?.body;
 
-    const result = await userPackageBookingUseCase(
-      bookingDetails,
-      dbRepositoryUser
-    );
-    res.json({
-      status: true,
-      message: "Tour Package booked successfully",
-      result,
-    });
-  });
+      const result = await userPackageBookingUseCase(
+        bookingDetails,
+        dbRepositoryUser
+      );
+      res.json({
+        status: true,
+        message: "Tour Package booked successfully",
+        result,
+      });
+    }
+  );
 
   const loginWithGoogle = asyncHandler(async (req: Request, res: Response) => {
     console.log(req.body);
@@ -157,50 +161,86 @@ const authController = (
     }
   );
 
-  const getUserBookedDetails = asyncHandler(async(req: CustomRequest, res: Response)=>{
-    const userId = req.payload?.id ?? "";
-    const packageId = req.params.id
-    const result = await getUserBookedDetailsUseCase(
-      userId,
-      packageId,
-      dbRepositoryUser
-    );
-    res.json({
-      status: true,
-      message: 'user booked data fetched successfully',
-      result
-    })
-  })
-  const getAllBookings = asyncHandler(async(req: CustomRequest, res: Response)=>{
-    const userId = req.payload?.id ?? '';
-    const result = await getAllBookingsUseCase(userId,dbRepositoryUser)
-    res.json({
-      status: true,
-      message: 'user booked details fetched successfully',
-      result
-    })
-  })
+  const getUserBookedDetails = asyncHandler(
+    async (req: CustomRequest, res: Response) => {
+      const userId = req.payload?.id ?? "";
+      const packageId = req.params.id;
+      const result = await getUserBookedDetailsUseCase(
+        userId,
+        packageId,
+        dbRepositoryUser
+      );
+      res.json({
+        status: true,
+        message: "user booked data fetched successfully",
+        result,
+      });
+    }
+  );
+  const getAllBookings = asyncHandler(
+    async (req: CustomRequest, res: Response) => {
+      const userId = req.payload?.id ?? "";
+      const result = await getAllBookingsUseCase(userId, dbRepositoryUser);
+      res.json({
+        status: true,
+        message: "user booked details fetched successfully",
+        result,
+      });
+    }
+  );
 
-  const paymentStatusChange = asyncHandler(async(req:CustomRequest,res:Response)=>{
-    const {tourId} = req.body
-    const result = await paymentStatusChangeUseCase(tourId, dbRepositoryUser)
-    res.json({
-      status: true,
-      message: 'user payment status changed successfully',
-      result
-    })
-  })
+  const paymentStatusChange = asyncHandler(
+    async (req: CustomRequest, res: Response) => {
+      const { tourId } = req.body;
+      const result = await paymentStatusChangeUseCase(tourId, dbRepositoryUser);
+      res.json({
+        status: true,
+        message: "user payment status changed successfully",
+        result,
+      });
+    }
+  );
 
+  const getAlertMsg = asyncHandler(
+    async (req: CustomRequest, res: Response) => {
+      const userId = req?.payload?.id ?? "";
+      const result = await getAlertMsgUseCase(userId, dbRepositoryUser);
+      res.json({
+        status: true,
+        message: "Alert message fetched successfully",
+        result,
+      });
+    }
+  );
 
-  const getAlertMsg = asyncHandler(async(req: CustomRequest, res: Response)=>{
-    const userId = req?.payload?.id ?? ''
-    const result = await getAlertMsgUseCase(userId,dbRepositoryUser)
-    res.json({
-      status: true,
-      message: 'Alert message fetched successfully',
-      result
-    })
-  }
+  const createCommnuity = asyncHandler(
+    async (req: CustomRequest, res: Response) => {
+      const userId = req?.payload?.id ?? "";
+
+      const { communityName } = req.body;
+      const obj = {
+        communityName,
+        admin: userId,
+      };
+
+      const result = await createCommunityUseCase(obj, dbRepositoryUser);
+      res.json({
+        status: true,
+        message: "community create Success",
+        result,
+      });
+    }
+  );
+
+  const getAllCommunity= asyncHandler(
+    async(req:CustomRequest,res:Response)=>{
+      const result = await getAllCommunityUseCase(dbRepositoryUser);
+      res.json({
+        status: true,
+        message: "fetch all communities success",
+        result 
+      })
+    }
   )
 
   return {
@@ -215,7 +255,9 @@ const authController = (
     getUserBookedDetails,
     getAllBookings,
     paymentStatusChange,
-    getAlertMsg
+    getAlertMsg,
+    createCommnuity,
+    getAllCommunity
   };
 };
 

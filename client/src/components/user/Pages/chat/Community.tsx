@@ -1,10 +1,27 @@
 import React, { useEffect, useState } from "react";
 import ComunityCreateModal from "../Modals/CommunityCreateModal";
+import { GetAllCommunityApiResponse } from "../../../../API/type/getAllCommunity";
+import { GetAllCommunity } from "../../../../features/axios/api/user/userGetAllCommunity";
 
 const Community: React.FC = () => {
+    
+  const [communities, setCommunities] = useState<GetAllCommunityApiResponse[] | null>(null)
+  const [status, setStatus] = useState<boolean>(true)
+  useEffect(()=>{
+    const getAllCommunity = async()=>{
+        GetAllCommunity().then((response)=>{
+            setCommunities(response.reverse())
+        }).catch((error:any)=>{
+         console.log(error.message)
+        })
+    }
+    getAllCommunity();
+  },[status])
+
+  
   const [selectedChat, setSelectedChat] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  console.log(selectedChat);
+  
   const chatHandler = (group: number) => {
     console.log("cliked");
 
@@ -12,9 +29,9 @@ const Community: React.FC = () => {
   };
   useEffect(() => {}, [selectedChat]);
   return (
-    <section className=" bg-white my-20 dark:bg-gray-900">
+    <section className=" bg-white mb-20 mt-10  dark:bg-gray-900">
       {isModalOpen ? (
-        <ComunityCreateModal setModal={() => setIsModalOpen(false)} />
+        <ComunityCreateModal setStatus={()=> setStatus(!status)} setModal={() => setIsModalOpen(false)} />
       ) : (
         ""
       )}
@@ -47,50 +64,30 @@ const Community: React.FC = () => {
 
             {/* group1 */}
             <div className="overflow-y-scroll h-[32rem]">
-              <div
-                onClick={() => chatHandler(1)}
-                className={
-                  `border-b pl-4 border-gray-100 py-2 mr-2 flex items-center gap-2 cursor-pointer  rounded ` +
-                  (selectedChat === 1 ? "bg-light-blue-50" : "")
-                }
-              >
-                <div className="w-8 h-8 bg-teal-400 rounded-full flex items-center ">
-                  <div className="w-full text-center opacity-50 font-bold">
-                    G
-                  </div>
+            {
+                communities && communities ? communities.map((doc,index)=>{
+                    return (
+                        <div
+                        onClick={() => chatHandler(index)}
+                        className={
+                          `border-b pl-4 border-gray-100 py-2 mr-2 flex items-center gap-2 cursor-pointer  rounded ` +
+                          (selectedChat === index ? "bg-light-blue-50" : "")
+                        }
+                      >
+                        <div className="w-8 h-8 bg-teal-400 rounded-full flex items-center ">
+                          <div className="w-full text-center opacity-50 font-bold">
+                            {doc?.communityName[0].toUpperCase()}
+                          </div>
+                        </div>
+                        <span className="text-gray-800">{doc?.communityName}</span>
+                      </div>
+                    )
+                })
+                : <div className="text-gray-600 flex justify-center my-[50%]" > 
+                    No Community Found
                 </div>
-                <span className="text-gray-800">group 1</span>
-              </div>
-              {/* group 2 */}
-              <div
-                onClick={() => chatHandler(2)}
-                className={
-                  `border-b pl-4 border-gray-100 py-2 mr-2 flex items-center gap-2 rounded  cursor-pointer ` +
-                  (selectedChat === 2 ? "bg-light-blue-50" : "")
-                }
-              >
-                <div className="w-8 h-8 bg-teal-400 rounded-full flex items-center">
-                  <div className="w-full text-center opacity-50 font-bold">
-                    G
-                  </div>
-                </div>
-                <span className="text-gray-800">group 2</span>
-              </div>
-              {/* group 3 */}
-              <div
-                onClick={() => chatHandler(3)}
-                className={
-                  `border-b pl-4 border-gray-100 mr-2 py-2 flex items-center gap-2 cursor-pointer  rounded ` +
-                  (selectedChat === 3 ? "bg-light-blue-50" : "")
-                }
-              >
-                <div className="w-8 h-8 bg-teal-400 rounded-full flex items-center">
-                  <div className="w-full text-center opacity-50 font-bold">
-                    G
-                  </div>
-                </div>
-                <span className="text-gray-800">group 3</span>
-              </div>
+            }
+            
             </div>
           </div>
           <div className="bg-green-50 rounded w-2/3 p-2 flex flex-col">
