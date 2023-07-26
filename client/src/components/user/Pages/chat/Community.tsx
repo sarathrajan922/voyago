@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ComunityCreateModal from "../Modals/CommunityCreateModal";
 import { GetAllCommunityApiResponse } from "../../../../API/type/getAllCommunity";
 import { GetAllCommunity } from "../../../../features/axios/api/user/userGetAllCommunity";
-import CommunityGroupShimme from "../../../common/communityGroupShimmer";
+import CommunityGroupShimme from "../../../Shimmer/communityGroupShimmer";
 
 const Community: React.FC = () => {
     
