@@ -29,6 +29,7 @@ import BookingDetailsComponent from './components/user/Pages/BookingDetails';
 import AgentAllBookings from './components/agent/Pages/AllBookings';
 import AgentProfile from './components/agent/Pages/AgentProfile';
 import AgentProfileEdit from './components/agent/Pages/AgentProfileEdit';
+import Community from './components/user/Pages/chat/Community';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -71,6 +72,10 @@ import AgentProfileEdit from './components/agent/Pages/AgentProfileEdit';
             {
                 path: 'booked-details',
                 element: <BookingDetailsComponent/>
+            },
+            {
+                path:'community',
+                element: <Community/>
             }
 
         ]

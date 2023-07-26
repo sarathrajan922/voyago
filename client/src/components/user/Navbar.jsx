@@ -400,6 +400,7 @@ function NavList() {
       action: () => {
         // Action for Account
         console.log("community clicked");
+        navigate('/community')
         
       },
     },

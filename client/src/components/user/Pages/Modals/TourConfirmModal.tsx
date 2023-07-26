@@ -1,7 +1,7 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { bookPackage } from "../../../features/axios/api/user/userBookPackage";
+import { bookPackage } from "../../../../features/axios/api/user/userBookPackage";
 import { useNavigate } from "react-router-dom";
 
 export default function TourConfirmationModal({ packageDetails,packageId }: any) {
