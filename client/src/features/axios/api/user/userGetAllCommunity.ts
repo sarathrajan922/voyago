@@ -12,7 +12,7 @@ export const GetAllCommunity = async()=>{
         }
 
         const response = await api(config)
-        return response?.data?.result
+        return response?.data
     }catch(error:any){
         if(error.message === 'Request failed with status code 404'){
             throw new Error('No Communities found in DB')
