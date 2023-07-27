@@ -271,7 +271,9 @@ const authController = (
       res.json({
         status: true,
         message: 'fetch all user joined and not joined communities success',
-        result
+        result,
+        userId
+
       })
     }
   )
