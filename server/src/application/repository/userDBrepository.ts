@@ -1,5 +1,5 @@
 import { UserRepositoryMongoDB } from "../../frameworks/database/mongodb/repositories/userRepoMongoDB";
-import { CommunityInterface } from "../../types/community";
+import { CommunityInterface, JoinCommunityInterface } from "../../types/community";
 import { UserRegisterInterface ,TourConfirmationInterface} from "../../types/user";
 
 export const userDbRepository= (repository:ReturnType<UserRepositoryMongoDB>)=>{
@@ -20,6 +20,7 @@ export const userDbRepository= (repository:ReturnType<UserRepositoryMongoDB>)=>{
     const getAlertMsg = async(userId: string)=> repository.getAlertMsg(userId)
     const createCommunity = async(obj:CommunityInterface)=> repository.createCommunity(obj)
     const getAllCommunity = async()=> repository.getAllCommunity()
+    const joinCommunity = async(obj:JoinCommunityInterface)=> repository.joinCommunity(obj)
     return {
         addUser,
         getUserByEmail,
@@ -35,7 +36,8 @@ export const userDbRepository= (repository:ReturnType<UserRepositoryMongoDB>)=>{
         paymentStatusChange,
         getAlertMsg,
         createCommunity,
-        getAllCommunity
+        getAllCommunity,
+        joinCommunity
     }
 
 }

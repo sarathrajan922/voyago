@@ -5,7 +5,6 @@ import agentSetupAxiosInterceptors from "../../interceptors/agentAxiosIntercepto
 
 interface FomValues{
     name: string;
-    agentId?: string;
 }
 
 const api = agentSetupAxiosInterceptors()

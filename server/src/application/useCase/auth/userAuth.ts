@@ -8,7 +8,7 @@ import { AuthServiceInterface } from "../../services/authServiceInterface";
 import { UserDbInterface, userDbRepository } from "../../repository/userDBrepository";
 import { UserInterface } from "../../../types/user";
 import { GoogleAuthServiceInterface } from "../../services/googleServiceInterface";
-import { CommunityInterface } from "../../../types/community";
+import { CommunityInterface, JoinCommunityInterface } from "../../../types/community";
 import { isJsxFragment } from "typescript";
 
 export const userRegisterUseCase = async (
@@ -234,6 +234,17 @@ export const getAllCommunityUseCase = async(
   const result = await userDbRepository.getAllCommunity();
   if(!result){
     throw new AppError('NO Communities found!',HttpStatus.NOT_FOUND)
+  }
+  return result
+}
+
+export const joinCommunityUseCase = async(
+  obj: JoinCommunityInterface,
+  userDbRepository: ReturnType<UserDbInterface>
+)=>{
+  const result = await userDbRepository.joinCommunity(obj);
+  if(!result){
+    throw new AppError('could not  join community',HttpStatus.NOT_MODIFIED)
   }
   return result
 }

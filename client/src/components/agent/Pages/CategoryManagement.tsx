@@ -35,9 +35,7 @@ const AgentCategory: React.FC = () => {
   const onSubmit = async (values: FormValues) => {
     // Add your submit logic here
     const formData = {
-      name: values.name,
-      //! change the pre defined agentId
-      agentId: "64941a796b4f3bd48f57ecfa",
+      name: values.name
     };
 
     await addCategory(formData)

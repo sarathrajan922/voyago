@@ -8,7 +8,7 @@ import TourConfirm from "../models/tourConfirmDetails";
 import { Types } from "mongoose";
 import UserAlertMsg from "../models/userAlertMessageModel";
 import Community from "../models/communityModel";
-import { CommunityInterface } from "../../../../types/community";
+import { CommunityInterface, JoinCommunityInterface } from "../../../../types/community";
 
 export const userRepositoryMongoDB = () => {
   const addUser = async (user: UserRegisterInterface) => {
@@ -98,36 +98,35 @@ export const userRepositoryMongoDB = () => {
   };
 
   const getAllBookings = async (userId: string) => {
-  
-      const data = await TourConfirm.aggregate([
-        {
-          $match: { userId: userId }
-        },
-        {
-          $addFields: {
-            packageIdObj: {
-              $toObjectId: "$packageId",
-            },
+    const data = await TourConfirm.aggregate([
+      {
+        $match: { userId: userId },
+      },
+      {
+        $addFields: {
+          packageIdObj: {
+            $toObjectId: "$packageId",
           },
         },
-        {
-          $lookup: {
-            from: "tourPackages",
-            localField: "packageIdObj",
-            foreignField: "_id",
-            as: "packageDetails",
-          },
+      },
+      {
+        $lookup: {
+          from: "tourPackages",
+          localField: "packageIdObj",
+          foreignField: "_id",
+          as: "packageDetails",
         },
-        {
-          $unwind: '$packageDetails'
+      },
+      {
+        $unwind: "$packageDetails",
+      },
+      {
+        $addFields: {
+          packagePrice: "$package.price",
         },
-        {
-          $addFields: {
-            packagePrice: '$package.price'
-          }
-        }
-      ]).exec()
-    return data
+      },
+    ]).exec();
+    return data;
   };
 
   const paymentStatusChange = async (tourId: string) => {
@@ -142,10 +141,10 @@ export const userRepositoryMongoDB = () => {
     return result;
   };
 
-  const getAlertMsg = async(userId: string)=>{
+  const getAlertMsg = async (userId: string) => {
     const data = await UserAlertMsg.aggregate([
       {
-        $match: {userId}
+        $match: { userId },
       },
       {
         $addFields: {
@@ -156,37 +155,66 @@ export const userRepositoryMongoDB = () => {
       },
       {
         $lookup: {
-          from : 'agents',
-          localField: 'agentIdObj',
-          foreignField: '_id',
-          as: 'agentDetails'
-        }
+          from: "agents",
+          localField: "agentIdObj",
+          foreignField: "_id",
+          as: "agentDetails",
+        },
       },
       {
-        $unwind: "$agentDetails"
+        $unwind: "$agentDetails",
       },
       {
         $project: {
           agentId: 1,
           message: 1,
-          agentDetails: 1
-        }
+          agentDetails: 1,
+        },
+      },
+    ]);
+
+    console.log(data);
+    return data;
+  };
+
+  const createCommunity = async (obj: CommunityInterface) => {
+    const result = await Community.create(obj);
+    return result;
+  };
+
+  const getAllCommunity = async () => {
+    const result = await Community.find({});
+    return result;
+  };
+
+  const joinCommunity = async (obj: JoinCommunityInterface) => {
+    try {
+      const communityId = new Types.ObjectId(obj.communityId);
+
+      // First, find the community document using the provided communityId.
+      const community = await Community.findOne({ _id: communityId });
+
+      if (!community) {
+        console.log("Community not found");
+        return false;
       }
-    ])
 
-    console.log(data)
-    return data
-  }
+      // Check if the userId is already a member of the community.
+      if (community.members.includes(obj.userId)) {
+        console.log("User is already a member of the community");
+        return false;
+      }
 
-  const createCommunity = async(obj:CommunityInterface)=>{
-    const result = await Community.create(obj)
-    return result
-  }
+      // Add the userId to the members array and save the updated document.
+      community.members.push(obj.userId);
+      await community.save();
 
-  const getAllCommunity = async()=>{
-    const result = await Community.find({})
-    return result
-  }
+      return true;
+    } catch (error) {
+      console.error("Error while joining community:", error);
+      return false;
+    }
+  };
 
   return {
     addUser,
@@ -203,8 +231,8 @@ export const userRepositoryMongoDB = () => {
     paymentStatusChange,
     getAlertMsg,
     createCommunity,
-    getAllCommunity
-
+    getAllCommunity,
+    joinCommunity,
   };
 };
 

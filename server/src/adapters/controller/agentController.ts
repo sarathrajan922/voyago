@@ -77,8 +77,12 @@ const agentController = (
     });
   });
 
-  const addCategory = asyncHandler(async (req: Request, res: Response) => {
+  const addCategory = asyncHandler(async (req: CustomRequest, res: Response) => {
+    const agentId = req?.payload?.id ?? ''
+    
+    req.body.agentId = req?.payload?.id ?? ''
     const category: AgentAddCategoryInterface = req.body;
+    console.log(category)
     const result = await agentAddCategoryUseCase(category, dbRepositoryAgent);
 
     res.json({

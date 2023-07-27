@@ -11,6 +11,7 @@ import {
   getAllCommunityUseCase,
   getUserBookedDetailsUseCase,
   getUserDetailsUseCase,
+  joinCommunityUseCase,
   paymentStatusChangeUseCase,
   signInWithGoogle,
   updateUserProfileUseCase,
@@ -234,11 +235,30 @@ const authController = (
 
   const getAllCommunity= asyncHandler(
     async(req:CustomRequest,res:Response)=>{
+      const userId = req?.payload?.id ?? '';
       const result = await getAllCommunityUseCase(dbRepositoryUser);
       res.json({
         status: true,
         message: "fetch all communities success",
-        result 
+        result,
+        userId 
+      })
+    }
+  )
+
+  const joinCommunity = asyncHandler(
+    async(req:CustomRequest,res: Response)=>{
+      const userId = req?.payload?.id ?? ''
+      const { communityId } = req?.body
+      const obj = {
+        userId,
+        communityId
+      }
+      const result = await joinCommunityUseCase(obj,dbRepositoryUser);
+      res.json({
+        status: true,
+        message: 'user joined successfully',
+        result
       })
     }
   )
@@ -257,7 +277,8 @@ const authController = (
     paymentStatusChange,
     getAlertMsg,
     createCommnuity,
-    getAllCommunity
+    getAllCommunity,
+    joinCommunity
   };
 };
 

@@ -72,13 +72,12 @@ import Community from './components/user/Pages/chat/Community';
             {
                 path: 'booked-details',
                 element: <BookingDetailsComponent/>
-            },
-            {
-                path:'community',
-                element: <Community/>
             }
-
         ]
+    },
+    {
+        path:'/community',
+        element: <Community/>
     },
     {
         path: '/agent',

@@ -2,41 +2,52 @@ import React, { useEffect, useState } from "react";
 import ComunityCreateModal from "../Modals/CommunityCreateModal";
 import { GetAllCommunityApiResponse } from "../../../../API/type/getAllCommunity";
 import { GetAllCommunity } from "../../../../features/axios/api/user/userGetAllCommunity";
-import CommunityGroupShimme from "../../../Shimmer/communityGroupShimmer";
+import CommunityGroupShimmer from "../../../Shimmer/communityGroupShimmer";
+import Navbar from "../../Navbar";
 
 const Community: React.FC = () => {
-    
-  const [communities, setCommunities] = useState<GetAllCommunityApiResponse[] | null>(null)
-  const [status, setStatus] = useState<boolean>(true)
-  const [chatHead,setChatHead] = useState<GetAllCommunityApiResponse | null>(null)
-  useEffect(()=>{
-    const getAllCommunity = async()=>{
-        GetAllCommunity().then((response)=>{
-            setCommunities(response.reverse())
-        }).catch((error:any)=>{
-         console.log(error.message)
+  const [communities, setCommunities] = useState<
+    GetAllCommunityApiResponse[] | null
+  >(null);
+  const [status, setStatus] = useState<boolean>(true);
+  const [chatHead, setChatHead] = useState<GetAllCommunityApiResponse | null>(
+    null
+  );
+  const [userId, setUserId] = useState<string | null>(null);
+  useEffect(() => {
+    const getAllCommunity = async () => {
+      GetAllCommunity()
+        .then((response) => {
+          setCommunities(response?.result.reverse());
+          setUserId(response?.userId);
         })
-    }
+        .catch((error: any) => {
+          console.log(error.message);
+        });
+    };
     getAllCommunity();
-  },[status])
+  }, [status]);
 
-  
   const [selectedChat, setSelectedChat] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  
-  const chatHandler = (group: number,doc: GetAllCommunityApiResponse) => {
+
+  const chatHandler = (group: number, doc: GetAllCommunityApiResponse) => {
     console.log("cliked");
 
     setSelectedChat(group);
-    setChatHead(doc)
+    setChatHead(doc);
   };
-
 
   useEffect(() => {}, [selectedChat]);
   return (
-    <section className=" bg-white mb-20 mt-10  dark:bg-gray-900">
+    <>
+   <Navbar />
+    <section className=" bg-white mb-20 mt-10 fixed w-full dark:bg-gray-900">  
       {isModalOpen ? (
-        <ComunityCreateModal setStatus={()=> setStatus(!status)} setModal={() => setIsModalOpen(false)} />
+        <ComunityCreateModal
+          setStatus={() => setStatus(!status)}
+          setModal={() => setIsModalOpen(false)}
+        />
       ) : (
         ""
       )}
@@ -67,46 +78,292 @@ const Community: React.FC = () => {
               </button>
             </div>
 
-            {/* group1 */}
-            <div className="overflow-y-scroll h-[32rem]">
-            {
-                communities && communities ? communities.map((doc,index)=>{
-                    return (
-                        <div
-                        onClick={() => chatHandler(index,doc)}
-                        className={
-                          `border-b pl-4 border-gray-100 py-2 mr-2 flex items-center gap-2 cursor-pointer  rounded ` +
-                          (selectedChat === index ? "bg-light-blue-50" : "")
-                        }
-                      >
-                        <div className="w-8 h-8 bg-teal-400 rounded-full flex items-center ">
-                          <div className="w-full text-center opacity-50 font-bold">
-                            {doc?.communityName[0].toUpperCase()}
-                          </div>
+            {/* joined group */}
+            <div className="overflow-y-scroll h-[15rem]">
+              {communities && communities ? (
+                communities.map((doc, index) => {
+                  return (
+                    <div
+                      onClick={() => chatHandler(index, doc)}
+                      className={
+                        `border-b pl-4 border-gray-100 py-2 mr-2 flex items-center gap-2 cursor-pointer  rounded ` +
+                        (selectedChat === index ? "bg-light-blue-50" : "")
+                      }
+                    >
+                      <div className="w-8 h-8 bg-teal-400 rounded-full flex items-center ">
+                        <div className="w-full text-center opacity-50 font-bold">
+                          {doc?.communityName[0].toUpperCase()}
                         </div>
-                        <span className="text-gray-800">{doc?.communityName}</span>
                       </div>
-                    )
+                      <span className="text-gray-800">
+                        {doc?.communityName}
+                      </span>
+                    </div>
+                  );
                 })
-                : <CommunityGroupShimme/>
-            }
-            
+              ) : (
+                <CommunityGroupShimmer />
+              )}
+            </div>
+
+            <div className=" flex items-center mx-2 my-2 px-1 rounded h-[3rem] mr-6 text-bold   ">
+              other communities
+            </div>
+
+            {/* not joined */}
+            <div className="overflow-y-scroll h-[15rem]">
+              {communities && communities ? (
+                communities.map((doc, index) => {
+                  return (
+                    <div
+                      onClick={() => chatHandler(index, doc)}
+                      className={
+                        `border-b pl-4 border-gray-100 py-2 mr-2 flex items-center  gap-2 cursor-pointer  rounded ` +
+                        (selectedChat === index ? "bg-light-blue-50" : "")
+                      }
+                    >
+                      <div className="w-8 h-8 bg-teal-400 rounded-full flex items-center ">
+                        <div className="w-full text-center opacity-50 font-bold">
+                          {doc?.communityName[0].toUpperCase()}
+                        </div>
+                      </div>
+                      <span className="text-gray-800 line-clamp-1">
+                        {doc?.communityName}
+                      </span>
+                      <div className="flex-grow"></div>
+                      <div className="self-end">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-6 h-6 items-end"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <CommunityGroupShimmer />
+              )}
             </div>
           </div>
           <div className="bg-green-50 rounded w-2/3 p-2 flex flex-col">
-
-
             {/* chat heading section */}
-            { chatHead &&  chatHead ?  <div className="w-full h-[5rem] flex gap-4 bg-blue-100">
-              <div className="w-10 h-10 mt-3 ms-3 bg-teal-400 rounded-full flex items-center ">
-                <div className="w-full text-center opacity-50 font-bold">{chatHead?.communityName[0].toUpperCase()}</div>
+            {chatHead && chatHead ? (
+              <div className="w-full h-[5rem] flex gap-4 bg-blue-100">
+                <div className="w-10 h-10 mt-3 ms-3 bg-teal-400 rounded-full flex items-center ">
+                  <div className="w-full text-center opacity-50 font-bold">
+                    {chatHead?.communityName[0].toUpperCase()}
+                  </div>
+                </div>
+                <span className="text-gray-800 mt-4 font-bold">
+                  {chatHead?.communityName}
+                </span>
               </div>
-              <span className="text-gray-800 mt-4 font-bold">{chatHead?.communityName}</span>
-            </div> : 'select a chat'
-           }
+            ) : (
+              "select a chat"
+            )}
 
             <div className="flex-grow h-[35rem] overflow-y-scroll my-1">
-              messages
+              {/* <div className={`flex flex-col mt-3 ${own ? "items-end" : ""}`}> */}
+              {/* chat 1 */}
+              <div className="flex flex-col mt-3 items-end">
+                <div className="flex">
+                  <img
+                    className="mr-2 w-8 mt-2 h-8 rounded-full object-cover"
+                    src="https://res.cloudinary.com/dk4darniv/image/upload/v1690396460/png-transparent-circle-silhouett_pfuxe9.webp"
+                    alt=""
+                  />
+                  <p
+                    //   className={`p-3 rounded-3xl max-w-xs ${
+                    //     own ? "bg-gray-300 text-black" : "bg-purple-600 text-white"}`}
+                    className="p-3 rounded-3xl max-w-xs bg-teal-400 text-black"
+                  >
+                    {/* {message?.text} */}message dlkjfalsdjfljlfkasjdlfja;wl
+                  </p>
+                </div>
+                {/* <div className="text-xs mt-2">{format(message?.createdAt)}</div> */}
+                <div className="text-xs mt-2">created date</div>
+              </div>
+              {/* chat 2 */}
+              <div className="flex flex-col mt-3">
+                <div className="flex">
+                  <img
+                    className="mr-2 mt-2 w-8 h-8 rounded-full object-cover"
+                    src="https://res.cloudinary.com/dk4darniv/image/upload/v1690396460/png-transparent-circle-silhouett_pfuxe9.webp"
+                    alt=""
+                  />
+                  <p
+                    //   className={`p-3 rounded-3xl max-w-xs ${
+                    //     own ? "bg-gray-300 text-black" : "bg-purple-600 text-white"}`}
+                    className="p-3 rounded-3xl max-w-xs bg-gray-300 text-black"
+                  >
+                    {/* {message?.text} */}message dlkjfalsdjfljlfkasjdlfja;wl
+                  </p>
+                </div>
+                {/* <div className="text-xs mt-2">{format(message?.createdAt)}</div> */}
+                <div className="text-xs mt-2">created date</div>
+              </div>
+
+              {/* chat 3 */}
+              <div className="flex flex-col mt-3 items-end">
+                <div className="flex">
+                  <img
+                    className="mr-2 mt-2 w-8 h-8 rounded-full object-cover"
+                    src="https://res.cloudinary.com/dk4darniv/image/upload/v1690396460/png-transparent-circle-silhouett_pfuxe9.webp"
+                    alt=""
+                  />
+                  <p
+                    //   className={`p-3 rounded-3xl max-w-xs ${
+                    //     own ? "bg-gray-300 text-black" : "bg-purple-600 text-white"}`}
+                    className="p-3 rounded-3xl max-w-xs bg-teal-400 text-black"
+                  >
+                    {/* {message?.text} */}message dlkjfalsdjfljlfkasjdlfja;wl
+                  </p>
+                </div>
+                {/* <div className="text-xs mt-2">{format(message?.createdAt)}</div> */}
+                <div className="text-xs mt-2">created date</div>
+              </div>
+
+              {/* chat 4 */}
+
+              <div className="flex flex-col mt-3">
+                <div className="flex">
+                  <img
+                    className="mr-2 mt-2 w-8 h-8 rounded-full object-cover"
+                    src="https://res.cloudinary.com/dk4darniv/image/upload/v1690396460/png-transparent-circle-silhouett_pfuxe9.webp"
+                    alt=""
+                  />
+                  <p
+                    //   className={`p-3 rounded-3xl max-w-xs ${
+                    //     own ? "bg-gray-300 text-black" : "bg-purple-600 text-white"}`}
+                    className="p-3 rounded-3xl max-w-xs bg-gray-300 text-black"
+                  >
+                    {/* {message?.text} */}message dlkjfalsdjfljlfkasjdlfja;wl
+                  </p>
+                </div>
+                {/* <div className="text-xs mt-2">{format(message?.createdAt)}</div> */}
+                <div className="text-xs mt-2">created date</div>
+              </div>
+
+              {/* chat 5 */}
+
+              <div className="flex flex-col mt-3 items-end">
+                <div className="flex">
+                  <img
+                    className="mr-2 mt-2 w-8 h-8 rounded-full object-cover"
+                    src="https://res.cloudinary.com/dk4darniv/image/upload/v1690396460/png-transparent-circle-silhouett_pfuxe9.webp"
+                    alt=""
+                  />
+                  <p
+                    //   className={`p-3 rounded-3xl max-w-xs ${
+                    //     own ? "bg-gray-300 text-black" : "bg-purple-600 text-white"}`}
+                    className="p-3 rounded-3xl max-w-xs bg-teal-400 text-black"
+                  >
+                    {/* {message?.text} */}message dlkjfalsdjfljlfkasjdlfja;wl
+                  </p>
+                </div>
+                {/* <div className="text-xs mt-2">{format(message?.createdAt)}</div> */}
+                <div className="text-xs mt-2">created date</div>
+              </div>
+
+              {/* chat 6 */}
+
+              <div className="flex flex-col mt-3">
+                <div className="flex">
+                  <img
+                    className="mr-2 mt-2 w-8 h-8 rounded-full object-cover"
+                    src="https://res.cloudinary.com/dk4darniv/image/upload/v1690396460/png-transparent-circle-silhouett_pfuxe9.webp"
+                    alt=""
+                  />
+                  <p
+                    //   className={`p-3 rounded-3xl max-w-xs ${
+                    //     own ? "bg-gray-300 text-black" : "bg-purple-600 text-white"}`}
+                    className="p-3 rounded-3xl max-w-xs bg-gray-300 text-black"
+                  >
+                    {/* {message?.text} */} Minima voluptatibus placeat illo ut
+                    porro dolore fuga est possimus unde exercitationem!
+                  </p>
+                </div>
+                {/* <div className="text-xs mt-2">{format(message?.createdAt)}</div> */}
+                <div className="text-xs mt-2 ">created date</div>
+              </div>
+
+              {/* chat 7 */}
+
+              <div className="flex flex-col mt-3 items-end">
+                <div className="flex">
+                  <img
+                    className="mr-2 mt-2 w-8 h-8 rounded-full object-cover"
+                    src="https://res.cloudinary.com/dk4darniv/image/upload/v1690396460/png-transparent-circle-silhouett_pfuxe9.webp"
+                    alt=""
+                  />
+                  <p
+                    //   className={`p-3 rounded-3xl max-w-xs ${
+                    //     own ? "bg-gray-300 text-black" : "bg-purple-600 text-white"}`}
+                    className="p-3 rounded-3xl max-w-xs bg-teal-400 text-black"
+                  >
+                    {/* {message?.text} */}Lorem ipsum dolor, sit amet
+                    consectetur adipisicing elit.
+                  </p>
+                </div>
+                {/* <div className="text-xs mt-2">{format(message?.createdAt)}</div> */}
+                <div className="text-xs mt-2">created date</div>
+              </div>
+
+              {/* chat 8 */}
+
+              <div className="flex flex-col mt-3">
+                <div className="flex">
+                  <img
+                    className="mr-2 mt-2 w-8 h-8 rounded-full object-cover"
+                    src="https://res.cloudinary.com/dk4darniv/image/upload/v1690396460/png-transparent-circle-silhouett_pfuxe9.webp"
+                    alt=""
+                  />
+                  <p
+                    //   className={`p-3 rounded-3xl max-w-xs ${
+                    //     own ? "bg-gray-300 text-black" : "bg-purple-600 text-white"}`}
+                    className="p-3 rounded-3xl max-w-xs bg-gray-300 text-black"
+                  >
+                    {/* {message?.text} */}harum a aspernatur repellat quos odit
+                    dolorum asperiores ipsum optio quas aperiam laudantium
+                    necessitatibus?
+                  </p>
+                </div>
+                {/* <div className="text-xs mt-2">{format(message?.createdAt)}</div> */}
+                <div className="text-xs mt-2">created date</div>
+              </div>
+
+              {/* chat 9 */}
+
+              <div className="flex flex-col mt-3 items-end">
+                <div className="flex">
+                  <img
+                    className="mr-2 w-8 h-8 mt-2 rounded-full object-cover"
+                    src="https://res.cloudinary.com/dk4darniv/image/upload/v1690396460/png-transparent-circle-silhouett_pfuxe9.webp"
+                    alt=""
+                  />
+                  <p
+                    //   className={`p-3 rounded-3xl max-w-xs ${
+                    //     own ? "bg-gray-300 text-black" : "bg-purple-600 text-white"}`}
+                    className="p-3 rounded-3xl max-w-xs bg-teal-400 text-black"
+                  >
+                    {/* {message?.text} */}Lorem ipsum, dolor sit amet
+                    consectetur adipisicing elit. Quisquam quasi, voluptas
+                    quibusdam, ullam quaerat dolorem perspiciatis
+                  </p>
+                </div>
+                {/* <div className="text-xs mt-2">{format(message?.createdAt)}</div> */}
+                <div className="text-xs mt-2 mr-2">created date</div>
+              </div>
             </div>
 
             <div className="flex gap-2">
@@ -138,6 +395,7 @@ const Community: React.FC = () => {
         </div>
       </div>
     </section>
+    </>
   );
 };
 
