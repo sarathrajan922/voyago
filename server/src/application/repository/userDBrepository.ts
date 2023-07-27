@@ -1,5 +1,7 @@
+
 import { UserRepositoryMongoDB } from "../../frameworks/database/mongodb/repositories/userRepoMongoDB";
 import { CommunityInterface, JoinCommunityInterface } from "../../types/community";
+import { ConversationInterface } from "../../types/conversation";
 import { UserRegisterInterface ,TourConfirmationInterface} from "../../types/user";
 
 export const userDbRepository= (repository:ReturnType<UserRepositoryMongoDB>)=>{
@@ -22,6 +24,7 @@ export const userDbRepository= (repository:ReturnType<UserRepositoryMongoDB>)=>{
     const getAllCommunity = async()=> repository.getAllCommunity()
     const joinCommunity = async(obj:JoinCommunityInterface)=> repository.joinCommunity(obj)
     const getAllJoinedAndNotJoinedCommunity= async(userId:string)=> repository.getAllJoinedAndNotJoinedCommunity(userId)
+    const createConversation = async(conversationObj:ConversationInterface)=> repository.createConversation(conversationObj)
     return {
         addUser,
         getUserByEmail,
@@ -39,7 +42,8 @@ export const userDbRepository= (repository:ReturnType<UserRepositoryMongoDB>)=>{
         createCommunity,
         getAllCommunity,
         joinCommunity,
-        getAllJoinedAndNotJoinedCommunity
+        getAllJoinedAndNotJoinedCommunity,
+        createConversation
     }
 
 }

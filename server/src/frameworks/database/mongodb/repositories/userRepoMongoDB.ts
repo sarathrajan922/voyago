@@ -9,6 +9,8 @@ import { Types } from "mongoose";
 import UserAlertMsg from "../models/userAlertMessageModel";
 import Community from "../models/communityModel";
 import { CommunityInterface, JoinCommunityInterface } from "../../../../types/community";
+import { ConversationInterface } from "../../../../types/conversation";
+import Conversation from "../models/conversationModel";
 
 export const userRepositoryMongoDB = () => {
   const addUser = async (user: UserRegisterInterface) => {
@@ -238,6 +240,11 @@ export const userRepositoryMongoDB = () => {
   }
   }
 
+   const createConversation = async(conversationObj:ConversationInterface)=>{
+    const result = await Conversation.create(conversationObj)
+    return result
+   }
+
   return {
     addUser,
     getUserByEmail,
@@ -255,7 +262,8 @@ export const userRepositoryMongoDB = () => {
     createCommunity,
     getAllCommunity,
     joinCommunity,
-    getAllJoinedAndNotJoinedCommunity
+    getAllJoinedAndNotJoinedCommunity,
+    createConversation
   };
 };
 

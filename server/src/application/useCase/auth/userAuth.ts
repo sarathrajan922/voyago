@@ -10,6 +10,7 @@ import { UserInterface } from "../../../types/user";
 import { GoogleAuthServiceInterface } from "../../services/googleServiceInterface";
 import { CommunityInterface, JoinCommunityInterface } from "../../../types/community";
 import { isJsxFragment } from "typescript";
+import { ConversationInterface } from "../../../types/conversation";
 
 export const userRegisterUseCase = async (
   user: UserRegisterInterface,
@@ -259,3 +260,14 @@ export const getAllJoinedAndNotJoinedCommunityUseCase = async(
     }
     return result
   }
+
+export const createConversationUseCase = async(
+  conversationObj: ConversationInterface,
+  userDbRepository: ReturnType<UserDbInterface>
+)=>{
+  const result = await userDbRepository.createConversation(conversationObj)
+  if(!result){
+    throw new AppError('could not create conversation',HttpStatus.NOT_MODIFIED)
+  }
+  return result
+}
