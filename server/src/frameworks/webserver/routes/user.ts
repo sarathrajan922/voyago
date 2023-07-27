@@ -40,6 +40,7 @@ const authRouter = ()=>{
     router.post('/user-create-community',authenticationMiddleware,userRoleCheckMiddleware,controller.createCommnuity)
     router.get('/get-all-community',authenticationMiddleware,userRoleCheckMiddleware,controller.getAllCommunity)
     router.post('/join-community',authenticationMiddleware,userRoleCheckMiddleware,controller.joinCommunity)
+    router.get('/getAlluserJoinedAndNotJoinedcommunity',authenticationMiddleware,userRoleCheckMiddleware,controller.getAllJoinedAndNotJoinedCommunity)
     return router
 }
 

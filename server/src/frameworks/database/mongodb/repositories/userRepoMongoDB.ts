@@ -216,6 +216,28 @@ export const userRepositoryMongoDB = () => {
     }
   };
 
+  const getAllJoinedAndNotJoinedCommunity = async(userId: string)=>{
+    try {
+      // Find all communities where the provided userId exists either in the admin or members array.
+      const joinedCommunities = await Community.find({
+          $or: [{ admin: userId }, { members: userId }],
+      });
+
+      // Find all communities where the provided userId does not exist in the admin or members array.
+      const notJoinedCommunities = await Community.find({
+          $nor: [{ admin: userId }, { members: userId }],
+      });
+
+      return {
+          joinedCommunities,
+          notJoinedCommunities,
+      };
+  } catch (error) {
+      console.error('Error while fetching communities:', error);
+      return null; // You can handle the error case as per your requirement.
+  }
+  }
+
   return {
     addUser,
     getUserByEmail,
@@ -233,6 +255,7 @@ export const userRepositoryMongoDB = () => {
     createCommunity,
     getAllCommunity,
     joinCommunity,
+    getAllJoinedAndNotJoinedCommunity
   };
 };
 

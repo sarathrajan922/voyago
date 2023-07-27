@@ -7,7 +7,7 @@ const api = userSetupAxiosInterceptors();
 export const GetAllCommunity = async()=>{
     try{
         const config: AxiosRequestConfig = {
-            url: BASE_URL+urls.USER_GET_ALL_COMMUNITIES,
+            url: BASE_URL+urls.USER_GET_ALL_JOINED_AND_NOT_JOINED_COMMUNITY,
             method: 'get'
         }
 
