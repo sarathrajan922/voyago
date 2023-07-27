@@ -9,6 +9,7 @@ import {
   getAlertMsgUseCase,
   getAllBookingsUseCase,
   getAllCommunityUseCase,
+  getAllJoinedAndNotJoinedCommunityUseCase,
   getUserBookedDetailsUseCase,
   getUserDetailsUseCase,
   joinCommunityUseCase,
@@ -263,6 +264,18 @@ const authController = (
     }
   )
 
+  const getAllJoinedAndNotJoinedCommunity = asyncHandler(
+    async(req:CustomRequest,res:Response)=>{
+      const userId = req?.payload?.id ?? ''
+      const result = await getAllJoinedAndNotJoinedCommunityUseCase(userId,dbRepositoryUser);
+      res.json({
+        status: true,
+        message: 'fetch all user joined and not joined communities success',
+        result
+      })
+    }
+  )
+
   return {
     userRegister,
     userLogin,
@@ -278,7 +291,8 @@ const authController = (
     getAlertMsg,
     createCommnuity,
     getAllCommunity,
-    joinCommunity
+    joinCommunity,
+    getAllJoinedAndNotJoinedCommunity
   };
 };
 

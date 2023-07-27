@@ -21,6 +21,7 @@ export const userDbRepository= (repository:ReturnType<UserRepositoryMongoDB>)=>{
     const createCommunity = async(obj:CommunityInterface)=> repository.createCommunity(obj)
     const getAllCommunity = async()=> repository.getAllCommunity()
     const joinCommunity = async(obj:JoinCommunityInterface)=> repository.joinCommunity(obj)
+    const getAllJoinedAndNotJoinedCommunity= async(userId:string)=> repository.getAllJoinedAndNotJoinedCommunity(userId)
     return {
         addUser,
         getUserByEmail,
@@ -37,7 +38,8 @@ export const userDbRepository= (repository:ReturnType<UserRepositoryMongoDB>)=>{
         getAlertMsg,
         createCommunity,
         getAllCommunity,
-        joinCommunity
+        joinCommunity,
+        getAllJoinedAndNotJoinedCommunity
     }
 
 }

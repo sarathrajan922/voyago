@@ -38,6 +38,8 @@
     AGENT_CREATE_ALERT_MESSAGE: 'agent/alert-message',
     USER_CREATE_COMMUNITY: 'auth/user-create-community',
     USER_GET_ALL_COMMUNITIES: 'auth/get-all-community',
+    USER_JOIN_COMMUNITY:'auth/join-community',
+    USER_GET_ALL_JOINED_AND_NOT_JOINED_COMMUNITY: 'auth/getAlluserJoinedAndNotJoinedcommunity',
  }
  
  const BASE_URL= 'http://localhost:8000/';

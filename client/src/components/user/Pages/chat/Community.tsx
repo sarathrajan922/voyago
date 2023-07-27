@@ -4,6 +4,7 @@ import { GetAllCommunityApiResponse } from "../../../../API/type/getAllCommunity
 import { GetAllCommunity } from "../../../../features/axios/api/user/userGetAllCommunity";
 import CommunityGroupShimmer from "../../../Shimmer/communityGroupShimmer";
 import Navbar from "../../Navbar";
+import { userJoinCommunity } from "../../../../features/axios/api/user/userJoinCommunity";
 
 const Community: React.FC = () => {
   const [communities, setCommunities] = useState<
@@ -39,6 +40,19 @@ const Community: React.FC = () => {
   };
 
   useEffect(() => {}, [selectedChat]);
+
+  const communityJoinHandler =(communityId:string)=>{
+    console.log('clicked..')
+    console.log(communityId)
+
+    userJoinCommunity(communityId).then((response)=>{
+        console.log(response)
+    }).catch((err:any)=>{
+        console.log(err.message)
+    })
+  }               
+
+
   return (
     <>
    <Navbar />
@@ -116,9 +130,8 @@ const Community: React.FC = () => {
                 communities.map((doc, index) => {
                   return (
                     <div
-                      onClick={() => chatHandler(index, doc)}
                       className={
-                        `border-b pl-4 border-gray-100 py-2 mr-2 flex items-center  gap-2 cursor-pointer  rounded ` +
+                        `border-b pl-4 border-gray-100 py-2 mr-2 flex items-center  gap-2   rounded ` +
                         (selectedChat === index ? "bg-light-blue-50" : "")
                       }
                     >
@@ -131,14 +144,17 @@ const Community: React.FC = () => {
                         {doc?.communityName}
                       </span>
                       <div className="flex-grow"></div>
-                      <div className="self-end">
+                      <div className="self-end  cursor-pointer " >
                         <svg 
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
                           strokeWidth={1.5}
                           stroke="currentColor"
-                          className="w-6 h-6 items-end"
+                          className="w-6 h-6 items-end hover:text-teal-400"
+                          onClick={()=>{
+                            communityJoinHandler(doc?._id)
+                          }}
                         >
                           <path
                             strokeLinecap="round"

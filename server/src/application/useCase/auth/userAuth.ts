@@ -248,3 +248,14 @@ export const joinCommunityUseCase = async(
   }
   return result
 }
+
+export const getAllJoinedAndNotJoinedCommunityUseCase = async(
+  userId:string,
+  userDbRepository:ReturnType<UserDbInterface>
+  )=>{
+    const result = await userDbRepository.getAllJoinedAndNotJoinedCommunity(userId);
+    if(!result){
+      throw new AppError('could not find commuity',HttpStatus.NOT_FOUND)
+    }
+    return result
+  }
