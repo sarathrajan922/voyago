@@ -6,9 +6,11 @@ import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import {
   createCommunityUseCase,
+  createConversationUseCase,
   getAlertMsgUseCase,
   getAllBookingsUseCase,
   getAllCommunityUseCase,
+  getAllConversationUseCase,
   getAllJoinedAndNotJoinedCommunityUseCase,
   getUserBookedDetailsUseCase,
   getUserDetailsUseCase,
@@ -278,6 +280,35 @@ const authController = (
     }
   )
 
+  const createConversation = asyncHandler(
+    async(req: CustomRequest,res:Response)=>{
+      const userId = req?.payload?.id ?? ''
+      
+      let conversationObj = req?.body
+      conversationObj.senderId = userId
+      const result = await createConversationUseCase(conversationObj,dbRepositoryUser);
+      res.json({
+        status: true,
+        message: 'conversation created successfully',
+        result,
+      })
+      
+    }
+  )
+
+  const getAllConversation = asyncHandler(
+    async(req:CustomRequest,res:Response)=>{
+     
+      const communityId = req?.params?.id
+      const result = await getAllConversationUseCase(communityId,dbRepositoryUser)
+      res.json({
+        status: true,
+        message:'fetch all conversation data successful',
+        result
+      })
+    }
+  )
+
   return {
     userRegister,
     userLogin,
@@ -294,7 +325,9 @@ const authController = (
     createCommnuity,
     getAllCommunity,
     joinCommunity,
-    getAllJoinedAndNotJoinedCommunity
+    getAllJoinedAndNotJoinedCommunity,
+    createConversation,
+    getAllConversation
   };
 };
 
