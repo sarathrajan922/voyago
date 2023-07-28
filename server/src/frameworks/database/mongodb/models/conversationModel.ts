@@ -1,3 +1,4 @@
+import { timeStamp } from "console";
 import { Schema, model } from "mongoose";
 
 const CoversationSchema = new Schema({
@@ -9,9 +10,9 @@ const CoversationSchema = new Schema({
         type:String,
         required:[true, 'please specify a message']
     },
-    createdAt: {
+    createdAt: {    
         type:Date,
-        default: Date.now()
+        default: Date.now
     },
     senderId: {
         type: String,
