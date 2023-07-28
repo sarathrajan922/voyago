@@ -271,3 +271,14 @@ export const createConversationUseCase = async(
   }
   return result
 }
+
+export const getAllConversationUseCase = async(
+  communityId: string,
+  userDbRepository:  ReturnType<UserDbInterface>
+)=> {
+  const result = await userDbRepository.getAllConversation(communityId)
+  if(!result){
+    throw new AppError('no conversation found!',HttpStatus.NOT_FOUND)
+  }
+  return result
+}

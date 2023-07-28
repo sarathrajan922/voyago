@@ -245,6 +245,11 @@ export const userRepositoryMongoDB = () => {
     return result
    }
 
+   const getAllConversation = async(communityId: string)=>{
+    const result = await Conversation.find({communityId})
+    return result
+   }
+
   return {
     addUser,
     getUserByEmail,
@@ -263,7 +268,8 @@ export const userRepositoryMongoDB = () => {
     getAllCommunity,
     joinCommunity,
     getAllJoinedAndNotJoinedCommunity,
-    createConversation
+    createConversation,
+    getAllConversation
   };
 };
 

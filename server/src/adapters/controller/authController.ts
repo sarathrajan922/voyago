@@ -10,6 +10,7 @@ import {
   getAlertMsgUseCase,
   getAllBookingsUseCase,
   getAllCommunityUseCase,
+  getAllConversationUseCase,
   getAllJoinedAndNotJoinedCommunityUseCase,
   getUserBookedDetailsUseCase,
   getUserDetailsUseCase,
@@ -295,6 +296,19 @@ const authController = (
     }
   )
 
+  const getAllConversation = asyncHandler(
+    async(req:CustomRequest,res:Response)=>{
+     
+      const communityId = req?.params?.id
+      const result = await getAllConversationUseCase(communityId,dbRepositoryUser)
+      res.json({
+        status: true,
+        message:'fetch all conversation data successful',
+        result
+      })
+    }
+  )
+
   return {
     userRegister,
     userLogin,
@@ -312,7 +326,8 @@ const authController = (
     getAllCommunity,
     joinCommunity,
     getAllJoinedAndNotJoinedCommunity,
-    createConversation
+    createConversation,
+    getAllConversation
   };
 };
 
