@@ -9,11 +9,23 @@ import { GetAllConversationApiResponse } from "../../../../API/type/getAllConver
 import { getAllConversation } from "../../../../features/axios/api/user/userGetAllConversation";
 import { format } from "timeago.js";
 import { userCreateConversation } from "../../../../features/axios/api/user/userCreateConversation";
+import { io } from "socket.io-client";
+import { getUserDetails } from "../../../../features/axios/api/user/userGetProfile";
 
 const Community: React.FC = () => {
-  //   const [communities, setCommunities] = useState<
-  //     GetAllCommunityApiResponse[] | null
-  //   >(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [communityIds, setCommunitIds] = useState<string | null>(null);
+  const [socketCommunityId, setSocketCommunityId] = useState<string | null>(
+    null
+  );
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    getUserDetails().then((response) => {
+      setUserId(response.userData._id);
+    });
+  }, []);
+
+  const socket = useRef<any>(null);
 
   const [joinedCommunity, setJoinedCommunity] = useState<
     GetAllCommunityApiResponse[] | null
@@ -29,7 +41,7 @@ const Community: React.FC = () => {
   const [conversation, setConversation] = useState<
     GetAllConversationApiResponse[] | null
   >(null);
-  const [userId, setUserId] = useState<string | null>(null);
+
   const [message, setMessage] = useState<string>("");
   useEffect(() => {
     const getAllCommunity = async () => {
@@ -40,7 +52,7 @@ const Community: React.FC = () => {
           setNotJoinedCommunity(
             response?.result.notJoinedCommunities.reverse()
           );
-          setUserId(response?.userId);
+          // setUserId(response?.userId);
         })
         .catch((error: any) => {
           console.log(error.message);
@@ -51,13 +63,12 @@ const Community: React.FC = () => {
 
   const [selectedChat, setSelectedChat] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [arraivalMsg, setArravialMsg] = useState<any>(null);
 
   const chatHandler = (group: number, doc: GetAllCommunityApiResponse) => {
-    console.log("cliked");
-
     setSelectedChat(group);
     setChatHead(doc);
-
+    setCommunitIds(doc?._id);
     getAllConversation(doc?._id)
       .then((response) => {
         setConversation(response);
@@ -67,33 +78,30 @@ const Community: React.FC = () => {
       });
   };
 
-  console.log(conversation);
-
   useEffect(() => {}, [selectedChat]);
 
   const communityJoinHandler = (communityId: string) => {
-    console.log("clicked..");
-    console.log(communityId);
-
     userJoinCommunity(communityId)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
       })
       .catch((err: any) => {
         console.log(err.message);
       });
   };
 
-  const messageHandler = (e:any) => {
+  const messageHandler = (e: any) => {
     e.preventDefault();
     const communityId = chatHead?._id ?? "";
     const conversationObj = {
       communityId,
       message,
     };
+
+    socket.current?.emit("sendMessage", { userId, communityIds, message });
+
     userCreateConversation(conversationObj)
       .then(() => {
-        
         getAllConversation(communityId)
           .then((response) => {
             setConversation(response);
@@ -108,17 +116,42 @@ const Community: React.FC = () => {
         console.log(err.message);
       });
   };
-  // const scrollDiv = () => {
-  //   const divElement = divRef.current;
-  //   if (divElement) {
-  //     divElement.scrollIntoView({ behavior: "smooth" });
-  //   }
-  // };
 
   useEffect(() => {
     // scrollDiv();
-    divRef.current?.scrollIntoView({behavior: "smooth"})
+    divRef.current?.scrollIntoView({ behavior: "smooth" });
+    socket?.current?.on("getMessage", (data: any) => {
+      setSocketCommunityId(data.communityId);
+      const obj = {
+        _id: "",
+        communityId: "",
+        message: data.message,
+        createdAt: Date.now(),
+        senderId: data.senderId,
+      };
+
+      setArravialMsg(obj);
+    });
   }, [message]);
+
+  useEffect(() => {
+    socket.current = io("ws://localhost:8900");
+  }, []);
+
+  useEffect(() => {
+    if (userId) {
+      socket?.current?.emit("addUser", userId);
+      socket?.current?.on("getUsers", (users: any) => {
+        console.log(users);
+      });
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    if (communityIds === socketCommunityId) {
+      arraivalMsg && setConversation((prev: any) => [...prev, arraivalMsg]);
+    }
+  }, [arraivalMsg]);
 
   return (
     <>
@@ -283,7 +316,6 @@ const Community: React.FC = () => {
                       conversation.map((doc, index) => (
                         <div
                           key={index}
-                          
                           className={`flex flex-col mt-3 ${
                             doc?.senderId === userId ? "items-end" : ""
                           }`}
@@ -301,10 +333,7 @@ const Community: React.FC = () => {
                                   : "bg-white text-black"
                               }`}
                             >
-                              <div >
-
-                              {doc?.message}
-                              </div>
+                              <div>{doc?.message}</div>
                             </p>
                           </div>
 
