@@ -119,7 +119,7 @@ const Community: React.FC = () => {
 
   useEffect(() => {
     // scrollDiv();
-    divRef.current?.scrollIntoView({ behavior: "smooth" });
+   
     socket?.current?.on("getMessage", (data: any) => {
       setSocketCommunityId(data.communityId);
       const obj = {
@@ -133,6 +133,10 @@ const Community: React.FC = () => {
       setArravialMsg(obj);
     });
   }, [message]);
+
+  useEffect(()=>{
+    divRef.current?.scrollIntoView({ behavior: "smooth" });
+  },[message,arraivalMsg])
 
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
@@ -320,7 +324,8 @@ const Community: React.FC = () => {
                             doc?.senderId === userId ? "items-end" : ""
                           }`}
                         >
-                          <div className="flex">
+                        
+                          <div ref={divRef} className="flex">
                             <img
                               className="mr-2 w-8 mt-2 h-8 rounded-full object-cover"
                               src="https://res.cloudinary.com/dk4darniv/image/upload/v1690396460/png-transparent-circle-silhouett_pfuxe9.webp"
@@ -337,7 +342,7 @@ const Community: React.FC = () => {
                             </p>
                           </div>
 
-                          <div ref={divRef} className="text-xs mt-2">
+                          <div  className="text-xs mt-2">
                             {format(doc?.createdAt)}
                           </div>
                         </div>
