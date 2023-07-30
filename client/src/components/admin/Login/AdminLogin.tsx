@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import { adminLogin } from "../../features/axios/api/admin/adminAuthentication";
+import { adminLogin } from "../../../features/axios/api/admin/adminAuthentication";
 
 interface FormValues {
   email: string;

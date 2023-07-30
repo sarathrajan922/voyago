@@ -11,7 +11,7 @@ import {
 import React from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import { verifyAgent } from "../../../features/axios/api/admin/adminVerifyAgent";
+import { verifyAgent } from "../../../../features/axios/api/admin/adminVerifyAgent";
 
 interface ViewIdProofProps {
   idImg: string;

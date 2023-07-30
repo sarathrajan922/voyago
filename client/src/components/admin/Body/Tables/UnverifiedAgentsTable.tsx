@@ -12,7 +12,7 @@ import {
   CardFooter,
   Avatar,
 } from "@material-tailwind/react";
-import ViewIdProof from "../ViewIdProof";
+import ViewIdProof from "../pages/ViewIdProof";
 import { useState, useEffect } from "react";
 
 import { adminUnVerifedAgents } from "../../../../features/axios/api/admin/adminGetAllUnVerifiedAgents";

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "./components/user/Navbar";
+import Navbar from "./components/user/Navbar/Navbar";
 // import Login from './components/user/Login/Login';
 // import Signup from './components/user/Signup/Signup';
-import Footer from "./components/user/Footer";
+import Footer from "./components/user/Footer/Footer";
 import { Outlet } from "react-router-dom";
 import { CircleLoader, PropagateLoader, PulseLoader } from "react-spinners";
-import AdminDashBoard from "./components/admin/AdminLayout";
-import AgentDashBoard from "./components/agent/AgentLayout";
-import AgentLoginForm from "./components/agent/AgentLogin";
+import AdminDashBoard from "./components/admin/Layout/AdminLayout";
+import AgentDashBoard from "./components/agent/Layout/AgentLayout";
+import AgentLoginForm from "./components/agent/Login/AgentLogin";
 
 function App() {
   return (

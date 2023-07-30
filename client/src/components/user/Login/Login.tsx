@@ -3,12 +3,12 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate, Link } from "react-router-dom";
-import { userLogin } from "../../features/axios/api/user/userAuthentication";
+import { userLogin } from "../../../features/axios/api/user/userAuthentication";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch} from 'react-redux'
-import { setUser } from "../../features/redux/slices/user/userSlice";
-import GoogleAuthComponent from "../common/GoogleAuthComponent";
+import { setUser } from "../../../features/redux/slices/user/userSlice";
+import GoogleAuthComponent from "../../common/GoogleAuthComponent";
 import { useEffect, useState } from "react";
 import { CircleLoader, PropagateLoader, PulseLoader } from "react-spinners";
 interface FormValues {
