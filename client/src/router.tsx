@@ -1,20 +1,20 @@
  import { createBrowserRouter } from 'react-router-dom'
-import Login from './components/user/Login'
+import Login from './components/user/Login/Login'
 
 import App from './App';
-import Signup from './components/user/Signup';
+import Signup from './components/user/Signup/Signup';
 import Body from './components/user/Pages/Body';
-import AdminLogin from './components/admin/AdminLogin';
-import AgentSignupForm from './components/agent/AgentSignup';
+import AdminLogin from './components/admin/Login/AdminLogin';
+import AgentSignupForm from './components/agent/Signup/AgentSignup';
 
 import { Agent, Admin } from './App';
-import AgentLoginForm from './components/agent/AgentLogin';
+import AgentLoginForm from './components/agent/Login/AgentLogin';
 
 
-import AdminUser from './components/admin/Body/AdminUser';
-import AdminAgents from './components/admin/Body/AdminAgents';
-import AdminDash from './components/admin/Body/DashBoard';
-import AdminAgentVerification from './components/admin/Body/AdminAgentVerification';
+import AdminUser from './components/admin/Body/pages/AdminUser';
+import AdminAgents from './components/admin/Body/pages/AdminAgents';
+import AdminDash from './components/admin/Body/pages/DashBoard';
+import AdminAgentVerification from './components/admin/Body/pages/AdminAgentVerification';
 import AgentDash from './components/agent/Pages/AgentDash';
 import AgentCategory from './components/agent/Pages/CategoryManagement';
 

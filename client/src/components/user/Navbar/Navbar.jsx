@@ -31,7 +31,7 @@ import {
   
   PhoneIcon,
 } from "@heroicons/react/24/outline";
-import { selectUser } from "../../features/redux/slices/user/userSlice";
+import { selectUser } from "../../../features/redux/slices/user/userSlice";
 
 
 

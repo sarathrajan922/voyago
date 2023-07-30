@@ -3,7 +3,7 @@ import ComunityCreateModal from "../Modals/CommunityCreateModal";
 import { GetAllCommunityApiResponse } from "../../../../API/type/getAllCommunity";
 import { GetAllCommunity } from "../../../../features/axios/api/user/userGetAllCommunity";
 import CommunityGroupShimmer from "../../../Shimmer/communityGroupShimmer";
-import Navbar from "../../Navbar";
+import Navbar from "../../Navbar/Navbar";
 import { userJoinCommunity } from "../../../../features/axios/api/user/userJoinCommunity";
 import { GetAllConversationApiResponse } from "../../../../API/type/getAllConversation";
 import { getAllConversation } from "../../../../features/axios/api/user/userGetAllConversation";

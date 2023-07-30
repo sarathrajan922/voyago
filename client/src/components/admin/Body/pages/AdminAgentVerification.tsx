@@ -1,4 +1,4 @@
-import UnverifiedAgentsTable from "./Tables/UnverifiedAgentsTable";
+import UnverifiedAgentsTable from "../Tables/UnverifiedAgentsTable";
 
 const AdminAgentVerification: React.FC = () => {
   return (
