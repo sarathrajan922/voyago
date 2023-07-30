@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 
 // import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -22,7 +23,7 @@ export default function AgentDashBoard(){
 
   return (
     <>
-      <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+      <nav className="fixed top-0 z-50 w-full bg-white  mb-1 mx-1 rounded hover:shadow-sm shadow-xl border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div className="px-3 py-3 lg:px-5 lg:pl-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-start">
@@ -48,12 +49,13 @@ export default function AgentDashBoard(){
                   ></path>
                 </svg>
               </button>
-              <a href="/admin" className="flex ml-2 md:mr-24">
-                {/* <img src="https://res.cloudinary.com/dk4darniv/image/upload/v1687011586/Voyago_Health_LogoType-1_fnahpn.webp" className="h-8 mr-3" alt="voyago Logo"/> */}
-                <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+              <Link to="/agent" className="flex ml-2 md:mr-24">
+                
+                <img src="https://res.cloudinary.com/dk4darniv/image/upload/v1690722658/voyago%20logo/voyago-high-resolution-logo-color-on-transparent-background_1_joe0sz.webp" className="h-8 mr-3" alt="voyago logo" />
+                <span className="self-center text-xl font-serif sm:text-2xl whitespace-nowrap dark:text-white">
                   voya<span className="text-sky-600">go</span>
                 </span>
-              </a>
+              </Link>
             </div>
             <div className="flex items-center">
               <div className="flex items-center ml-3">
@@ -65,9 +67,10 @@ export default function AgentDashBoard(){
                     data-dropdown-toggle="dropdown-user"
                   >
                     <span className="sr-only">Open user menu</span>
+                    
                     <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                      className="w-8 h-8 rounded-full object-cover"
+                      src="https://res.cloudinary.com/dk4darniv/image/upload/v1690396460/png-transparent-circle-silhouett_pfuxe9.webp"
                       alt="user photo"
                     />
                   </button>
@@ -139,15 +142,15 @@ export default function AgentDashBoard(){
 
       <aside
         id="logo-sidebar"
-        className="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+        className=" fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white  rounded border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-white shadow-xl rounded-lg  dark:bg-gray-800">
           <ul className="space-y-2 font-medium">
             <li>
-              <a
-                href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              <Link  
+                to="/agent"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white  hover:shadow-xl dark:hover:bg-gray-700"
               >
                 <svg
                   aria-hidden="true"
@@ -160,12 +163,12 @@ export default function AgentDashBoard(){
                   <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                 </svg>
                 <span className="ml-3">Dashboard</span>
-              </a>
+              </Link>
             </li>
             <li>
               <Link
                 to="/agent/profile"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:shadow-xl dark:hover:bg-gray-700"
               >
                 <svg
                   aria-hidden="true"
@@ -185,7 +188,7 @@ export default function AgentDashBoard(){
             <li>
               <Link
                 to= "/agent/packages"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:shadow-xl dark:hover:bg-gray-700"
               >
                 <svg
                   aria-hidden="true"
@@ -204,7 +207,7 @@ export default function AgentDashBoard(){
             <li>
               <Link
                 to="/agent/add-package"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:shadow-xl dark:hover:bg-gray-700"
               >
                 <svg
                   aria-hidden="true"
@@ -220,10 +223,10 @@ export default function AgentDashBoard(){
                 
               </Link>
             </li>
-            <li>
+            {/* <li>
               <a
                 href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:shadow-xl dark:hover:bg-gray-700"
               >
                 <svg
                   aria-hidden="true"
@@ -243,11 +246,11 @@ export default function AgentDashBoard(){
                   1
                 </span>
               </a>
-            </li>
+            </li> */}
             <li>
               <Link 
                 to="/agent/all-bookings"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:shadow-xl dark:hover:bg-gray-700"
               >
                 <svg
                   aria-hidden="true"
@@ -272,7 +275,7 @@ export default function AgentDashBoard(){
             <li>
               <Link
                 to="/agent/category"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:shadow-xl dark:hover:bg-gray-700"
               >
                 <svg
                   aria-hidden="true"
