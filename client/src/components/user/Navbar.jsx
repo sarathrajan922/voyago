@@ -469,16 +469,16 @@ export default function ComplexNavbar() {
           
           <Link to="/">
             <img
-              className="block h-8 w-auto lg:hidden bg-grey-400  rounded-full"
-              src="https://res.cloudinary.com/dk4darniv/image/upload/v1687011586/Voyago_Health_LogoType-1_fnahpn.webp"
+              className="block h-8 w-auto lg:hidden  rounded-full"
+              src="https://res.cloudinary.com/dk4darniv/image/upload/v1690722658/voyago%20logo/voyago-high-resolution-logo-color-on-transparent-background_1_joe0sz.webp"
               alt="Your Company"
             />{" "}
           </Link>{" "}
           <Link to="/">
             {" "}
             <img
-              className="hidden h-8 w-auto lg:block bg-gray-400 rounded-full"
-              src="https://res.cloudinary.com/dk4darniv/image/upload/v1687011586/Voyago_Health_LogoType-1_fnahpn.webp"
+              className="hidden h-8 w-full  lg:block rounded-full"
+              src="https://res.cloudinary.com/dk4darniv/image/upload/v1690722658/voyago%20logo/voyago-high-resolution-logo-color-on-transparent-background_1_joe0sz.webp"
               alt="Your Company"
             />
           </Link>
