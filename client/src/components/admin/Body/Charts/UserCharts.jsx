@@ -57,8 +57,8 @@ const UserChart = () => {
     <CircleLoader color="#1bacbf " />
   </div>
 </div> : (
-    <div id="chart">
-      <ReactApexChart options={option} series={series} type="pie" width={380} />
+    <div id="chart w-full h-auto">
+      <ReactApexChart options={option} series={series} type="pie"  />
     </div>
   );
 };

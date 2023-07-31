@@ -57,7 +57,28 @@ const adminRouter = () => {
     adminRoleCheckMiddleware,
     controller.verifyAgent
   );
+
+  router.get(
+    '/get-basic-details-user-agent',
+    authenticationMiddleware,adminRoleCheckMiddleware,controller.BasicDetailsUserAgentPackageBooking
+
+  );
+
+  router.get(
+    '/get-all-agents-status',
+    authenticationMiddleware,adminRoleCheckMiddleware,controller.getAgentsStatus
+  )
+
+  router.get(
+    '/get-all-booking-stat',
+    authenticationMiddleware,adminRoleCheckMiddleware,controller.getAllBookingStat
+  )
+
+
   return router;
 };
 
 export default adminRouter;
+
+
+

@@ -21,8 +21,6 @@ const configKeys = {
     STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY as string
   
     // EMAIL_NODE_MAILER: process.env.EMAIL_USERNAME as string,
-  
-    // PASSWORD_NODE_MAILER: process.env.EMAIL_PASSWORD as string,
   };
   
   export default configKeys;

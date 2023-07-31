@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { agentVerificationCheck } from "../../../features/axios/api/agent/agentVerificationCheck";
 import AgentDashBoardHeading from "../agentComponents/AgentDashBoardHeading";
 import AgentDashBasicDetails from "../agentComponents/AgentDashBasicDetails";
+import AgentSalesChart from "../Charts/SalesChart";
 
 const AgentDash: React.FC = () => {
   const [isVerified, setIsVerified] = useState<boolean | null>(null);
@@ -49,25 +50,21 @@ const AgentDash: React.FC = () => {
               
 
 
-              <div className="grid grid-col-2 my-7">
-                {/* here user chart component */}
+              <div className="flex flex-wrap my-7">
+          {/* here user chart component */}
 
-                <div className="flex">
-                  <div className="mr-10">
-                    <div>
-                      <h1>Bookings</h1>
-                    </div>
+          
+            <div className="flex-col w-full md:w-1/2 ">
+              <div className="flex justify-center mb-2">
+                <h1 className="font-bold text-xl">Bookings</h1>
+              </div>
 
-                    {/* <SalesChart /> */}
-                  </div>
-                  <div className="ms-10 ">
-                    <div>
-                      <h1>Users</h1>
-                    </div>
-                    {/* <UserChart /> */}
-                  </div>
-                </div>
-              </div>{" "}
+              <AgentSalesChart/>
+            </div>
+
+            
+          
+        </div>
             </>
           )}
         </div>

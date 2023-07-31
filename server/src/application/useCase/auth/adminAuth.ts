@@ -108,3 +108,33 @@ export const adminVerifyAgentUseCase = async (
   }
   return adminVerifyAgent;
 };
+
+export const BasicDetailsUserAgentPackageBookingUseCase = async(
+  adminDbRepository: ReturnType<AdminDbInterface>
+)=>{
+  const result = await adminDbRepository.BasicDetailsUserAgentPackageBooking();
+  if(!result){
+    throw new AppError('could not fetch basic details of user agent package ', HttpStatus.NOT_FOUND)
+  }
+  return result
+}
+
+export const getAgentsStatusUseCase = async(
+  adminDbRepository:ReturnType<AdminDbInterface>
+)=>{
+  const result = await adminDbRepository.getAgentStatus();
+  if(!result){
+    throw new AppError('could not fetch agents status',HttpStatus.NOT_FOUND)
+  }
+  return result
+}
+
+export const getAllBookingStatUseCase = async(
+  adminDbRepository:ReturnType<AdminDbInterface> 
+)=>{
+  const result = await adminDbRepository.getAllBookingStat();
+  if(!result){
+    throw new AppError('could not get all booking status',HttpStatus.NOT_FOUND)
+  }
+  return result
+}
