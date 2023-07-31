@@ -18,6 +18,7 @@ export const adminDbRepository = (repository: ReturnType<AdminRepossitoryMongoDB
     const blockAgent = async (ojbId: string)=> await repository.blockAgent(ojbId)
     const getUnverifiedAgents = async ()=> await repository.getUnverifiedAgents()
     const verifyAgent = async (objId: string)=> await repository.verifyAgent(objId)
+    const BasicDetailsUserAgentPackageBooking = async ()=> await repository.BasicDetailsUserAgentPackageBooking()
 
     return {
         getAdminByEmail,
@@ -26,7 +27,8 @@ export const adminDbRepository = (repository: ReturnType<AdminRepossitoryMongoDB
         blockUser,
         blockAgent,
         getUnverifiedAgents,
-        verifyAgent
+        verifyAgent,
+        BasicDetailsUserAgentPackageBooking
     }
 }
 

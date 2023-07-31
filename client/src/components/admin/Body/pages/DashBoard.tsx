@@ -3,6 +3,7 @@ import BasicDetails from "../AdminComponents/AdminDashBasicDetails";
 import SalesChart from "../Charts/SalesCharts";
 import UserChart from "../Charts/UserCharts";
 import AdminDashBoardHead from "../AdminComponents/AdminDashBoardHeading";
+import AgentChart from "../Charts/AgentChart";
 
 const AdminDash: React.FC = () => {
   return (
@@ -12,24 +13,33 @@ const AdminDash: React.FC = () => {
         <AdminDashBoardHead/>
         <BasicDetails/>
 
-        <div className="grid grid-col-2 my-7">
+        <div className="flex flex-wrap my-7">
           {/* here user chart component */}
 
-          <div className="flex">
-            <div className="mr-10">
-              <div>
-                <h1>Bookings</h1>
+          
+            <div className="flex-col w-full md:w-1/2 ">
+              <div className="flex justify-center mb-2">
+                <h1 className="font-bold text-xl">Bookings</h1>
               </div>
 
               <SalesChart />
             </div>
-            <div className="ms-10 ">
-              <div>
-                <h1>Users</h1>
+            <div className="flex-col w-full md:w-1/2">    
+              <div className="flex justify-center mb-2">
+                <h1 className="font-bold text-xl">Agent</h1>
+              </div>
+              <AgentChart />
+            </div>
+
+            <div className="flex-col w-full md:w-1/2">    
+              <div className="flex justify-center mb-2">
+                <h1 className="font-bold text-xl">Users</h1>
               </div>
               <UserChart />
+              
             </div>
-          </div>
+
+          
         </div>
 
 

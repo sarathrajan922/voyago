@@ -108,3 +108,13 @@ export const adminVerifyAgentUseCase = async (
   }
   return adminVerifyAgent;
 };
+
+export const BasicDetailsUserAgentPackageBookingUseCase = async(
+  adminDbRepository: ReturnType<AdminDbInterface>
+)=>{
+  const result = await adminDbRepository.BasicDetailsUserAgentPackageBooking();
+  if(!result){
+    throw new AppError('could not fetch basic details of user agent package ', HttpStatus.NOT_FOUND)
+  }
+  return result
+}

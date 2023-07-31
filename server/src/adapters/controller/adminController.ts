@@ -2,11 +2,12 @@ import { AuthServiceInterface, authServiceInterface } from "../../application/se
 import { AuthService } from "../../frameworks/services/authService";
 import { AdminDbInterface } from "../../application/repository/adminDBrepository";
 import { AdminRepossitoryMongoDB } from "../../frameworks/database/mongodb/repositories/adminRepoMongoDB";
-import { adminBlockAgentUseCase, adminBlockUserUseCase, adminGetAllAgentsUseCase, adminGetUnverifiedAgentsUseCase, adminLoginUseCase, adminVerifyAgentUseCase  } from "../../application/useCase/auth/adminAuth";
+import { BasicDetailsUserAgentPackageBookingUseCase, adminBlockAgentUseCase, adminBlockUserUseCase, adminGetAllAgentsUseCase, adminGetUnverifiedAgentsUseCase, adminLoginUseCase, adminVerifyAgentUseCase  } from "../../application/useCase/auth/adminAuth";
 import { AdminInterface } from "../../types/admin";
 import { Request,Response} from 'express'
 import { adminGetAllUsersUseCase } from "../../application/useCase/auth/adminAuth";
 import asyncHandler from "express-async-handler";
+import { CustomRequest } from "../../types/expressRequest";
 
 
 const adminController = (
@@ -84,6 +85,14 @@ const adminController = (
             result
         })
     })
+
+    const BasicDetailsUserAgentPackageBooking = asyncHandler(async(req:CustomRequest,res:Response)=>{
+        const result = await BasicDetailsUserAgentPackageBookingUseCase(dbRepositoryAdmin)
+        res.json({
+            status: 'success',
+            result
+        })
+    })
      
     
 
@@ -94,7 +103,8 @@ const adminController = (
         adminBlockUser,
         adminBlockAgent,
         getUnverifiedAgents,
-        verifyAgent
+        verifyAgent,
+        BasicDetailsUserAgentPackageBooking
     }
 }
 

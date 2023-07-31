@@ -3,6 +3,8 @@ import { AdminInterface } from "../../../../types/admin";
 import User from "../models/userModel";
 import Agent from "../models/agentModel";
 import { ObjectId, Types } from "mongoose";
+import TourPackage from "../models/tourPackageModel";
+import TourConfirm from "../models/tourConfirmDetails";
 
 export const adminRepossitoryMongoDB = ()=>{
     const getAdminByEmail = async (email: string)=>{
@@ -60,6 +62,24 @@ export const adminRepossitoryMongoDB = ()=>{
         return result
     }
 
+    const BasicDetailsUserAgentPackageBooking = async ()=>{
+        const UserCount = await User.countDocuments({})
+
+          const AgentCount = await Agent.countDocuments({})
+          const PackageCount = await TourPackage.countDocuments({})
+          const BookingCount = await TourConfirm.find({payment:'success'}).count()
+
+          const resObj = {
+            UserCount,
+            AgentCount,
+            PackageCount,
+            BookingCount
+          }
+
+          console.log(resObj)
+          return resObj
+    }   
+
    
 
 
@@ -72,7 +92,8 @@ export const adminRepossitoryMongoDB = ()=>{
         blockUser,
         blockAgent,
         getUnverifiedAgents,
-        verifyAgent
+        verifyAgent,
+        BasicDetailsUserAgentPackageBooking
     }
 }
 

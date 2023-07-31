@@ -41,7 +41,8 @@
     USER_JOIN_COMMUNITY:'auth/join-community',
     USER_GET_ALL_JOINED_AND_NOT_JOINED_COMMUNITY: 'auth/getAlluserJoinedAndNotJoinedcommunity',
     USER_CREATE_CONVERSATION: 'auth/create-conversation',
-    USER_GET_ALL_CONVERSATION_COMMUNITY: 'auth/get-all-coversation/'
+    USER_GET_ALL_CONVERSATION_COMMUNITY: 'auth/get-all-coversation/',
+    ADMIN_GET_BASIC_DETAILS_USER_AGENT_PACKAGE: 'admin/get-basic-details-user-agent'
  }
  
  const BASE_URL= 'http://localhost:8000/';

@@ -19,13 +19,16 @@ const SalesChart = () => {
   ]);
 
   return (
+    <div className="w-full h-auto">
+
+    
     <Chart
       options={option}
       series={series}
       type="line"
-      width={500}
-      height={320}
+      
     />
+    </div>
   );
 };
 

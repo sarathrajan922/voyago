@@ -3,7 +3,7 @@ import ReactApexChart from "react-apexcharts";
 import { getUsers } from "../../../../features/axios/api/admin/adminGetAllUsers";
 import { CircleLoader } from "react-spinners";
 
-const UserChart = () => {
+const AgentChart = () => {
     const [isload, setIsLoad] = useState(null)
   useEffect(() => {
     const getAllUsers = async () => {
@@ -20,7 +20,7 @@ const UserChart = () => {
                 Block++
             }
         });
-        setSeries([Active,Block])
+        setSeries([Active,Block,10,5])
 
   
       } 
@@ -31,9 +31,18 @@ const UserChart = () => {
   const [option, setOption] = useState({
     chart: {
       width: 380,
-      type: "pie",
+      type: "donut",
     },
-    labels: ["Active", "Blocked"],
+    plotOptions: {
+        pie: {
+          startAngle: -90,
+          endAngle: 270
+        }
+      },
+    // title: {
+    //     text: 'Agents overview'
+    //   },
+    labels: ["Active", "Blocked","verified","notVerified"],
     responsive: [
       {
         breakpoint: 480,
@@ -44,10 +53,16 @@ const UserChart = () => {
           legend: {
             position: "bottom",
           },
+          dataLabels: {
+            enabled: false
+          },    
+          fill: {
+            type: 'gradient',
+          }
         },
       },
     ],
-    colors: ["#22f085", "#e01017"],
+    colors: ["#22f085", "#e01017","#24d9ff","#ffcc00"],
   });
 
   const [series, setSeries] = useState([0,0]);
@@ -57,10 +72,13 @@ const UserChart = () => {
     <CircleLoader color="#1bacbf " />
   </div>
 </div> : (
-    <div id="chart w-full h-auto">
-      <ReactApexChart options={option} series={series} type="pie"  />
-    </div>
+    // <div id="chart w-full h-auto">
+    //   <ReactApexChart options={option} series={series} type="pie"  />
+    // </div>
+   < div id="chart w-full h-auto">
+  <ReactApexChart options={option} series={series} type="donut"  />
+</div>
   );
 };
 
-export default UserChart;
+export default AgentChart;

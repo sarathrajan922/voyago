@@ -2,8 +2,10 @@ import React from 'react';
 
 const AgentDashBasicDetails: React.FC = ()=>{
     return (
-<div className="grid grid-cols-4 gap-4 mb-4">
+<div className="flex flex-wrap mb-4">
                 {/* total users */}
+                <div className='md:w-1/2 lg:w-1/4 w-full p-2'>
+                    
                 <div className="shadow-md flex items-center justify-evenly h-16 rounded bg-gray-100 dark:bg-gray-800">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -26,8 +28,12 @@ const AgentDashBasicDetails: React.FC = ()=>{
                 </div>
 
                
-
+               
+</div>
                 {/* total booking */}
+                <div className='w-full md:w-1/2 lg:w-1/4 p-2'>
+
+                
                 <div className=" shadow-md flex items-center justify-evenly h-16 rounded bg-gray-100 dark:bg-gray-800">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -48,8 +54,12 @@ const AgentDashBasicDetails: React.FC = ()=>{
                     Total Bookings
                   </p>
                 </div>
+                </div>
 
                 {/* total revenue */}
+                <div className='w-full md:w-1/2 lg:w-1/4 p-2'>
+
+                
                 <div className="shadow-md flex items-center justify-evenly h-16 rounded bg-gray-100 dark:bg-gray-800">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -69,6 +79,7 @@ const AgentDashBasicDetails: React.FC = ()=>{
                   <p className="text-xl text-black dark:text-gray-500">
                     Total Revenue
                   </p>
+                </div>
                 </div>
               </div>
     )
