@@ -118,3 +118,23 @@ export const BasicDetailsUserAgentPackageBookingUseCase = async(
   }
   return result
 }
+
+export const getAgentsStatusUseCase = async(
+  adminDbRepository:ReturnType<AdminDbInterface>
+)=>{
+  const result = await adminDbRepository.getAgentStatus();
+  if(!result){
+    throw new AppError('could not fetch agents status',HttpStatus.NOT_FOUND)
+  }
+  return result
+}
+
+export const getAllBookingStatUseCase = async(
+  adminDbRepository:ReturnType<AdminDbInterface> 
+)=>{
+  const result = await adminDbRepository.getAllBookingStat();
+  if(!result){
+    throw new AppError('could not get all booking status',HttpStatus.NOT_FOUND)
+  }
+  return result
+}

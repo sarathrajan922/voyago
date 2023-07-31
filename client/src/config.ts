@@ -42,7 +42,10 @@
     USER_GET_ALL_JOINED_AND_NOT_JOINED_COMMUNITY: 'auth/getAlluserJoinedAndNotJoinedcommunity',
     USER_CREATE_CONVERSATION: 'auth/create-conversation',
     USER_GET_ALL_CONVERSATION_COMMUNITY: 'auth/get-all-coversation/',
-    ADMIN_GET_BASIC_DETAILS_USER_AGENT_PACKAGE: 'admin/get-basic-details-user-agent'
+    ADMIN_GET_BASIC_DETAILS_USER_AGENT_PACKAGE: 'admin/get-basic-details-user-agent',
+    ADMIN_GET_AGENTS_STATUS: 'admin/get-all-agents-status',
+    ADMIN_GET_BOOKING_STAT: 'admin/get-all-booking-stat'
+    
  }
  
  const BASE_URL= 'http://localhost:8000/';

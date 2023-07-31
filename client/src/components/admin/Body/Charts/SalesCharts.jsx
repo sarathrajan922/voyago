@@ -1,22 +1,30 @@
 import Chart from "react-apexcharts";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getAllBookinStat } from "../../../../features/axios/api/admin/adminGetBookingStat";
 
 const SalesChart = () => {
+  
+  const [series, setSeries] = useState([]);
+  useEffect(()=>{
+     getAllBookinStat().then((response)=>{
+      setSeries([
+        {
+          name:"No:of Booking",
+          data: response
+        }
+      ])
+     })
+  },[])
   const [option, setOption] = useState({
     chart: {
       id: "apexchart-example",
     },
     xaxis: {
-      categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
+      categories: ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'],
     },
   });
 
-  const [series, setSeries] = useState([
-    {
-      name: "series-1",
-      data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
-    },
-  ]);
+
 
   return (
     <div className="w-full h-auto">
