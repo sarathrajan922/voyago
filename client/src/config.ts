@@ -44,7 +44,8 @@
     USER_GET_ALL_CONVERSATION_COMMUNITY: 'auth/get-all-coversation/',
     ADMIN_GET_BASIC_DETAILS_USER_AGENT_PACKAGE: 'admin/get-basic-details-user-agent',
     ADMIN_GET_AGENTS_STATUS: 'admin/get-all-agents-status',
-    ADMIN_GET_BOOKING_STAT: 'admin/get-all-booking-stat'
+    ADMIN_GET_BOOKING_STAT: 'admin/get-all-booking-stat',
+    AGENT_GET_ALL_BOOKING_STAT: 'agent/get-all-bookingStat'
     
  }
  

@@ -155,6 +155,31 @@ export const agentRepositoryMongoDB = () => {
     return result
   }
 
+  const getAllAgentBookingStat= async(agentId:string)=>{
+    const bookingCounts: number[] = Array.from({ length: 12 }, () => 0);
+    const data = await TourConfirm.aggregate([
+      {
+        $match:{
+          agentId: agentId,
+          payment: 'success'
+        }
+      },
+      {
+        $group:{
+          _id:{$month:{date:{$toDate:'$travelDate'}}},
+          count:{$sum:1}
+        }
+      }
+    ])
+
+    data.forEach((data)=>{
+      const monthIndex = data._id -1;
+      bookingCounts[monthIndex]= data.count;
+    });
+    console.log(bookingCounts)
+    return bookingCounts;
+  }
+
   return {
     addAgent,
     getAgentByEmail,
@@ -173,8 +198,10 @@ export const agentRepositoryMongoDB = () => {
     checkAgentVerified,
     getAgentProfile,
     agentProfileUpdate,
-    paymentAlert
+    paymentAlert,
+    getAllAgentBookingStat
   };
+
 };
 
 export type AgentRepositoryMongoDB = typeof agentRepositoryMongoDB;

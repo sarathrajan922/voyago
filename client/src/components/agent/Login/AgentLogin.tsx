@@ -67,7 +67,7 @@ export default function AgentLoginForm() {
       <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
         <img
           className="mx-auto h-10 w-auto rounded-full bg-slate-700"
-          src="https://res.cloudinary.com/dk4darniv/image/upload/v1687011586/Voyago_Health_LogoType-1_fnahpn.webp"
+          src="https://res.cloudinary.com/dk4darniv/image/upload/v1690722658/voyago%20logo/voyago-high-resolution-logo-color-on-transparent-background_1_joe0sz.webp"
           alt="Your Company"
         />
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
