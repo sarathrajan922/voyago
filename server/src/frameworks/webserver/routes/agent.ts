@@ -110,6 +110,11 @@ const agentRouter = () => {
  agentRoleCheckMiddleware,
  controller.paymentAlertMessage)
 
+ router.get('/get-all-bookingStat',
+ authenticationMiddleware,
+ agentRoleCheckMiddleware,
+ controller.getAgentBookingStat)
+
   return router;
 };
 

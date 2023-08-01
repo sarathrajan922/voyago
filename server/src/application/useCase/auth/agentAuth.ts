@@ -217,3 +217,14 @@ return result
    }
    return result
  }
+
+ export const getAgentBookingStatUseCase = async(
+   agentId:string,
+   agentRepository: ReturnType<AgentDbInterface>
+ )=>{
+   const result = await agentRepository.getAgentBookingStat(agentId)
+   if(!result){
+      throw new AppError('could not find booking status',HttpStatus.NOT_FOUND)
+   }
+   return result
+ }

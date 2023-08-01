@@ -15,6 +15,7 @@ import {
   deleteCategoryUseCase,
   deletePackageUseCase,
   disablepackageUseCase,
+  getAgentBookingStatUseCase,
   getAgentCategoryUseCase,
   getAgentProfileUseCase,
   getAllPackageUseCase,
@@ -276,6 +277,16 @@ const agentController = (
     })
   })
 
+  const getAgentBookingStat= asyncHandler(async(req:CustomRequest,res:Response)=>{
+    const agentId = req?.payload?.id ?? ''
+    const result = await getAgentBookingStatUseCase(agentId,dbRepositoryAgent)
+    res.json({
+      status: true,
+      message: 'successfully get all booking status',
+      result
+    })
+  })
+
   return {
     agentRegister,
     agentLogin,
@@ -292,7 +303,8 @@ const agentController = (
     checkAgentVerified,
     getAgentProfile,
     agentProfileUpdate,
-    paymentAlertMessage
+    paymentAlertMessage,
+    getAgentBookingStat
   };
 };
 
