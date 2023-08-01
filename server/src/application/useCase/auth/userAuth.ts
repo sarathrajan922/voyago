@@ -282,3 +282,13 @@ export const getAllConversationUseCase = async(
   }
   return result
 }
+
+export const getAllUniqueCategoryUseCase = async(
+  userDbRepository: ReturnType<UserDbInterface>
+)=>{
+  const result =await userDbRepository.getAllUniqueCategory();
+  if(!result){
+    throw new AppError('could not find unique category',HttpStatus.NOT_FOUND)
+  }
+  return result
+}

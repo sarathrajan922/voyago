@@ -12,6 +12,7 @@ import {
   getAllCommunityUseCase,
   getAllConversationUseCase,
   getAllJoinedAndNotJoinedCommunityUseCase,
+  getAllUniqueCategoryUseCase,
   getUserBookedDetailsUseCase,
   getUserDetailsUseCase,
   joinCommunityUseCase,
@@ -309,6 +310,15 @@ const authController = (
     }
   )
 
+  const getAllUniqueCategory = asyncHandler(async(req:Request,res:Response)=>{
+    const result = await getAllUniqueCategoryUseCase(dbRepositoryUser)
+    res.json({
+      status: true,
+      message:'fetch all unique category data successful',
+      result
+    })
+  })
+
   return {
     userRegister,
     userLogin,
@@ -327,7 +337,8 @@ const authController = (
     joinCommunity,
     getAllJoinedAndNotJoinedCommunity,
     createConversation,
-    getAllConversation
+    getAllConversation,
+    getAllUniqueCategory
   };
 };
 

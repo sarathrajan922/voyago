@@ -250,6 +250,16 @@ export const userRepositoryMongoDB = () => {
     return result
    }
 
+   const getAllUniqueCategory = async()=>{
+    const result = await TourPackage.aggregate([
+      { $group: { _id: "$category" } },
+      { $group: { _id: null, categories: { $addToSet: "$_id" } } },
+      { $project: { _id: 0, categories: 1 } }
+    ])
+    
+    return result[0]?.categories
+   }
+
   return {
     addUser,
     getUserByEmail,
@@ -269,7 +279,8 @@ export const userRepositoryMongoDB = () => {
     joinCommunity,
     getAllJoinedAndNotJoinedCommunity,
     createConversation,
-    getAllConversation
+    getAllConversation,
+    getAllUniqueCategory
   };
 };
 
