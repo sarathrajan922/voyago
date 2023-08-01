@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getBookedDetails } from "../../../features/axios/api/user/userGetBookedDetails";
 import { PackageDataApiResponse } from "../../../API/type/getPackage";
 import { useParams } from "react-router-dom";
-import StripeContainer from "./payment/StripeContainer";
+import StripeContainer from "../payment/StripeContainer";
 
 const PaymentPage: React.FC = () => {
   const { id } = useParams();

@@ -29,7 +29,8 @@ import BookingDetailsComponent from './components/user/Pages/BookingDetails';
 import AgentAllBookings from './components/agent/Pages/AllBookings';
 import AgentProfile from './components/agent/Pages/AgentProfile';
 import AgentProfileEdit from './components/agent/Pages/AgentProfileEdit';
-import Community from './components/user/Pages/chat/Community';
+import Community from './components/user/chat/Community';
+import SearchComponent from './components/user/Pages/Search';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -55,12 +56,11 @@ import Community from './components/user/Pages/chat/Community';
                 path: 'user-profile-edit',
                 element: <UserProfileEdit/>
             },
+            
             {
-                path: 'admin/login',
-                element: <AdminLogin/>
+                path:'search',
+                element:<SearchComponent/>
             },
-          
-        
             {
                 path: 'package-details/:id',
                 element: <PackageDetails/>
@@ -126,6 +126,10 @@ import Community from './components/user/Pages/chat/Community';
     {
         path: 'agent/signup',
         element: <AgentSignupForm/>
+    },
+    {
+        path: 'admin/login',
+        element: <AdminLogin/>
     },
     {
         path: '/admin',

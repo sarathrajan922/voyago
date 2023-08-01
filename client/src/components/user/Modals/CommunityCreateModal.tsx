@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FormikHelpers } from "formik";
 import { ObjectSchema } from "yup";
-import { createCommunity } from "../../../../features/axios/api/user/userCreteCommunity";
+import { createCommunity } from "../../../features/axios/api/user/userCreteCommunity";
 import { ToastContainer, toast } from "react-toastify";
 
 interface FormValues {

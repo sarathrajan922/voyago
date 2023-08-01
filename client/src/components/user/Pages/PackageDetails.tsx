@@ -8,7 +8,7 @@ import * as Yup from "yup";
 
 import { useDispatch } from "react-redux";
 import { setBookingDetails } from "../../../features/redux/slices/user/userBookingSlice";
-import TourConfirmationModal from "./Modals/TourConfirmModal";
+import TourConfirmationModal from "../Modals/TourConfirmModal";
 
 const PackageDetails: React.FC = () => {
   const [person, setPerson] = useState(1); // Initial value for rooms
