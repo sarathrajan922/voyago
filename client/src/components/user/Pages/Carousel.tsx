@@ -176,12 +176,11 @@ export const SecondaryCarousel: React.FC<CarouselProps> = ({ images }) => {
               <Button size="lg" color="white">
                 Explore
               </Button>
-              <Button size="lg" color="white" variant="text">
                 <Link to='/search'>
-                
+              <Button size="lg" color="white" variant="text">
                  Search
-                </Link>
               </Button>
+                </Link>
             </div>
           </div>
         </div>

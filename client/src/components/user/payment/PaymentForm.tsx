@@ -2,7 +2,7 @@ import { PaymentElement } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import PaymentSuccessModal from "./PaymentSuccessModal";
-import { userPaymentSuccess } from "../../../../features/axios/api/user/userPaymentSuccess";
+import { userPaymentSuccess } from "../../../features/axios/api/user/userPaymentSuccess";
 
 const PaymentFrom: React.FC = () => {
   const stripe = useStripe();

@@ -45,7 +45,8 @@
     ADMIN_GET_BASIC_DETAILS_USER_AGENT_PACKAGE: 'admin/get-basic-details-user-agent',
     ADMIN_GET_AGENTS_STATUS: 'admin/get-all-agents-status',
     ADMIN_GET_BOOKING_STAT: 'admin/get-all-booking-stat',
-    AGENT_GET_ALL_BOOKING_STAT: 'agent/get-all-bookingStat'
+    AGENT_GET_ALL_BOOKING_STAT: 'agent/get-all-bookingStat',
+    USER_GET_ALL_UNIQUE_CATEGORIES: 'auth/get-all-unique-category'
     
  }
  

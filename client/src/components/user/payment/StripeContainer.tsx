@@ -4,7 +4,7 @@ import { loadStripe, Stripe } from "@stripe/stripe-js";
 import PaymentForm from "./PaymentForm";
 import {ToastContainer, toast } from "react-toastify";
 
-import { createStripePayment, getConfig } from "../../../../features/axios/api/user/userGetStripe";
+import { createStripePayment, getConfig } from "../../../features/axios/api/user/userGetStripe";
 interface Obj{
   person:string;
   packageId: string

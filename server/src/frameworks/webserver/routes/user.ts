@@ -43,6 +43,7 @@ const authRouter = ()=>{
     router.get('/getAlluserJoinedAndNotJoinedcommunity',authenticationMiddleware,userRoleCheckMiddleware,controller.getAllJoinedAndNotJoinedCommunity)
     router.post('/create-conversation',authenticationMiddleware,userRoleCheckMiddleware,controller.createConversation)
     router.get('/get-all-coversation/:id',authenticationMiddleware,userRoleCheckMiddleware,controller.getAllConversation)
+    router.get('/get-all-unique-category',authenticationMiddleware,userRoleCheckMiddleware,controller.getAllUniqueCategory)
     return router
 }
 
