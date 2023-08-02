@@ -4,9 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "build": "npx tsc",
-    "start": "nodemon ./src/app.ts",
-    "dev": "npx tsc -w & nodemon dist/app.js"
+    "build": "tsc",
+    "start": "node ./src/app.js",
+    "dev": "nodemon ./src/app.ts"
   },
   "keywords": [],
   "author": "",
@@ -38,6 +38,7 @@
     "@types/cors": "^2.8.13",
     "@types/morgan": "^1.9.4",
     "@types/multer": "^1.4.7",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "ts-node-dev": "^2.0.0"
   }
 }
