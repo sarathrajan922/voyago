@@ -26,13 +26,19 @@ export default function AlertDrawer() {
     getAllMessage();
     setOpen(true);
   }, []);
-  console.log(alertMessage);
+ 
 
   return (
     <React.Fragment>
       {/* <Button onClick={openDrawer}>Open Drawer</Button> */}
       <Drawer open={open} onClose={closeDrawer} className="p-4">
         <div className="mb-6 flex bg-white z-auto items-center justify-between">
+        <div className="mb-1 md:mb-0">
+              <a href="/" className="flex items-center">
+                  <img src="https://res.cloudinary.com/dk4darniv/image/upload/v1690722658/voyago%20logo/voyago-high-resolution-logo-color-on-transparent-background_1_joe0sz.webp" className="h-10" alt="FlowBite Logo" />
+                  
+              </a>
+          </div>
           <Typography variant="h5" color="blue-gray">
             Voyago
           </Typography>

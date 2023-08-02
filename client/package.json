@@ -30,6 +30,7 @@
     "formik": "^2.4.2",
     "headlessui": "^0.0.0",
     "init": "^0.1.2",
+    "moment": "^2.29.4",
     "postcss": "^8.4.24",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
