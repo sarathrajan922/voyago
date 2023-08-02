@@ -44,7 +44,7 @@ const AgentProfileEdit: React.FC = () => {
     repeat_password: "",
   });
 
-  console.log(agentData)
+  console.log(agentData);
 
   const notify = (msg: string, type: string) => {
     type === "error"
@@ -102,9 +102,9 @@ const AgentProfileEdit: React.FC = () => {
     <div className="p-4 sm:ml-64">
       <div className="p-4  mt-14">
         <div className="grid grid-cols-3 gap-4 mb-4">
-          <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray">
-            <p className="text-2xl text-gray-400 dark:text-gray-500">
-              Agent Profile Edit
+          <div className="flex items-center my-2 mb-5 justify-around h-16 lg:w-[30rem] w-full  md:w-1/2 rounded bg-gray-50 dark:bg-gray-800">
+            <p className="text-xl font-bold text-black dark:text-gray-500">
+              Agent DashBoard
             </p>
           </div>
         </div>
@@ -278,8 +278,6 @@ const AgentProfileEdit: React.FC = () => {
                   </button> */}
                   </Form>
                 </Formik>
-
-                
               </div>
             </div>
           </>

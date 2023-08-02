@@ -66,6 +66,10 @@ import SearchComponent from './components/user/Pages/Search';
                 element: <PackageDetails/>
             },
             {
+                path: 'search/package-details/:id',
+                element:<PackageDetails/>
+            },
+            {
                 path: 'payment/:id',
                 element: <PaymentPage/>
             },

@@ -17,7 +17,7 @@ const TrendingPackages: React.FC = ()=>{
                     src="https://images.unsplash.com/photo-1602828889956-45ec6cee6758?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80"
                     alt=""
                   />
-                  <div className="py-3 px-3 text-center">Heading 1</div>
+                  <div className="py-3 px-3 text-center">Dubai</div>
                 </div>
               </div>
 
@@ -27,7 +27,7 @@ const TrendingPackages: React.FC = ()=>{
                     src="https://images.unsplash.com/photo-1560625693-36619f571dca?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1330&q=80"
                     alt=""
                   />
-                  <div className="py-3 px-3 text-center">Heading 2</div>
+                  <div className="py-3 px-3 text-center">New York</div>
                 </div>
               </div>
 
@@ -37,7 +37,7 @@ const TrendingPackages: React.FC = ()=>{
                     src="https://images.unsplash.com/photo-1505881402582-c5bc11054f91?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80"
                     alt=""
                   />
-                  <div className="py-3 px-3 text-center">Heading 3</div>
+                  <div className="py-3 px-3 text-center">Maldives</div>
                 </div>
               </div>
             </div>

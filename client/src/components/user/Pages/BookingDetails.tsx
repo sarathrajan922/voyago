@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { getAllBookedData } from "../../../features/axios/api/user/userGetBookedDetails";
 import { GetAllBookingDetailsApiResponse } from "../../../API/type/getAllBookedData";
 import { CircleLoader } from "react-spinners";
+import moment from 'moment'
 
 const BookingDetailsComponent: React.FC = () => {
   const [isLogin,setIsLogin] = useState<boolean | null>(null)
@@ -86,18 +87,7 @@ const BookingDetailsComponent: React.FC = () => {
                           currentPage * itemsPerPage
                         )
                         .map((x, index) => {
-                          const travelDate = new Date(x?.travelDate);
-                          const formattedTravelDate = travelDate.toLocaleString(
-                            "en-US",
-                            {
-                              month: "2-digit",
-                              day: "2-digit",
-                              year: "numeric",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                              second: "2-digit",
-                            }
-                          );
+                          
                           return (
                             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                               <th
@@ -118,7 +108,7 @@ const BookingDetailsComponent: React.FC = () => {
                                 })}
                               </td>
                               <td className="px-6 py-4">
-                                {formattedTravelDate}
+                                {moment(x?.travelDate).format('MMM Do YYYY')}
                               </td>
                               <td className="px-6 py-4 text-right">
                                 <button
@@ -216,7 +206,7 @@ const BookingDetailsComponent: React.FC = () => {
                       <br />
                       <span className="text-sm font-bold">Date:</span>
                       <span className="text-sm font-bold text-gray-500">
-                        {modalData?.travelDate}
+                        {moment(modalData?.travelDate).format('MMMM Do YYYY')}
                       </span>
                       <br />
                       <span className="text-sm font-bold">Category:</span>
@@ -226,7 +216,7 @@ const BookingDetailsComponent: React.FC = () => {
                       <br />
                       <span className="text-sm font-bold">Duration:</span>
                       <span className="text-sm font-bold text-gray-500">
-                        {modalData?.packageDetails?.duration}
+                        {modalData?.packageDetails?.duration} Days
                       </span>
                       <br />
                     </div>

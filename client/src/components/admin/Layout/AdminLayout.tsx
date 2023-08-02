@@ -73,13 +73,13 @@ export default function AdminDashBoard() {
                       className="text-sm text-gray-900 dark:text-white"
                       role="none"
                     >
-                      Neil Sims
+                      Admin
                     </p>
                     <p
                       className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
                       role="none"
                     >
-                      neil.sims@flowbite.com
+                      admin@gmail.com
                     </p>
                   </div>
                   <ul className="py-1" role="none">
@@ -153,7 +153,7 @@ export default function AdminDashBoard() {
               </Link>
             </li>
 
-            <li>
+            {/* <li>
               <Link
                 to="/admin"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:shadow-xl dark:hover:bg-gray-700"
@@ -172,9 +172,9 @@ export default function AdminDashBoard() {
                   Pro
                 </span>
               </Link>
-            </li>
+            </li> */}
 
-            <li>
+            {/* <li>
               <a
                 href="#"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:shadow-xl dark:hover:bg-gray-700"
@@ -194,7 +194,7 @@ export default function AdminDashBoard() {
                   3
                 </span>
               </a>
-            </li>
+            </li> */}
 
             <li>
               <Link
