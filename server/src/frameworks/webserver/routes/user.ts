@@ -44,6 +44,7 @@ const authRouter = ()=>{
     router.post('/create-conversation',authenticationMiddleware,userRoleCheckMiddleware,controller.createConversation)
     router.get('/get-all-coversation/:id',authenticationMiddleware,userRoleCheckMiddleware,controller.getAllConversation)
     router.get('/get-all-unique-category',authenticationMiddleware,userRoleCheckMiddleware,controller.getAllUniqueCategory)
+    router.post('/user-password-update',authenticationMiddleware,userRoleCheckMiddleware,controller.userUpdatePassword)
     return router
 }
 

@@ -49,13 +49,13 @@
     USER_GET_ALL_UNIQUE_CATEGORIES: 'auth/get-all-unique-category',
     ADMIN_GET_REVENUE: 'admin/get-revenu',
     AGENT_GET_REVENUE: 'agent/get-agent-revenue',
-    AGENT_GET_USERCOUNT_BOOKINGCOUNT: 'agent/get-userCount-successBookingCount'
-    
+    AGENT_GET_USERCOUNT_BOOKINGCOUNT: 'agent/get-userCount-successBookingCount',
+    USER_UPDATE_PASSWORD: 'auth/user-password-update'
  }
  
  const BASE_URL= 'http://localhost:8000/';
 
- export default BASE_URL
+ export default BASE_URL;
 
 
 

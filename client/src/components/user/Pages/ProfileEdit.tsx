@@ -14,13 +14,13 @@ const validationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email address")
     .required("Email address is required"),
-  password: Yup.string().required("Password is required"),
+  // password: Yup.string().required("Password is required"),
   mobile: Yup.number().required("Mobile is required"),
-  repeat_password: Yup.string()
-    .test("password-match", "Passwords must match", function (value) {
-      return value === this.resolve(Yup.ref("password")) || value === null;
-    })
-    .required("Confirm password is required"),
+  // repeat_password: Yup.string()
+  //   .test("password-match", "Passwords must match", function (value) {
+  //     return value === this.resolve(Yup.ref("password")) || value === null;
+  //   })
+  //   .required("Confirm password is required"),
 });
 
 const notify = (msg: string, type: string) => {
@@ -82,7 +82,7 @@ const UserProfileEdit: React.FC = () => {
       firstName: values.first_name,
       lastName: values.last_name,
       email: values.email,
-      password: values.password,
+      // password: values.password,
       mobile: values.mobile,
     };
     await userProfileUpdate(obj)
@@ -94,6 +94,9 @@ const UserProfileEdit: React.FC = () => {
       })
       .catch((error: any) => {
         notify(error.message, "error");
+        setTimeout(()=>{
+          navigate('/profile')
+      },2000)
       });
   };
   if (loading) {
@@ -225,7 +228,7 @@ const UserProfileEdit: React.FC = () => {
                     />
                   </div>
 
-                  <div className="relative z-0 w-full mb-6 group">
+                  {/* <div className="relative z-0 w-full mb-6 group">
                     <Field
                       type="password"
                       name="password"
@@ -244,9 +247,9 @@ const UserProfileEdit: React.FC = () => {
                       component="div"
                       className="text-red-500 text-xs mt-1"
                     />
-                  </div>
+                  </div> */}
 
-                  <div className="relative z-0 w-full mb-6 group">
+                  {/* <div className="relative z-0 w-full mb-6 group">
                     <Field
                       type="password"
                       name="repeat_password"
@@ -265,7 +268,7 @@ const UserProfileEdit: React.FC = () => {
                       component="div"
                       className="text-red-500 text-xs mt-1"
                     />
-                  </div>
+                  </div> */}
 
                   {/* <button
                     type="submit"

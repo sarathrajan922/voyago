@@ -22,6 +22,7 @@ import {
   userGetAllPackageUseCase,
   userLoginUserCase,
   userPackageBookingUseCase,
+  userPasswordUpdateUseCase,
   userRegisterUseCase,
 } from "../../application/useCase/auth/userAuth";
 import { UserRegisterInterface, UserInterface } from "../../types/user";
@@ -165,6 +166,19 @@ const authController = (
       });
     }
   );
+
+ const userUpdatePassword = asyncHandler(
+  async(req:CustomRequest,res:Response)=>{
+    const userId = req?.payload?.id ?? ''
+    const editedPassword:any = req.body;
+    const result = await userPasswordUpdateUseCase(userId,editedPassword,dbRepositoryUser,authServices);
+    res.json({
+      status: true,
+      message: 'user password change successfuly',
+      result
+    })
+  }
+ )
 
   const getUserBookedDetails = asyncHandler(
     async (req: CustomRequest, res: Response) => {
@@ -328,6 +342,7 @@ const authController = (
     loginWithGoogle,
     getUserDetails,
     userUpdateProfile,
+    userUpdatePassword,
     getUserBookedDetails,
     getAllBookings,
     paymentStatusChange,

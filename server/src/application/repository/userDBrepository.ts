@@ -15,6 +15,7 @@ export const userDbRepository= (repository:ReturnType<UserRepositoryMongoDB>)=>{
     const getPackage = async(packageId: string)=> await repository.getPackage(packageId)
     const getUserDetails = async(userId: string)=> await repository.getUserDetails(userId)
     const updateUserProfile = async(userId: string, editedUser: UserRegisterInterface)=> await repository.userProfileUpdate(userId, editedUser)
+    const userPasswordUpdate = async(userId:string, editedPassword:any)=> await repository.userPasswordUpdate(userId,editedPassword)
     const getUserBookedDetails = async(userId:string, packageId: string)=> await repository.getUserBookedDetails(userId,packageId)
     const getPrice = async(packageId: string)=> await repository.getPrice(packageId)
     const getAllBookings= async(userId: string)=> await repository.getAllBookings(userId)
@@ -36,6 +37,7 @@ export const userDbRepository= (repository:ReturnType<UserRepositoryMongoDB>)=>{
         checkUserBlock,
         getUserDetails,
         updateUserProfile,
+        userPasswordUpdate,
         getUserBookedDetails,
         getPrice,
         getAllBookings,

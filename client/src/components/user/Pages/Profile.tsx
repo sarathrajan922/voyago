@@ -24,6 +24,9 @@ const UserProfile: React.FC = () => {
   const editUser = () => {
     navigate("/user-profile-edit");
   };
+  const editPassword = ()=>{
+    navigate('/user-edit-password')
+  }
 
   return (
     <section className=" bg-white mt-0 dark:bg-gray-900">
@@ -94,15 +97,16 @@ const UserProfile: React.FC = () => {
               onClick={editUser}
               className="px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-900 rounded hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
             >
-              edit
+              Edit Profile
             </button>
 
-            {/* <button
+            <button
               type="button"
-              className="px-4 ms-5 py-2 text-xs rounded text-white font-medium bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800"
+              onClick={editPassword}
+              className="px-4 py-2 text-sm ms-2 font-medium text-gray-900 bg-transparent border border-gray-900 rounded hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
             >
-              Delete Account
-            </button> */}
+              Edit Password
+            </button>
           </div>
         </div>
       </div>
