@@ -46,7 +46,9 @@
     ADMIN_GET_AGENTS_STATUS: 'admin/get-all-agents-status',
     ADMIN_GET_BOOKING_STAT: 'admin/get-all-booking-stat',
     AGENT_GET_ALL_BOOKING_STAT: 'agent/get-all-bookingStat',
-    USER_GET_ALL_UNIQUE_CATEGORIES: 'auth/get-all-unique-category'
+    USER_GET_ALL_UNIQUE_CATEGORIES: 'auth/get-all-unique-category',
+    ADMIN_GET_REVENUE: 'admin/get-revenu',
+    AGENT_GET_REVENUE: 'agent/get-agent-revenue'
     
  }
  

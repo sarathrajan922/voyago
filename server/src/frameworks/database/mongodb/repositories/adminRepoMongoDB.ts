@@ -140,6 +140,82 @@ export const adminRepossitoryMongoDB = () => {
     return bookingCounts
   }
 
+
+  const getRevenue = async()=>{
+    const data = await TourConfirm.aggregate([
+      {
+        $match:{  payment: 'success' },
+      },
+      {
+        $addFields: {
+          packageIdObj: {
+            $toObjectId: "$packageId",
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: "tourPackages",
+          localField: "packageIdObj",
+          foreignField: "_id",
+          as: "package",
+        },
+      },
+      { $unwind: '$package' },
+      {
+        $set: {
+          total: { $multiply: ['$package.price', '$person'] },
+        },
+      },
+      {
+        $set:{
+          adminProfit:{
+            $multiply: ['$total',0.05]
+          }
+        }
+      },
+      {
+        $set: {
+          agentGet: { $subtract: ['$total', { $multiply: ['$total', 0.05] }] },
+        },
+      },
+      {
+        $project: {
+          firstName: 1,
+          lastName: 1,
+          Email: 1,
+          travelDate: 1,
+          person: 1,
+          packageId: 1,
+          userId: 1,
+          payment: 1,
+          agentId: 1,
+          total: 1,
+          agentGet: 1,
+          adminProfit: 1
+        },
+      },
+    ])
+    let agentRevenue = 0;
+    for (const tourConfirm of data) {
+    agentRevenue += tourConfirm.agentGet;
+    }
+
+    let adminRevenue = 0;
+    for(const tourConfirm of data){
+      adminRevenue += tourConfirm.adminProfit;
+    }
+
+    
+
+   
+    return {
+      data,
+      agentRevenue,
+      adminRevenue
+    };
+  }
+
   return {
     getAdminByEmail,
     getAllusers,
@@ -150,7 +226,8 @@ export const adminRepossitoryMongoDB = () => {
     verifyAgent,
     BasicDetailsUserAgentPackageBooking,
     getAgentStatus,
-    AllBookingStat
+    AllBookingStat,
+    getRevenue
   };
 };
 

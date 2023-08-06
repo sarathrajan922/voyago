@@ -138,3 +138,13 @@ export const getAllBookingStatUseCase = async(
   }
   return result
 }
+
+export const getAdminRevenueUseCase = async(
+  adminDbRepository: ReturnType<AdminDbInterface> 
+)=>{
+  const result = await adminDbRepository.getRevenue();
+  if(!result){
+    throw new AppError('could not find revene',HttpStatus.NOT_FOUND)
+  }
+  return result
+}

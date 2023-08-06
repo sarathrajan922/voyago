@@ -113,7 +113,21 @@ const agentRouter = () => {
  router.get('/get-all-bookingStat',
  authenticationMiddleware,
  agentRoleCheckMiddleware,
- controller.getAgentBookingStat)
+ controller.getAgentBookingStat);
+
+
+ router.get('/get-agent-revenue',
+ authenticationMiddleware,
+ agentRoleCheckMiddleware,
+ controller.getRevenue);
+
+ router.get('/get-userCount-successBookingCount',
+ authenticationMiddleware,
+ agentRoleCheckMiddleware,
+ controller.getUserCountAndBookingCount);
+
+
+
 
   return router;
 };

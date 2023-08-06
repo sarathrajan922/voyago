@@ -92,7 +92,7 @@ const PackageDetails: React.FC = () => {
   const [tourPackage, setTourPackage] = useState<PackageDataApiResponse | null>(
     null
   );
-  console.log(tourPackage);
+  
 
   useEffect(() => {
     const asynfun = async () => {
@@ -191,20 +191,24 @@ const PackageDetails: React.FC = () => {
                     Category:
                   </span>
                   <span className="text-gray-500">
-                    {tourPackage?.category ?? "cateory"}
+                    {tourPackage?.category ?? "cateory"} 
                   </span>
                   <br />
-                  <span className="font-semibold mb-1">Locations:</span>
+                  <span className="font-semibold mb-1">Locations: </span>
                   <span className="text-gray-500">
                     {tourPackage?.locations ?? "locations"}
                   </span>
                   <br />
-                  <span className="font-semibold">Services:</span>
+                  <span className="font-semibold">Services: </span>
                   <span className="text-gray-500">
                     {tourPackage?.services ?? "services"}
                   </span>
                   <br />
-
+                  <span className="font-semibold">Duration: </span>
+                  <span className="text-gray-500">
+                    {tourPackage?.duration ?? "services"} Days
+                  </span>
+                  <br />
                   <div className="py-3 px-3 text-end  text-lg font-serif text-gray-900 dark:text-white">
                     Starting from{" "}
                     <span className="text-green-500 font-serif">

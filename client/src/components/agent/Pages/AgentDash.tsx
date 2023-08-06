@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { agentVerificationCheck } from "../../../features/axios/api/agent/agentVerificationCheck";
-import AgentDashBoardHeading from "../agentComponents/AgentDashBoardHeading";
 import AgentDashBasicDetails from "../agentComponents/AgentDashBasicDetails";
 import AgentSalesChart from "../Charts/SalesChart";
+import PageTitle from "../../common/Headings";
+import AgentRevenueTranscationTable from "../agentComponents/agentTranscationTable";
 
 const AgentDash: React.FC = () => {
   const [isVerified, setIsVerified] = useState<boolean | null>(null);
@@ -45,7 +46,7 @@ const AgentDash: React.FC = () => {
             </div>
           ) : (
             <>
-            <AgentDashBoardHeading/>
+            <PageTitle title="Agent DashBoard"/>
               <AgentDashBasicDetails/>
               
 
@@ -61,10 +62,10 @@ const AgentDash: React.FC = () => {
 
               <AgentSalesChart/>
             </div>
-
-            
-          
         </div>
+            <PageTitle title="Agent Revenue Transcation"/>
+            <AgentRevenueTranscationTable/>
+          
             </>
           )}
         </div>

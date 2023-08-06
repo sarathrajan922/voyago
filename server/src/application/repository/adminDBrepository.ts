@@ -14,7 +14,8 @@ export const adminDbRepository = (
   const verifyAgent = async (objId: string) =>await repository.verifyAgent(objId);
   const BasicDetailsUserAgentPackageBooking = async () =>await repository.BasicDetailsUserAgentPackageBooking();
   const getAgentStatus = async () => await repository.getAgentStatus();
-  const getAllBookingStat = async()=> await repository.AllBookingStat()
+  const getAllBookingStat = async()=> await repository.AllBookingStat();
+  const getRevenue = async()=> await repository.getRevenue();
 
   return {
     getAdminByEmail,
@@ -26,7 +27,8 @@ export const adminDbRepository = (
     verifyAgent,
     BasicDetailsUserAgentPackageBooking,
     getAgentStatus,
-    getAllBookingStat
+    getAllBookingStat,
+    getRevenue
   };
 };
 
