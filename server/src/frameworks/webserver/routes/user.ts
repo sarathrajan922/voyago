@@ -45,6 +45,8 @@ const authRouter = ()=>{
     router.get('/get-all-coversation/:id',authenticationMiddleware,userRoleCheckMiddleware,controller.getAllConversation)
     router.get('/get-all-unique-category',authenticationMiddleware,userRoleCheckMiddleware,controller.getAllUniqueCategory)
     router.post('/user-password-update',authenticationMiddleware,userRoleCheckMiddleware,controller.userUpdatePassword)
+    router.post('/user-generate-otp',controller.generateOTPtoEmail)
+    
     return router
 }
 

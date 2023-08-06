@@ -50,7 +50,8 @@
     ADMIN_GET_REVENUE: 'admin/get-revenu',
     AGENT_GET_REVENUE: 'agent/get-agent-revenue',
     AGENT_GET_USERCOUNT_BOOKINGCOUNT: 'agent/get-userCount-successBookingCount',
-    USER_UPDATE_PASSWORD: 'auth/user-password-update'
+    USER_UPDATE_PASSWORD: 'auth/user-password-update',
+    USER_REQUEST_OTP: 'auth/user-generate-otp'
  }
  
  const BASE_URL= 'http://localhost:8000/';

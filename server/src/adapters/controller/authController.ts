@@ -7,6 +7,7 @@ import { Request, Response } from "express";
 import {
   createCommunityUseCase,
   createConversationUseCase,
+  generateOTPUseCase,
   getAlertMsgUseCase,
   getAllBookingsUseCase,
   getAllCommunityUseCase,
@@ -333,6 +334,16 @@ const authController = (
     })
   })
 
+  const generateOTPtoEmail = asyncHandler(async(req:Request,res:Response)=>{
+    const userEmail = req.body?.email ?? ''
+    const result = await generateOTPUseCase(userEmail,dbRepositoryUser)
+    res.json({
+      status:true,
+      message: 'OTP sent to your Email success!',
+      result
+    })
+  })
+
   return {
     userRegister,
     userLogin,
@@ -353,7 +364,8 @@ const authController = (
     getAllJoinedAndNotJoinedCommunity,
     createConversation,
     getAllConversation,
-    getAllUniqueCategory
+    getAllUniqueCategory,
+    generateOTPtoEmail
   };
 };
 

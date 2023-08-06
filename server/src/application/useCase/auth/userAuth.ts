@@ -321,3 +321,17 @@ export const getAllUniqueCategoryUseCase = async(
   }
   return result
 }
+
+export const generateOTPUseCase = async(
+  userEmail: string,
+  userDbRepository: ReturnType<UserDbInterface>
+)=>{
+  const isExistingEmail = await userDbRepository.getUserByEmail(userEmail);
+  if(!isExistingEmail){
+    throw new AppError(`could not find user in this email`,HttpStatus.UNAUTHORIZED)
+  }
+
+//call the generate otp function to the userEmail
+
+  return isExistingEmail
+}
