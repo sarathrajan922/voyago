@@ -230,9 +230,10 @@ return result
  }
 
  export const getAgentRevenueUseCase = async(
+  agentId:string,
   agentDbRepository: ReturnType<AgentDbInterface> 
 )=>{
-  const result = await agentDbRepository.getRevenue();
+  const result = await agentDbRepository.getRevenue(agentId);
   if(!result){
     throw new AppError('could not find revene',HttpStatus.NOT_FOUND)
   }

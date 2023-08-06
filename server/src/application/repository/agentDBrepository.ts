@@ -22,7 +22,7 @@ export const  agentDbRepository = (repository: ReturnType<AgentRepositoryMongoDB
     const agentProfileUpdate = async(agentId: string, editedData: AgentRegisterInterface)=> await repository.agentProfileUpdate(agentId,editedData)
     const paymentAlert = async(obj:any)=> await repository.paymentAlert(obj)
     const getAgentBookingStat = async(agentId:string)=> await repository.getAllAgentBookingStat(agentId)
-    const getRevenue = async()=> await repository.getRevenue();
+    const getRevenue = async(agentId:string)=> await repository.getRevenue(agentId);
     const getUserCountAndBookingCount = async(agentId:string)=> await repository.getUserCountAndBookingCount(agentId);
     return {
         addAgent,

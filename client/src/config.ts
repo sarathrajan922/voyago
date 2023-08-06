@@ -48,7 +48,8 @@
     AGENT_GET_ALL_BOOKING_STAT: 'agent/get-all-bookingStat',
     USER_GET_ALL_UNIQUE_CATEGORIES: 'auth/get-all-unique-category',
     ADMIN_GET_REVENUE: 'admin/get-revenu',
-    AGENT_GET_REVENUE: 'agent/get-agent-revenue'
+    AGENT_GET_REVENUE: 'agent/get-agent-revenue',
+    AGENT_GET_USERCOUNT_BOOKINGCOUNT: 'agent/get-userCount-successBookingCount'
     
  }
  
