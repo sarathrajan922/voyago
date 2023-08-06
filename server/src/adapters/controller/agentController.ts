@@ -289,8 +289,9 @@ const agentController = (
     })
   })
 
-  const getRevenue = asyncHandler(async(req:Request,res:Response)=>{
-    const result = await getAgentRevenueUseCase(dbRepositoryAgent)
+  const getRevenue = asyncHandler(async(req:CustomRequest,res:Response)=>{
+    const agentId = req.payload?.id ?? ''
+    const result = await getAgentRevenueUseCase(agentId,dbRepositoryAgent)
     res.json({
         status:true,
         message: 'fetch agent revenue successfull',

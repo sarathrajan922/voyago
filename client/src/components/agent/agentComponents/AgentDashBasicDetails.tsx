@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { getAgentRevenue } from "../../../features/axios/api/agent/agentGetRevenue";
+import { getUserCountAndBookingCount } from "../../../features/axios/api/agent/agentGetUserCountBookinCount";
 
 const AgentDashBasicDetails: React.FC = () => {
   const [revenue, setRevenue] = useState<any>(null);
+  const [bookingCount,setBookingCount]= useState<any>(null)
+  const [userCount,setUserCount]= useState<any>(null)
   useEffect(() => {
     getAgentRevenue().then((res) => {
       setRevenue(res.agentRevenue);
     });
+
+    getUserCountAndBookingCount().then((res)=>{
+      console.log(res)
+      setBookingCount(res?.bookingCount)
+      setUserCount(res?.userCount)
+    })
   }, []);
   return (
     <div className="flex flex-wrap mb-4">
@@ -28,7 +37,7 @@ const AgentDashBasicDetails: React.FC = () => {
             />
           </svg>
 
-          <p className="text-xl text-black  dark:text-gray-500">Total Users</p>
+          <p className="text-xl text-black  dark:text-gray-500">Total Users:{userCount}</p>
         </div>
       </div>
       {/* total booking */}
@@ -50,7 +59,7 @@ const AgentDashBasicDetails: React.FC = () => {
           </svg>
 
           <p className="text-xl text-black dark:text-gray-500">
-            Total Bookings
+            Total Bookings: {bookingCount}
           </p>
         </div>
       </div>

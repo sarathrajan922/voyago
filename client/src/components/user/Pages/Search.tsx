@@ -12,6 +12,12 @@ const SearchComponent: React.FC = () => {
   const [packages, SetPackages] = useState<GetALLPackagesApiResponse[] | null>(
     null
   );
+  const [serachResult,setSearchResult]= useState<GetALLPackagesApiResponse[] | null>(
+    null
+  );
+  const [fileterdResult ,setFilteredResult]= useState<GetALLPackagesApiResponse[] | null>(
+    null
+  );
   const [displayPackage, setDisplayPackage] = useState<
     GetALLPackagesApiResponse[] | null
   >(null);
@@ -34,6 +40,9 @@ const SearchComponent: React.FC = () => {
     order: number,
     fullPackages: GetALLPackagesApiResponse[] | null
   ) => {
+    if(serachResult){
+      fullPackages = serachResult
+    }
     let filteredData: any;
     switch (order) {
       case 1:
@@ -62,6 +71,7 @@ const SearchComponent: React.FC = () => {
     }
     setIsFilterSelect(order);
     setDisplayPackage(filteredData);
+    setFilteredResult(filteredData);
   };
 
   const [searchTxt, SetsearchTxt] = useState("");
@@ -74,6 +84,7 @@ const SearchComponent: React.FC = () => {
       doc?.packageName.toLowerCase().includes(lowercaseSearchTxt)
     );
     setDisplayPackage(data ?? null);
+    setSearchResult(data ?? null);
   };
 
   useEffect(() => {
@@ -82,6 +93,10 @@ const SearchComponent: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
   const searchWithCategory = (category: string) => {
+    let packages = displayPackage;
+    if(fileterdResult){
+      packages = fileterdResult
+    }
     const data = packages?.filter((doc) => {
       return doc?.category === category;
     });
@@ -95,7 +110,11 @@ const SearchComponent: React.FC = () => {
   const handleCategoryChange = (event: any) => {
     const selectedCategory = event.target.value;
     if (selectedCategory === "All") {
-      setDisplayPackage(packages);
+      if(fileterdResult){
+        setDisplayPackage(fileterdResult)
+      }else{
+        setDisplayPackage(packages);
+      }
       return;
     }
     setSelectedCategory(selectedCategory);
@@ -222,7 +241,7 @@ const SearchComponent: React.FC = () => {
                           <div className="py-3 px-3 text-center flex justify-evenly">
                             <div className="text-sm">{doc.packageName}</div>
                             <div className="text-sm text-green-500">
-                              {doc.price.toLocaleString("en-IN", {
+                              {doc?.price?.toLocaleString("en-IN", {
                                 style: "currency",
                                 currency: "INR",
                               })}

@@ -176,14 +176,15 @@ export const agentRepositoryMongoDB = () => {
       const monthIndex = data._id - 1;
       bookingCounts[monthIndex] = data.count;
     });
-    console.log(bookingCounts);
+    
     return bookingCounts;
   };
 
-  const getRevenue = async () => {
+  const getRevenue = async (agentId:string) => {
     const data = await TourConfirm.aggregate([
       {
-        $match: { payment: "success" },
+        $match: { agentId: agentId,
+          payment: 'success' },
       },
       {
         $addFields: {
