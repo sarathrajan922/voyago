@@ -48,17 +48,28 @@ export const userRepositoryMongoDB = () => {
   ) => {
     const id = new Types.ObjectId(userId);
     try {
-      const updatedUser = await User.findByIdAndUpdate(id, {
-        $set: {
-          ...editedDetails,
-        },
-      });
+      const updatedUser = await User.findByIdAndUpdate(id, { $set: editedDetails },
+        { new: true });
       return updatedUser;
     } catch (error) {
       console.log(error);
       throw error;
     }
   };
+
+  const userPasswordUpdate = async(
+    userId:string,
+    editedPassword: any
+  )=>{
+    const id = new Types.ObjectId(userId);
+    try{
+      const updatedPassword = await User.findByIdAndUpdate(id,{$set: editedPassword},{new:true})
+      return true
+    }catch(error){
+      console.log(error);
+      throw error;
+    }
+  }
 
   const getUserBookedDetails = async (userId: string, packageId: string) => {
     try {
@@ -269,6 +280,7 @@ export const userRepositoryMongoDB = () => {
     checkUserBlock,
     getUserDetails,
     userProfileUpdate,
+    userPasswordUpdate,
     getUserBookedDetails,
     getPrice,
     getAllBookings,

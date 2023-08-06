@@ -31,6 +31,7 @@ import AgentProfile from './components/agent/Pages/AgentProfile';
 import AgentProfileEdit from './components/agent/Pages/AgentProfileEdit';
 import Community from './components/user/chat/Community';
 import SearchComponent from './components/user/Pages/Search';
+import UserPasswordEdit from './components/user/Pages/passwordEdit';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -55,6 +56,10 @@ import SearchComponent from './components/user/Pages/Search';
             {
                 path: 'user-profile-edit',
                 element: <UserProfileEdit/>
+            },
+            {
+                path: '/user-edit-password',
+                element: <UserPasswordEdit/> 
             },
             
             {

@@ -1,3 +1,4 @@
+import { authService } from './../../../frameworks/services/authService';
 import { HttpStatus } from "../../../types/httpStatus";
 import {
   TourConfirmationInterface,
@@ -170,6 +171,34 @@ export const updateUserProfileUseCase = async(
     throw new AppError('could not update user profile', HttpStatus.NOT_FOUND)
   }
   return result
+}
+
+export const userPasswordUpdateUseCase = async(
+  userId: string,
+  eitedPassword: any,
+  userRepository: ReturnType<UserDbInterface>,
+  authService: ReturnType<AuthServiceInterface>
+)=>{
+  const userData = await userRepository.getUserDetails(userId)
+  const userDbPassword = userData?.password
+
+  const isPasswordCorrect = await authService.comparePassword(
+    eitedPassword.oldPassword,
+    userDbPassword ?? ""
+  );
+  if (!isPasswordCorrect) {
+    throw new AppError(
+      "sorry, your password was incorrect.Please double-check your password",
+      HttpStatus.UNAUTHORIZED
+    )}
+  const newPassword = await authService.hashPassword(eitedPassword.newPassword);
+  const obj={
+    password: newPassword
+  }
+
+  const result = await userRepository.userPasswordUpdate(userId,obj);
+  return result;
+
 }
 
 export const  getUserBookedDetailsUseCase = async(
