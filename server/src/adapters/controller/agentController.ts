@@ -18,8 +18,10 @@ import {
   getAgentBookingStatUseCase,
   getAgentCategoryUseCase,
   getAgentProfileUseCase,
+  getAgentRevenueUseCase,
   getAllPackageUseCase,
   getPackageUseCase,
+  getUserCountAndBookingCountUseCase,
   paymentAlertUseCase,
   updatePackageUseCase,
 } from "../../application/useCase/auth/agentAuth";
@@ -287,6 +289,26 @@ const agentController = (
     })
   })
 
+  const getRevenue = asyncHandler(async(req:Request,res:Response)=>{
+    const result = await getAgentRevenueUseCase(dbRepositoryAgent)
+    res.json({
+        status:true,
+        message: 'fetch agent revenue successfull',
+        result
+    })
+})
+
+const getUserCountAndBookingCount = asyncHandler(async(req:CustomRequest,res:Response)=>{
+  const agentId = req.payload?.id ?? ''
+  const result = await getUserCountAndBookingCountUseCase(agentId,dbRepositoryAgent);
+  res.json({
+    status:true,
+    message:'fetch agent booking count and user count',
+    result
+  })
+})
+
+
   return {
     agentRegister,
     agentLogin,
@@ -304,7 +326,9 @@ const agentController = (
     getAgentProfile,
     agentProfileUpdate,
     paymentAlertMessage,
-    getAgentBookingStat
+    getAgentBookingStat,
+    getRevenue,
+    getUserCountAndBookingCount
   };
 };
 

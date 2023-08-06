@@ -4,6 +4,7 @@ import { GetAllBookingDetailsApiResponse } from "../../../API/type/getAllBookedD
 import { CircleLoader } from "react-spinners";
 import { createAlertMsg } from "../../../features/axios/api/agent/agentCreateAlertMsg";
 import { ToastContainer, toast } from "react-toastify";
+import PageTitle from "../../common/Headings";
 const AgentAllBookings: React.FC = () => {
   const [isLogin, setIsLoad] = useState<boolean | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,13 +61,7 @@ const AgentAllBookings: React.FC = () => {
   ) : (
     <div className="p-4 sm:ml-64">
       <div className="p-4  mt-14">
-        <div className="grid grid-cols-3 gap-4 mb-4">
-          <div className="flex items-center my-2 mb-5 justify-around h-16 lg:w-[30rem] w-full  md:w-1/2 rounded bg-gray-50 dark:bg-gray-800">
-            <p className="text-xl font-bold text-black dark:text-gray-500">
-              All Bookings
-            </p>
-          </div>
-        </div>
+       <PageTitle title="All Bookings"/>
         <ToastContainer />
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">

@@ -9,6 +9,7 @@ import TourPackage from "../models/tourPackageModel";
 import { Aggregate, Types } from "mongoose";
 import TourConfirm from "../models/tourConfirmDetails";
 import UserAlertMsg from "../models/userAlertMessageModel";
+import User from "../models/userModel";
 
 export const agentRepositoryMongoDB = () => {
   const addAgent = async (agent: AgentRegisterInterface) => {
@@ -149,36 +150,120 @@ export const agentRepositoryMongoDB = () => {
     }
   };
 
-
-  const paymentAlert = async(obj:any)=>{
+  const paymentAlert = async (obj: any) => {
     const result = await UserAlertMsg.create(obj);
-    return result
-  }
+    return result;
+  };
 
-  const getAllAgentBookingStat= async(agentId:string)=>{
+  const getAllAgentBookingStat = async (agentId: string) => {
     const bookingCounts: number[] = Array.from({ length: 12 }, () => 0);
     const data = await TourConfirm.aggregate([
       {
-        $match:{
+        $match: {
           agentId: agentId,
-          payment: 'success'
-        }
+          payment: "success",
+        },
       },
       {
-        $group:{
-          _id:{$month:{date:{$toDate:'$travelDate'}}},
-          count:{$sum:1}
-        }
-      }
-    ])
+        $group: {
+          _id: { $month: { date: { $toDate: "$travelDate" } } },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
 
-    data.forEach((data)=>{
-      const monthIndex = data._id -1;
-      bookingCounts[monthIndex]= data.count;
+    data.forEach((data) => {
+      const monthIndex = data._id - 1;
+      bookingCounts[monthIndex] = data.count;
     });
-    console.log(bookingCounts)
+    console.log(bookingCounts);
     return bookingCounts;
-  }
+  };
+
+  const getRevenue = async () => {
+    const data = await TourConfirm.aggregate([
+      {
+        $match: { payment: "success" },
+      },
+      {
+        $addFields: {
+          packageIdObj: {
+            $toObjectId: "$packageId",
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: "tourPackages",
+          localField: "packageIdObj",
+          foreignField: "_id",
+          as: "package",
+        },
+      },
+      { $unwind: "$package" },
+      {
+        $set: {
+          total: { $multiply: ["$package.price", "$person"] },
+        },
+      },
+      {
+        $set: {
+          adminProfit: {
+            $multiply: ["$total", 0.05],
+          },
+        },
+      },
+      {
+        $set: {
+          agentGet: { $subtract: ["$total", { $multiply: ["$total", 0.05] }] },
+        },
+      },
+      {
+        $project: {
+          firstName: 1,
+          lastName: 1,
+          Email: 1,
+          travelDate: 1,
+          person: 1,
+          packageId: 1,
+          userId: 1,
+          payment: 1,
+          agentId: 1,
+          total: 1,
+          agentGet: 1,
+          adminProfit: 1,
+        },
+      },
+    ]);
+    let agentRevenue = 0;
+    for (const tourConfirm of data) {
+      agentRevenue += tourConfirm.agentGet;
+    }
+
+    let adminRevenue = 0;
+    for (const tourConfirm of data) {
+      adminRevenue += tourConfirm.adminProfit;
+    }
+
+    return {
+      data,
+      agentRevenue,
+      adminRevenue,
+    };
+  };
+
+  const getUserCountAndBookingCount = async (agentId: string) => {
+    const bookingCount = await TourConfirm.countDocuments({
+      agentId: agentId,
+      payment: 'success',
+    });
+
+    const userCount = await User.countDocuments()
+    return {
+      bookingCount,
+      userCount
+    }
+  };
 
   return {
     addAgent,
@@ -199,9 +284,10 @@ export const agentRepositoryMongoDB = () => {
     getAgentProfile,
     agentProfileUpdate,
     paymentAlert,
-    getAllAgentBookingStat
+    getAllAgentBookingStat,
+    getRevenue,
+    getUserCountAndBookingCount,
   };
-
 };
 
 export type AgentRepositoryMongoDB = typeof agentRepositoryMongoDB;

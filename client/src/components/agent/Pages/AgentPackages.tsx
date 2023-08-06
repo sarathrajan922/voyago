@@ -8,6 +8,7 @@ import { agentAllPackage } from "../../../features/axios/api/agent/agentAllPacka
 import { getAgentCategory } from "../../../features/axios/api/agent/agentGetAllCategory";
 import { DisablePackage } from "../../../features/axios/api/agent/agentDisablePackage";
 import { Link } from "react-router-dom";
+import PageTitle from "../../common/Headings";
 const AgentPackages: React.FC = () => {
   const notify = (msg: string, type: string) => {
     type === "error"
@@ -162,13 +163,7 @@ const AgentPackages: React.FC = () => {
   return (
     <div className="p-4 sm:ml-64">
       <div className="p-4  mt-14">
-        <div className="grid grid-cols-3 gap-4 mb-4">
-          <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray">
-            <p className="text-2xl text-gray-400 dark:text-gray-500">
-              Tour Packages
-            </p>
-          </div>
-        </div>
+        <PageTitle title="Tour Package"/>
         <ToastContainer />
         <div className="grid lg:grid-cols-3  gap-4 mb-4">
           <div className="flex flex-col w-72 gap-6">

@@ -2,7 +2,7 @@ import { AuthServiceInterface, authServiceInterface } from "../../application/se
 import { AuthService } from "../../frameworks/services/authService";
 import { AdminDbInterface } from "../../application/repository/adminDBrepository";
 import { AdminRepossitoryMongoDB } from "../../frameworks/database/mongodb/repositories/adminRepoMongoDB";
-import { BasicDetailsUserAgentPackageBookingUseCase, adminBlockAgentUseCase, adminBlockUserUseCase, adminGetAllAgentsUseCase, adminGetUnverifiedAgentsUseCase, adminLoginUseCase, adminVerifyAgentUseCase, getAgentsStatusUseCase, getAllBookingStatUseCase  } from "../../application/useCase/auth/adminAuth";
+import { BasicDetailsUserAgentPackageBookingUseCase, adminBlockAgentUseCase, adminBlockUserUseCase, adminGetAllAgentsUseCase, adminGetUnverifiedAgentsUseCase, adminLoginUseCase, adminVerifyAgentUseCase, getAdminRevenueUseCase, getAgentsStatusUseCase, getAllBookingStatUseCase  } from "../../application/useCase/auth/adminAuth";
 import { AdminInterface } from "../../types/admin";
 import { Request,Response} from 'express'
 import { adminGetAllUsersUseCase } from "../../application/useCase/auth/adminAuth";
@@ -112,6 +112,15 @@ const adminController = (
         })
     })
 
+    const getRevenue = asyncHandler(async(req:Request,res:Response)=>{
+        const result = await getAdminRevenueUseCase(dbRepositoryAdmin)
+        res.json({
+            status:true,
+            message: 'fetch admin revenue successfull',
+            result
+        })
+    })
+
      
     
 
@@ -125,7 +134,8 @@ const adminController = (
         verifyAgent,
         BasicDetailsUserAgentPackageBooking,
         getAgentsStatus,
-        getAllBookingStat
+        getAllBookingStat,
+        getRevenue
     }
 }
 

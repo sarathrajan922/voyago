@@ -74,6 +74,8 @@ const adminRouter = () => {
     authenticationMiddleware,adminRoleCheckMiddleware,controller.getAllBookingStat
   )
 
+  router.get('/get-revenu',authenticationMiddleware,adminRoleCheckMiddleware,controller.getRevenue)
+
 
   return router;
 };

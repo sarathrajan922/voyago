@@ -228,3 +228,24 @@ return result
    }
    return result
  }
+
+ export const getAgentRevenueUseCase = async(
+  agentDbRepository: ReturnType<AgentDbInterface> 
+)=>{
+  const result = await agentDbRepository.getRevenue();
+  if(!result){
+    throw new AppError('could not find revene',HttpStatus.NOT_FOUND)
+  }
+  return result
+}
+
+export const getUserCountAndBookingCountUseCase = async(
+  agentId:string,
+  agentDbRepository:  ReturnType<AgentDbInterface> 
+)=>{
+  const result = await agentDbRepository.getUserCountAndBookingCount(agentId);
+  if(!result){
+    throw new AppError('could not get user count and booking count',HttpStatus.NOT_FOUND)
+  }
+  return result;
+}

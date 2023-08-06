@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { userGetAllUniqueCategory } from "../../../features/axios/api/user/userGetAllUniueCategory";
 import { GetALLPackagesApiResponse } from "../../../API/type/getAllPackageAgent";
 import { userGetAllPackges } from "../../../features/axios/api/user/userGetAllPackages";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 const SearchComponent: React.FC = () => {
   const [isFilterSelect, setIsFilterSelect] = useState<number | null>(null);
@@ -15,7 +15,7 @@ const SearchComponent: React.FC = () => {
   const [displayPackage, setDisplayPackage] = useState<
     GetALLPackagesApiResponse[] | null
   >(null);
-  
+
   useEffect(() => {
     userGetAllUniqueCategory().then((response) => {
       setCategory(response);
@@ -64,7 +64,6 @@ const SearchComponent: React.FC = () => {
     setDisplayPackage(filteredData);
   };
 
-
   const [searchTxt, SetsearchTxt] = useState("");
   const searchData = (
     searchTxt: string,
@@ -77,39 +76,30 @@ const SearchComponent: React.FC = () => {
     setDisplayPackage(data ?? null);
   };
 
-  useEffect(()=>{
-    searchData(searchTxt,packages)
-  },[searchTxt])
+  useEffect(() => {
+    searchData(searchTxt, packages);
+  }, [searchTxt]);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
-
-  
-  const searchWithCategory = (
-    category: string
-
-  ) => {
-   
-    const data= packages?.filter((doc) => {
+  const searchWithCategory = (category: string) => {
+    const data = packages?.filter((doc) => {
       return doc?.category === category;
     });
-    setDisplayPackage(data ?? null)
+    setDisplayPackage(data ?? null);
   };
 
-  useEffect(()=>{
-    searchWithCategory(selectedCategory)
-  },[selectedCategory])
+  useEffect(() => {
+    searchWithCategory(selectedCategory);
+  }, [selectedCategory]);
 
-
-  const handleCategoryChange= (event:any)=>{
-
+  const handleCategoryChange = (event: any) => {
     const selectedCategory = event.target.value;
-    if(selectedCategory === 'All'){
-        setDisplayPackage(packages);
-        return
-    }    
+    if (selectedCategory === "All") {
+      setDisplayPackage(packages);
+      return;
+    }
     setSelectedCategory(selectedCategory);
-  }
-
+  };
 
   return (
     <section className="mt-10 dark:bg-gray-900">
@@ -126,8 +116,8 @@ const SearchComponent: React.FC = () => {
                   placeholder=" "
                   required
                   value={searchTxt}
-                  onChange={(e)=>{
-                    SetsearchTxt(e.target.value)
+                  onChange={(e) => {
+                    SetsearchTxt(e.target.value);
                   }}
                 />
                 <label
@@ -194,13 +184,18 @@ const SearchComponent: React.FC = () => {
               <div className="mt-6 w-full ">
                 <label htmlFor="underline_select" className="sr-only"></label>
                 <select
-                onChange={handleCategoryChange}
+                  onChange={handleCategoryChange}
                   id="underline_select"
                   className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
                 >
-                  <option selected value={selectedCategory}>Select Category</option>
-                  <option key={'all-category'}  value={'All'}>All</option>
-                  {category && packages &&
+                  <option selected value={selectedCategory}>
+                    Select Category
+                  </option>
+                  <option key={"all-category"} value={"All"}>
+                    All
+                  </option>
+                  {category &&
+                    packages &&
                     category.map((data: string, index: number) => (
                       <option key={index} value={data}>
                         {data}
@@ -217,23 +212,29 @@ const SearchComponent: React.FC = () => {
                 {/* loop this div */}
                 {displayPackage &&
                   displayPackage.map((doc: any, index: any) => (
-                    <Link  to={`package-details/${doc?._id}`}>
-                    <div className="py-5 px-2 ">
-                      <div
-                        key={index}
-                        className="rounded overflow-hidden  hover:shadow-xl"
-                      >
-                        <img src={doc.images} alt="" />
-                        <div className="py-3 px-3 text-center">
-                          {doc.packageName}
+                    <Link to={`package-details/${doc?._id}`}>
+                      <div className="py-5 px-2 ">
+                        <div
+                          key={index}
+                          className="rounded overflow-hidden  hover:shadow-xl"
+                        >
+                          <img src={doc.images} alt="" />
+                          <div className="py-3 px-3 text-center flex justify-evenly">
+                            <div className="text-sm">{doc.packageName}</div>
+                            <div className="text-sm text-green-500">
+                              {doc.price.toLocaleString("en-IN", {
+                                style: "currency",
+                                currency: "INR",
+                              })}
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
                     </Link>
                   ))}
               </div>
             ) : (
-              <div className="p-5 mt-10 h-[29rem]">No Package Available!</div>
+              <div className="p-5 mt-10 h-[29rem] text-red-400">No Package Available!</div>
             )}
           </div>
         </div>
