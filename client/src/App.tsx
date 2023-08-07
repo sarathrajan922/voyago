@@ -25,7 +25,6 @@ export function Agent() {
   useEffect(() => {
     const getToken = () => {
       const token = localStorage.getItem("agentToken");
-      console.log(token)
       setIslogged(true);
       setIsAgentLogged(token);
     };

@@ -1,20 +1,10 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 
-// import { useEffect, useState } from "react";
+
 import { Link } from "react-router-dom";
 
 
 export default function AgentDashBoard(){
-
-  // const [isAgentLogged, setIsAgentLogged] = useState<string | null>(null)
-
-  // useEffect(()=>{
-  //     const getToken = ()=>{
-  //       const token = localStorage.getItem('agentToken')
-  //       setIsAgentLogged(token)
-  //     }
-  //     getToken();
-  // },[])
 
   const clearToken = ()=>{
     localStorage.removeItem('agentToken')

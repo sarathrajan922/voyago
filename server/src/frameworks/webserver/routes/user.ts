@@ -10,7 +10,8 @@ import { signInWithGoogle } from "../../../application/useCase/auth/userAuth";
 import { googleAuthServiceInterface } from "../../../application/services/googleServiceInterface";
 import { googleAuthService } from "../../services/googleAuthService";
 import configKeys from "../../../config";
-
+import { SendMailService } from "../../services/sentMailService";
+import { sentEmailServiceInterface } from "../../../application/services/sendMail";
 
 const authRouter = ()=>{
     const router = express.Router()
@@ -22,7 +23,9 @@ const authRouter = ()=>{
         googleAuthService,
         userDbRepository,
         userRepositoryMongoDB,
-
+        sentEmailServiceInterface,
+        SendMailService
+        
     )
 
     router.post('/user/signup',controller.userRegister)
@@ -45,6 +48,9 @@ const authRouter = ()=>{
     router.get('/get-all-coversation/:id',authenticationMiddleware,userRoleCheckMiddleware,controller.getAllConversation)
     router.get('/get-all-unique-category',authenticationMiddleware,userRoleCheckMiddleware,controller.getAllUniqueCategory)
     router.post('/user-password-update',authenticationMiddleware,userRoleCheckMiddleware,controller.userUpdatePassword)
+    router.post('/user-generate-otp',controller.generateOTPtoEmail)
+    router.post('/verify-otp',controller.verifyOTP)
+    router.post('/user-password-update-withEmail',controller.updatePasswordWithEmail)
     return router
 }
 

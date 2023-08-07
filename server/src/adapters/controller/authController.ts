@@ -7,6 +7,7 @@ import { Request, Response } from "express";
 import {
   createCommunityUseCase,
   createConversationUseCase,
+  generateOTPUseCase,
   getAlertMsgUseCase,
   getAllBookingsUseCase,
   getAllCommunityUseCase,
@@ -18,12 +19,14 @@ import {
   joinCommunityUseCase,
   paymentStatusChangeUseCase,
   signInWithGoogle,
+  updatePasswordWithEmailUseCase,
   updateUserProfileUseCase,
   userGetAllPackageUseCase,
   userLoginUserCase,
   userPackageBookingUseCase,
   userPasswordUpdateUseCase,
   userRegisterUseCase,
+  verifiyOTPUseCase,
 } from "../../application/useCase/auth/userAuth";
 import { UserRegisterInterface, UserInterface } from "../../types/user";
 import { getPackageUseCase } from "../../application/useCase/auth/userAuth";
@@ -31,6 +34,8 @@ import { CustomRequest } from "../../types/expressRequest";
 import { googleAuthService } from "../../frameworks/services/googleAuthService";
 import { GoogleAuthServiceInterface } from "../../application/services/googleServiceInterface";
 import { GoogleAuthService } from "../../frameworks/services/googleAuthService";
+import { SendEmailServiceInterface } from "../../application/services/sendMail";
+import { SendEmailService } from "../../frameworks/services/sentMailService";
 
 const authController = (
   authServiceInterface: AuthServiceInterface,
@@ -38,12 +43,15 @@ const authController = (
   googelAuthServiceInterface: GoogleAuthServiceInterface,
   googleAuthService: GoogleAuthService,
   userDbRepositoryInterface: UserDbInterface,
-  userDbRepositoryMongoDb: UserRepositoryMongoDB
+  userDbRepositoryMongoDb: UserRepositoryMongoDB,
+  emailServiceInterface: SendEmailServiceInterface,
+  emailServiceImpl: SendEmailService
+
 ) => {
   const dbRepositoryUser = userDbRepositoryInterface(userDbRepositoryMongoDb());
   const authServices = authServiceInterface(authService());
   const googleAuthServices = googelAuthServiceInterface(googleAuthService());
-
+  const emailService = emailServiceInterface(emailServiceImpl());
   const userRegister = asyncHandler(async (req: Request, res: Response) => {
     const user: UserRegisterInterface = req.body;
     const { token, userData } = await userRegisterUseCase(
@@ -175,6 +183,23 @@ const authController = (
     res.json({
       status: true,
       message: 'user password change successfuly',
+      result
+    })
+  }
+ )
+
+ const updatePasswordWithEmail = asyncHandler(
+  async(req:Request,res:Response)=>{
+    const email = req.body?.email ?? ''
+    const obj= {
+      newPassword: req.body?.password ?? ''
+    }
+    
+
+    const result = await updatePasswordWithEmailUseCase(email,obj,dbRepositoryUser,authServices)
+    res.json({
+      status: true,
+      message: 'user password update successful',
       result
     })
   }
@@ -333,6 +358,26 @@ const authController = (
     })
   })
 
+  const generateOTPtoEmail = asyncHandler(async(req:Request,res:Response)=>{
+    const userEmail = req.body?.email ?? ''
+    const result = await generateOTPUseCase(userEmail,dbRepositoryUser,emailService)
+    res.json({
+      status:true,
+      message: 'OTP sent to your Email success!',
+      result
+    })
+  });
+
+  const verifyOTP = asyncHandler(async(req:Request,res:Response)=>{
+    const userOTP = req.body?.otp ?? ''
+    const result = await verifiyOTPUseCase(userOTP.toString(),emailService)
+    res.json({
+      status:true,
+      message: 'OTP verification done!',
+      result
+    })
+  })
+
   return {
     userRegister,
     userLogin,
@@ -353,7 +398,10 @@ const authController = (
     getAllJoinedAndNotJoinedCommunity,
     createConversation,
     getAllConversation,
-    getAllUniqueCategory
+    getAllUniqueCategory,
+    generateOTPtoEmail,
+    verifyOTP,
+    updatePasswordWithEmail
   };
 };
 

@@ -28,6 +28,7 @@ export const userDbRepository= (repository:ReturnType<UserRepositoryMongoDB>)=>{
     const createConversation = async(conversationObj:ConversationInterface)=> repository.createConversation(conversationObj)
     const getAllConversation = async(communityId: string)=> repository.getAllConversation(communityId);
     const getAllUniqueCategory = async()=>repository.getAllUniqueCategory();
+    const userPasswordUpdatewithEmail = async(email:string,editedPassword:any)=> await repository.userPasswordUpdatewithEmail(email,editedPassword)
     return {
         addUser,
         getUserByEmail,
@@ -49,7 +50,8 @@ export const userDbRepository= (repository:ReturnType<UserRepositoryMongoDB>)=>{
         getAllJoinedAndNotJoinedCommunity,
         createConversation,
         getAllConversation,
-        getAllUniqueCategory
+        getAllUniqueCategory,
+        userPasswordUpdatewithEmail
     }
 
 }

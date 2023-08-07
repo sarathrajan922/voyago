@@ -32,6 +32,9 @@ import AgentProfileEdit from './components/agent/Pages/AgentProfileEdit';
 import Community from './components/user/chat/Community';
 import SearchComponent from './components/user/Pages/Search';
 import UserPasswordEdit from './components/user/Pages/passwordEdit';
+import EmailVerificationComponent from './components/user/forgotPassword/emailVerification';
+import OTPVerificationComponent from './components/user/forgotPassword/otpVerifcation';
+import ChangePasswordComponent from './components/user/forgotPassword/changePassword';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -81,6 +84,18 @@ import UserPasswordEdit from './components/user/Pages/passwordEdit';
             {
                 path: 'booked-details',
                 element: <BookingDetailsComponent/>
+            },
+            {
+                path: 'forgot-password',
+                element: <EmailVerificationComponent/>
+            },
+            {
+                path:'otp-verification/:email',
+                element: <OTPVerificationComponent/>
+            },
+            {
+                path:'change-password-with-email/:email',
+                element: <ChangePasswordComponent/>
             }
         ]
     },

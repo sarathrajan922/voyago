@@ -1,3 +1,5 @@
+
+// import { sendMailService } from './../../../frameworks/services/otpService';
 import { authService } from './../../../frameworks/services/authService';
 import { HttpStatus } from "../../../types/httpStatus";
 import {
@@ -10,7 +12,8 @@ import { UserDbInterface, userDbRepository } from "../../repository/userDBreposi
 import { UserInterface } from "../../../types/user";
 import { GoogleAuthServiceInterface } from "../../services/googleServiceInterface";
 import { CommunityInterface, JoinCommunityInterface } from "../../../types/community";
-import { isJsxFragment } from "typescript";
+import { SendEmailServiceInterface } from '../../services/sendMail';
+
 import { ConversationInterface } from "../../../types/conversation";
 
 export const userRegisterUseCase = async (
@@ -201,6 +204,22 @@ export const userPasswordUpdateUseCase = async(
 
 }
 
+export const updatePasswordWithEmailUseCase = async(
+  emailId:string,
+  eitedPassword:any,
+  userRepository:ReturnType<UserDbInterface>,
+  authService:ReturnType<AuthServiceInterface>
+)=>{
+  const newPassword = await authService.hashPassword(eitedPassword.newPassword);
+  const obj={
+    password:newPassword
+  }
+  const email = emailId.toString()
+  
+  const result = await userRepository.userPasswordUpdatewithEmail(email,obj)
+  return result
+}
+
 export const  getUserBookedDetailsUseCase = async(
   userId: string,
   packageId: string,
@@ -320,4 +339,32 @@ export const getAllUniqueCategoryUseCase = async(
     throw new AppError('could not find unique category',HttpStatus.NOT_FOUND)
   }
   return result
+}
+
+export const generateOTPUseCase = async(
+  userEmail: string,
+  userDbRepository: ReturnType<UserDbInterface>,
+  sendMailService: ReturnType<SendEmailServiceInterface>
+)=>{
+  const isExistingEmail = await userDbRepository.getUserByEmail(userEmail);
+  if(!isExistingEmail){
+    throw new AppError(`could not find user in this email`,HttpStatus.UNAUTHORIZED)
+  }
+//call the generate otp function to the userEmail
+  sendMailService.sentEmail(userEmail)
+  return isExistingEmail
+}
+
+export const verifiyOTPUseCase = async(
+  userOTP:string,
+  sendMailService: ReturnType<SendEmailServiceInterface>
+)=>{
+  const response = sendMailService.verifyOTP(userOTP)
+  if(response.message === 'OTP verified'){
+    return true
+  }else if( response.message === 'OTP is expired'){
+    throw new AppError('OTP is expired!',HttpStatus.NOT_ACCEPTABLE)
+  }else{
+    throw new AppError('OTP is Invalid!',HttpStatus.UNAUTHORIZED)
+  }
 }
