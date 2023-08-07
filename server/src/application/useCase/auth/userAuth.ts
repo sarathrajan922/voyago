@@ -1,3 +1,4 @@
+
 // import { sendMailService } from './../../../frameworks/services/otpService';
 import { authService } from './../../../frameworks/services/authService';
 import { HttpStatus } from "../../../types/httpStatus";
@@ -201,6 +202,22 @@ export const userPasswordUpdateUseCase = async(
   const result = await userRepository.userPasswordUpdate(userId,obj);
   return result;
 
+}
+
+export const updatePasswordWithEmailUseCase = async(
+  emailId:string,
+  eitedPassword:any,
+  userRepository:ReturnType<UserDbInterface>,
+  authService:ReturnType<AuthServiceInterface>
+)=>{
+  const newPassword = await authService.hashPassword(eitedPassword.newPassword);
+  const obj={
+    password:newPassword
+  }
+  const email = emailId.toString()
+  
+  const result = await userRepository.userPasswordUpdatewithEmail(email,obj)
+  return result
 }
 
 export const  getUserBookedDetailsUseCase = async(

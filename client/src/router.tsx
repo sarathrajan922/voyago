@@ -34,6 +34,7 @@ import SearchComponent from './components/user/Pages/Search';
 import UserPasswordEdit from './components/user/Pages/passwordEdit';
 import EmailVerificationComponent from './components/user/forgotPassword/emailVerification';
 import OTPVerificationComponent from './components/user/forgotPassword/otpVerifcation';
+import ChangePasswordComponent from './components/user/forgotPassword/changePassword';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -89,8 +90,12 @@ import OTPVerificationComponent from './components/user/forgotPassword/otpVerifc
                 element: <EmailVerificationComponent/>
             },
             {
-                path:'otp-verification',
+                path:'otp-verification/:email',
                 element: <OTPVerificationComponent/>
+            },
+            {
+                path:'change-password-with-email/:email',
+                element: <ChangePasswordComponent/>
             }
         ]
     },

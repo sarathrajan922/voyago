@@ -50,6 +50,7 @@ const authRouter = ()=>{
     router.post('/user-password-update',authenticationMiddleware,userRoleCheckMiddleware,controller.userUpdatePassword)
     router.post('/user-generate-otp',controller.generateOTPtoEmail)
     router.post('/verify-otp',controller.verifyOTP)
+    router.post('/user-password-update-withEmail',controller.updatePasswordWithEmail)
     return router
 }
 

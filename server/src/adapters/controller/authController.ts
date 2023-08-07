@@ -19,6 +19,7 @@ import {
   joinCommunityUseCase,
   paymentStatusChangeUseCase,
   signInWithGoogle,
+  updatePasswordWithEmailUseCase,
   updateUserProfileUseCase,
   userGetAllPackageUseCase,
   userLoginUserCase,
@@ -182,6 +183,23 @@ const authController = (
     res.json({
       status: true,
       message: 'user password change successfuly',
+      result
+    })
+  }
+ )
+
+ const updatePasswordWithEmail = asyncHandler(
+  async(req:Request,res:Response)=>{
+    const email = req.body?.email ?? ''
+    const obj= {
+      newPassword: req.body?.password ?? ''
+    }
+    
+
+    const result = await updatePasswordWithEmailUseCase(email,obj,dbRepositoryUser,authServices)
+    res.json({
+      status: true,
+      message: 'user password update successful',
       result
     })
   }
@@ -382,7 +400,8 @@ const authController = (
     getAllConversation,
     getAllUniqueCategory,
     generateOTPtoEmail,
-    verifyOTP
+    verifyOTP,
+    updatePasswordWithEmail
   };
 };
 

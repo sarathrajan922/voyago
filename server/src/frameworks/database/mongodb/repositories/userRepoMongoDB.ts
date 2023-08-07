@@ -71,6 +71,20 @@ export const userRepositoryMongoDB = () => {
     }
   }
 
+  const userPasswordUpdatewithEmail = async(
+    email: string,
+    editedPassword:any
+  )=>{
+    console.log(email)
+    try{
+      const updatedPassword = await User.findOneAndUpdate({email},{$set: editedPassword},{new:true})
+      return true
+    }catch(error){
+      console.log(error);
+      throw error;
+    }
+  }
+
   const getUserBookedDetails = async (userId: string, packageId: string) => {
     try {
       const newData = await TourConfirm.aggregate([
@@ -292,7 +306,8 @@ export const userRepositoryMongoDB = () => {
     getAllJoinedAndNotJoinedCommunity,
     createConversation,
     getAllConversation,
-    getAllUniqueCategory
+    getAllUniqueCategory,
+    userPasswordUpdatewithEmail
   };
 };
 

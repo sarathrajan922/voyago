@@ -34,7 +34,7 @@ const EmailVerificationComponent: React.FC = () => {
             userRequestOTP(email).then((res)=>{
                 notify('OTP sent to your email!','success')
                 //naviage to the enter OTP page
-                navigate('/otp-verification')
+                navigate(`/otp-verification/${email}`)
             }).catch((err:any)=>{
                 notify(err.message,'error')
             })

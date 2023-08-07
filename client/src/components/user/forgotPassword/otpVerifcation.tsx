@@ -2,7 +2,11 @@ import { Input } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import { verifyUserOtp } from "../../../features/axios/api/user/userVerifyOTP";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate, useParams } from "react-router-dom";
 const OTPVerificationComponent:React.FC = ()=>{
+  const {email} = useParams()
+  
+  const navigate = useNavigate();
     const [otp,setOtp]=useState<any |null>(null)
     const [ErrorMsg,setErrorMsg]=useState<string | null>(null)
     const handleInputChange = (e:any)=>{
@@ -25,13 +29,14 @@ const OTPVerificationComponent:React.FC = ()=>{
     },[otp])
 
     const handleSubmit = ()=>{
-     console.log(otp)
-
     //  check the otp is number and call api for verification
       if(isOTPValid(otp)){
         verifyUserOtp(otp).then(()=>{
           notify('OTP verified success!','success')
           //navigate to forgot password page
+          setTimeout(()=>{
+            navigate(`/change-password-with-email/${email}`)
+          },1500)
         }).catch((err:any)=>{
           notify(err.message,'error')
         })

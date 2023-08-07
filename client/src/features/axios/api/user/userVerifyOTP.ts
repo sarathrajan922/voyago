@@ -6,7 +6,6 @@ export const verifyUserOtp = async(otp:number)=>{
         const obj={
             otp: otp.toString()
         }
-       
         const config: AxiosRequestConfig = {
             url: BASE_URL+urls.USER_VERIFY_OTP,
             method:'post',
