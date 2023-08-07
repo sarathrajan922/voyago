@@ -2,16 +2,17 @@ import { Input } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import { userRequestOTP } from "../../../features/axios/api/user/userRequestOTP";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 
 const EmailVerificationComponent: React.FC = () => {
-
-    const [email,setEmail] = useState<string>('')
+    const navigate = useNavigate()
+    const [email,setEmail] = useState<any>('')
     const [ErrorMsg,setErrorMsg]=useState<string | null>(null)
     const handleInputChange = (e:any)=>{
         setEmail(e.target.value)
     }
-    console.log(email)
+    
 
     function isEmailValid(email:string) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -33,6 +34,7 @@ const EmailVerificationComponent: React.FC = () => {
             userRequestOTP(email).then((res)=>{
                 notify('OTP sent to your email!','success')
                 //naviage to the enter OTP page
+                navigate('/otp-verification')
             }).catch((err:any)=>{
                 notify(err.message,'error')
             })

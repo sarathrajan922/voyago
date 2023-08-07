@@ -33,6 +33,7 @@ import Community from './components/user/chat/Community';
 import SearchComponent from './components/user/Pages/Search';
 import UserPasswordEdit from './components/user/Pages/passwordEdit';
 import EmailVerificationComponent from './components/user/forgotPassword/emailVerification';
+import OTPVerificationComponent from './components/user/forgotPassword/otpVerifcation';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -82,9 +83,14 @@ import EmailVerificationComponent from './components/user/forgotPassword/emailVe
             {
                 path: 'booked-details',
                 element: <BookingDetailsComponent/>
-            },{
+            },
+            {
                 path: 'forgot-password',
                 element: <EmailVerificationComponent/>
+            },
+            {
+                path:'otp-verification',
+                element: <OTPVerificationComponent/>
             }
         ]
     },

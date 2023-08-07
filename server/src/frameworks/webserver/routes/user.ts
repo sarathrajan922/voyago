@@ -10,7 +10,8 @@ import { signInWithGoogle } from "../../../application/useCase/auth/userAuth";
 import { googleAuthServiceInterface } from "../../../application/services/googleServiceInterface";
 import { googleAuthService } from "../../services/googleAuthService";
 import configKeys from "../../../config";
-
+import { SendMailService } from "../../services/sentMailService";
+import { sentEmailServiceInterface } from "../../../application/services/sendMail";
 
 const authRouter = ()=>{
     const router = express.Router()
@@ -22,7 +23,9 @@ const authRouter = ()=>{
         googleAuthService,
         userDbRepository,
         userRepositoryMongoDB,
-
+        sentEmailServiceInterface,
+        SendMailService
+        
     )
 
     router.post('/user/signup',controller.userRegister)

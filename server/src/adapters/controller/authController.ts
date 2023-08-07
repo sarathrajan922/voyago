@@ -32,6 +32,8 @@ import { CustomRequest } from "../../types/expressRequest";
 import { googleAuthService } from "../../frameworks/services/googleAuthService";
 import { GoogleAuthServiceInterface } from "../../application/services/googleServiceInterface";
 import { GoogleAuthService } from "../../frameworks/services/googleAuthService";
+import { SendEmailServiceInterface } from "../../application/services/sendMail";
+import { SendEmailService } from "../../frameworks/services/sentMailService";
 
 const authController = (
   authServiceInterface: AuthServiceInterface,
@@ -39,12 +41,15 @@ const authController = (
   googelAuthServiceInterface: GoogleAuthServiceInterface,
   googleAuthService: GoogleAuthService,
   userDbRepositoryInterface: UserDbInterface,
-  userDbRepositoryMongoDb: UserRepositoryMongoDB
+  userDbRepositoryMongoDb: UserRepositoryMongoDB,
+  emailServiceInterface: SendEmailServiceInterface,
+  emailServiceImpl: SendEmailService
+
 ) => {
   const dbRepositoryUser = userDbRepositoryInterface(userDbRepositoryMongoDb());
   const authServices = authServiceInterface(authService());
   const googleAuthServices = googelAuthServiceInterface(googleAuthService());
-
+  const emailService = emailServiceInterface(emailServiceImpl());
   const userRegister = asyncHandler(async (req: Request, res: Response) => {
     const user: UserRegisterInterface = req.body;
     const { token, userData } = await userRegisterUseCase(
@@ -336,7 +341,7 @@ const authController = (
 
   const generateOTPtoEmail = asyncHandler(async(req:Request,res:Response)=>{
     const userEmail = req.body?.email ?? ''
-    const result = await generateOTPUseCase(userEmail,dbRepositoryUser)
+    const result = await generateOTPUseCase(userEmail,dbRepositoryUser,emailService)
     res.json({
       status:true,
       message: 'OTP sent to your Email success!',
