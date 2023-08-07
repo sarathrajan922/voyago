@@ -49,7 +49,7 @@ const authRouter = ()=>{
     router.get('/get-all-unique-category',authenticationMiddleware,userRoleCheckMiddleware,controller.getAllUniqueCategory)
     router.post('/user-password-update',authenticationMiddleware,userRoleCheckMiddleware,controller.userUpdatePassword)
     router.post('/user-generate-otp',controller.generateOTPtoEmail)
-    
+    router.post('/verify-otp',controller.verifyOTP)
     return router
 }
 

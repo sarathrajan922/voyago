@@ -25,6 +25,7 @@ import {
   userPackageBookingUseCase,
   userPasswordUpdateUseCase,
   userRegisterUseCase,
+  verifiyOTPUseCase,
 } from "../../application/useCase/auth/userAuth";
 import { UserRegisterInterface, UserInterface } from "../../types/user";
 import { getPackageUseCase } from "../../application/useCase/auth/userAuth";
@@ -347,6 +348,16 @@ const authController = (
       message: 'OTP sent to your Email success!',
       result
     })
+  });
+
+  const verifyOTP = asyncHandler(async(req:Request,res:Response)=>{
+    const userOTP = req.body?.otp ?? ''
+    const result = await verifiyOTPUseCase(userOTP.toString(),emailService)
+    res.json({
+      status:true,
+      message: 'OTP verification done!',
+      result
+    })
   })
 
   return {
@@ -370,7 +381,8 @@ const authController = (
     createConversation,
     getAllConversation,
     getAllUniqueCategory,
-    generateOTPtoEmail
+    generateOTPtoEmail,
+    verifyOTP
   };
 };
 

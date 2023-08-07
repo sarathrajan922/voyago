@@ -1,3 +1,4 @@
+// import { sendMailService } from './../../../frameworks/services/otpService';
 import { authService } from './../../../frameworks/services/authService';
 import { HttpStatus } from "../../../types/httpStatus";
 import {
@@ -335,4 +336,18 @@ export const generateOTPUseCase = async(
 //call the generate otp function to the userEmail
   sendMailService.sentEmail(userEmail)
   return isExistingEmail
+}
+
+export const verifiyOTPUseCase = async(
+  userOTP:string,
+  sendMailService: ReturnType<SendEmailServiceInterface>
+)=>{
+  const response = sendMailService.verifyOTP(userOTP)
+  if(response.message === 'OTP verified'){
+    return true
+  }else if( response.message === 'OTP is expired'){
+    throw new AppError('OTP is expired!',HttpStatus.NOT_ACCEPTABLE)
+  }else{
+    throw new AppError('OTP is Invalid!',HttpStatus.UNAUTHORIZED)
+  }
 }
