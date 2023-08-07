@@ -25,7 +25,6 @@ import {
   InboxArrowDownIcon,
   LifebuoyIcon,
   PowerIcon,
-  
   RocketLaunchIcon,
   Bars2Icon,
   
@@ -42,15 +41,15 @@ function LoginRegister() {
   return (
     <div className="flex justify-end">
       <Link to= {'/login'}>
-      <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-xs font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+      <button class="relative inline-flex items-center right-6 justify-center p-0.5 mb-2 mr-2 overflow-hidden text-xs font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
         <span class="relative px-5 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
           Login
         </span>
       </button>
       </Link>
-      <Link to= {'/signup'}>
+      <Link to= {'/signup'} >
       
-      <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-xs font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800">
+      <button class="relative inline-flex right-6 items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-xs font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800">
         <span class="relative px-5 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
           Register
         </span>
@@ -486,6 +485,9 @@ export default function ComplexNavbar() {
         <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
           <NavList />
         </div>
+        <div className="absolute mt-2 md:left-3/4 left-2/4" >
+          {!userToken &&  <LoginRegister />}
+        </div>
         <IconButton
           size="sm"
           color="blue-gray"
@@ -495,9 +497,10 @@ export default function ComplexNavbar() {
         >
           <Bars2Icon className="h-6 w-6" />
         </IconButton>
-        <div className="absolute  pl-10 ml-5 pt-2 top-2/4  hidden -translate-x-2/4 -translate-y-2/4 lg:block" style={{ left: '88%' }}>
-          {userToken ? <ProfileMenu /> : <LoginRegister />}
-        </div>
+        {userToken && <ProfileMenu />}
+       
+        
+        
       </div>
       <MobileNav open={isNavOpen} className="overflow-scroll">
         <NavList />

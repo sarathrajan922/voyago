@@ -155,29 +155,29 @@ export const SecondaryCarousel: React.FC<CarouselProps> = ({ images }) => {
         ))}
       
          <div className="absolute z-20 inset-0 grid h-full w-full  items-center bg-black/75">
-          <div className="w-3/4 pl-12 md:w-2/4 md:pl-20 lg:pl-32">
+          <div className="w-3/4 pl-12 md:w-3/4 md:pl-20 lg:pl-24">
             <Typography
               variant="h1"
               color="white"
-              className="mb-4 text-3xl md:text-4xl lg:text-4xl"
+              className="mb-4 text-xl md:text-3xl lg:text-4xl"
             >
               Make Your Trip Easy
             </Typography>
             <Typography
               variant="lead"
               color="white"
-              className="mb-12 opacity-80"
+              className="mb-12 opacity-80 md:text-xl text-sm"
             >
               It is not so much for its beauty that the forest makes a claim
               upon men&apos;s hearts, as for that subtle something, that
               quality of air that emanation from old trees
             </Typography>
             <div className="flex gap-2">
-              <Button size="lg" color="white">
+              <Button size="sm" color="white">
                 Explore
               </Button>
                 <Link to='/search'>
-              <Button size="lg" color="white" variant="text">
+              <Button size="sm" color="white" variant="text">
                  Search
               </Button>
                 </Link>
