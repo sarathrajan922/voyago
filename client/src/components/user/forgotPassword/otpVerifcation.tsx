@@ -1,12 +1,23 @@
 import { Input } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
-
+import { verifyUserOtp } from "../../../features/axios/api/user/userVerifyOTP";
+import { ToastContainer, toast } from "react-toastify";
 const OTPVerificationComponent:React.FC = ()=>{
-    const [otp,setOtp]=useState<string>('')
+    const [otp,setOtp]=useState<any |null>(null)
     const [ErrorMsg,setErrorMsg]=useState<string | null>(null)
     const handleInputChange = (e:any)=>{
         setOtp(e.target.value)
     }
+    const notify = (msg: string, type: string) => {
+      type === "error"
+        ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
+        : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
+    };
+
+    function isOTPValid(otp:any) {
+      const otpRegex =/^\d+$/;
+      return otpRegex.test(otp);
+  }
 
 
     useEffect(()=>{
@@ -17,6 +28,16 @@ const OTPVerificationComponent:React.FC = ()=>{
      console.log(otp)
 
     //  check the otp is number and call api for verification
+      if(isOTPValid(otp)){
+        verifyUserOtp(otp).then(()=>{
+          notify('OTP verified success!','success')
+          //navigate to forgot password page
+        }).catch((err:any)=>{
+          notify(err.message,'error')
+        })
+      }else{
+        setErrorMsg('only number can allowed')
+      }
     }
 
     return (
@@ -31,7 +52,7 @@ const OTPVerificationComponent:React.FC = ()=>{
           ENTER YOUR OTP
         </h2>
       </div>
- {/* <ToastContainer/> */}
+ <ToastContainer/>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm flex-col justify-center">
         <div>
         <Input
