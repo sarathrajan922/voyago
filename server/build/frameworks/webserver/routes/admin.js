@@ -1,0 +1,30 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const authService_1 = require("../../services/authService");
+const authServiceInterface_1 = require("../../../application/services/authServiceInterface");
+const adminDBrepository_1 = require("../../../application/repository/adminDBrepository");
+const adminRepoMongoDB_1 = require("../../database/mongodb/repositories/adminRepoMongoDB");
+const adminController_1 = __importDefault(require("../../../adapters/controller/adminController"));
+const authenticationMiddleware_1 = __importDefault(require("../middlewares/authenticationMiddleware"));
+const roleCheck_1 = require("../middlewares/roleCheck");
+const adminRouter = () => {
+    const router = express_1.default.Router();
+    const controller = (0, adminController_1.default)(authServiceInterface_1.authServiceInterface, authService_1.authService, adminDBrepository_1.adminDbRepository, adminRepoMongoDB_1.adminRepossitoryMongoDB);
+    router.post("/login", controller.adminLogin);
+    router.get("/get-all-users", authenticationMiddleware_1.default, roleCheck_1.adminRoleCheckMiddleware, controller.adminGetAllUsers);
+    router.get("/get-all-agents", authenticationMiddleware_1.default, roleCheck_1.adminRoleCheckMiddleware, controller.adminGetAllAgents);
+    router.post("/block-user/:id", authenticationMiddleware_1.default, roleCheck_1.adminRoleCheckMiddleware, controller.adminBlockUser);
+    router.post("/block-agent/:id", authenticationMiddleware_1.default, roleCheck_1.adminRoleCheckMiddleware, controller.adminBlockAgent);
+    router.get("/get-all-unverified-agents", authenticationMiddleware_1.default, roleCheck_1.adminRoleCheckMiddleware, controller.getUnverifiedAgents);
+    router.post("/agent-verification/:id", authenticationMiddleware_1.default, roleCheck_1.adminRoleCheckMiddleware, controller.verifyAgent);
+    router.get('/get-basic-details-user-agent', authenticationMiddleware_1.default, roleCheck_1.adminRoleCheckMiddleware, controller.BasicDetailsUserAgentPackageBooking);
+    router.get('/get-all-agents-status', authenticationMiddleware_1.default, roleCheck_1.adminRoleCheckMiddleware, controller.getAgentsStatus);
+    router.get('/get-all-booking-stat', authenticationMiddleware_1.default, roleCheck_1.adminRoleCheckMiddleware, controller.getAllBookingStat);
+    router.get('/get-revenu', authenticationMiddleware_1.default, roleCheck_1.adminRoleCheckMiddleware, controller.getRevenue);
+    return router;
+};
+exports.default = adminRouter;
