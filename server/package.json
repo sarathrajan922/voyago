@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "build": "tsc",
-    "start": "nodemon ./dist/app.js",
+    "build": "tsc --outDir build",
+    "start": "nodemon ./build/app.js",
     "dev": "nodemon ./src/app.ts"
   },
   "keywords": [],
