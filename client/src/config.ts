@@ -56,7 +56,7 @@
     USER_UPDATE_PASSWORD_WITH_EMAIL: 'auth/user-password-update-withEmail'
  }
  
- const BASE_URL= 'https://voyago.site/8000/api/';
+ const BASE_URL= 'https://voyago.site/api/';
 //  const BASE_URL= 'http://localhost:8000/api/';
 
  export default BASE_URL;
