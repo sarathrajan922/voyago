@@ -5,10 +5,10 @@ import userRouter from "./user";
 import paymentRouter from './payment'
 
 const router = (app: Application) => {
-  app.use("/auth", userRouter());
-  app.use("/admin", adminRouter());
-  app.use("/agent", agentRouter());
-  app.use('/pay', paymentRouter())
+  app.use("/api/auth", userRouter());
+  app.use("/api/admin", adminRouter());
+  app.use("/api/agent", agentRouter());
+  app.use('/api/pay', paymentRouter())
 };
 
 export default router;
