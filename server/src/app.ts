@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import http from 'http'
 import expressConfig from './frameworks/webserver/express'
 import router from './frameworks/webserver/routes'
