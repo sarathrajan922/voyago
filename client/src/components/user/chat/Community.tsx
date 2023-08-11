@@ -11,6 +11,8 @@ import { format } from "timeago.js";
 import { userCreateConversation } from "../../../features/axios/api/user/userCreateConversation";
 import { io } from "socket.io-client";
 import { getUserDetails } from "../../../features/axios/api/user/userGetProfile";
+import { SOCKET_URL } from "../../../config";
+
 
 const Community: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
@@ -140,7 +142,9 @@ const Community: React.FC = () => {
 
   useEffect(() => {
     // socket.current = io("ws://localhost:8900");
-    socket.current = io('wss://voyago.site/socket/');
+    socket.current = io(SOCKET_URL);
+    // socket.current = io('wss://voyago.site/socket/');
+    
   }, []);
 
   useEffect(() => {
