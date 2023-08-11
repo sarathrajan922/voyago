@@ -1,6 +1,6 @@
 const io = require('socket.io')(8900,{
     cors:{
-        origin: 'http://localhost:3000'
+        origin: ['http://localhost:3000','https://voyago.site']
     }
 });
 console.log('socket listening on port 8900')
