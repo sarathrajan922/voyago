@@ -20,7 +20,7 @@ const Community: React.FC = () => {
   );
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    getUserDetails().then((response) => {
+    getUserDetails().then((response:any) => {
       setUserId(response.userData._id);
     });
   }, []);
@@ -139,7 +139,8 @@ const Community: React.FC = () => {
   }, [message, arraivalMsg]);
 
   useEffect(() => {
-    socket.current = io("ws://localhost:8900");
+    // socket.current = io("ws://localhost:8900");
+    socket.current = io("wss://voyago.site/socket.io/");
   }, []);
 
   useEffect(() => {

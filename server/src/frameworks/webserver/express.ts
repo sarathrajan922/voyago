@@ -1,10 +1,8 @@
-import express, {Application, NextFunction} from 'express'
-import configKeys from '../../config'
+import express, {Application} from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
-// const app = express()
 
 const expressConfig = (app: Application)=>{
 

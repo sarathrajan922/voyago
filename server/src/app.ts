@@ -5,7 +5,7 @@ import http from 'http'
 import expressConfig from './frameworks/webserver/express'
 import router from './frameworks/webserver/routes'
 import serverConfig from './frameworks/webserver/server'
-import express, {Express, Response, Request, Application, NextFunction } from 'express'
+import express, {Application} from 'express'
 import connectDB from './frameworks/database/mongodb/connection'
 import errorHandlingMiddleware from './frameworks/webserver/middlewares/errorHandle'
 
