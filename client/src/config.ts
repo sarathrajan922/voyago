@@ -57,7 +57,7 @@ export const urls = {
 };
 
 const BASE_URL = "https://voyago.site/api/";
+export const SOCKET_URL = "wss://voyago.site/socket.io/";
 //  const BASE_URL= 'http://localhost:8000/api/';
 // export const SOCKET_URL = "ws://localhost:8900";
-export const SOCKET_URL = "wss://voyago.site/socket/";
 export default BASE_URL;
