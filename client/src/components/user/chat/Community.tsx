@@ -140,7 +140,7 @@ const Community: React.FC = () => {
 
   useEffect(() => {
     // socket.current = io("ws://localhost:8900");
-    socket.current = io("https://voyago.site/socket.io/");
+    socket.current = io("wss://voyago.site/socket/");
   }, []);
 
   useEffect(() => {
