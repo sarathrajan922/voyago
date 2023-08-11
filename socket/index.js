@@ -2,9 +2,8 @@ const io = require('socket.io')(8900,{
     cors:{
         origin: 'http://localhost:3000'
     }
-   
 });
-
+console.log('socket listening on port 8900')
 let users = []
 
 const addUsers = (userId,socketId)=>{
