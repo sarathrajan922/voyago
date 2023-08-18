@@ -23,7 +23,7 @@ const validationSchema = Yup.object({
     .min(5, "Password must be at least 5 characters long"),
 });
 
-export default function Login() {
+export default function Login1() {
   const [isLogin,setIsLogin] = useState<boolean | null>(null)
 
   useEffect(()=>{
@@ -76,8 +76,18 @@ export default function Login() {
     <CircleLoader color="#1bacbf " />
   </div>
 </div> :   (
-
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 ">
+ <section className="my-28 mb-44 dark:bg-gray-900">
+        <div className="px-4 mx-auto max-w-screen-xl lg:pt-0">
+          <div className="flex flex-col h-[35rem] items-center justify-center lg:flex-row lg:justify-center">
+            
+            <div className="w-1/2 mt-20 md:mt-72 lg:w-1/2 lg:my-0 md:my-5">
+              <img
+                className="w-full h-auto my-20 mb-10 lg:my-0 md:my-5 lg:max-w-lg mx-auto"
+                src="https://res.cloudinary.com/dk4darniv/image/upload/v1692338947/animated%20svg/around-the-world-animate_ztnvyh.svg"
+                alt="svg logo"
+              />
+            </div>
+            <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 ">
         
         <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
           <img
@@ -178,6 +188,10 @@ export default function Login() {
         </div>
         <ToastContainer />
       </div>
+
+          </div>
+        </div>
+      </section>     
   
   );
 }

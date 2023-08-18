@@ -32,15 +32,7 @@ const UserProfile: React.FC = () => {
     <section className=" bg-white mt-0 dark:bg-gray-900">
       <div className=" px-4 mx-auto max-w-screen-xl lg:pt-0">
         <div className=" flex flex-col justify-evenly md:p-12 ">
-          {/* 
-          <div>
-            <img
-              className="w-full max-h-[14rem] mt-0 overflow-hidden object-cover"
-              src="https://res.cloudinary.com/dk4darniv/image/upload/w_1000,ar_16:9,c_fill,g_auto,e_sharpen/v1689050866/samples/360_F_119670247_HDccziQUuo2kFpaN_sczmrj.png"
-              alt=""
-            />
-          </div> */}
-          {/* profile pic and name */}
+        
             <div className="grid lg:grid-cols-1 justify-items-center ">
               <div className="py-5 px-2 w-full flex max-h-[15rem]">
                 <div className="pb-3 text-start w-[13rem] lg:max-w-[8rem]  text-m lg:h-[8rem]  font-semibold text-gray-900 dark:text-white">
@@ -67,7 +59,7 @@ const UserProfile: React.FC = () => {
 
           {/* email , mobile, status  */}
           <div className="grid lg:grid-cols-1 justify-items-center pt-5  ">
-            <div className="pt-5 px-2 w-full  flex max-h-[15rem] hover:shadow">
+            <div className="pt-5 px-2 w-full  flex max-h-[15rem]">
               <div className="pb-3 text-start w-full lg:max-w-[25rem]  text-m    font-semibold text-gray-900 dark:text-white">
                 <div className="w-full h-[3rem]  py-5 my-2">
                   email:
