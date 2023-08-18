@@ -35,7 +35,7 @@ import { Server, Socket } from 'socket.io';
     
         // send and get message
         socket.on('sendMessage', (data: { userId: string; message: string; communityIds: string[] }) => {
-            console.log(data);
+           
             io.emit('getMessage', {
                 senderId: data.userId,
                 message: data.message,

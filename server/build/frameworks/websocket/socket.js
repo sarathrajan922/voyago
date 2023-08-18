@@ -27,7 +27,6 @@ const socketConfig = (io) => {
         });
         // send and get message
         socket.on('sendMessage', (data) => {
-            console.log(data);
             io.emit('getMessage', {
                 senderId: data.userId,
                 message: data.message,
