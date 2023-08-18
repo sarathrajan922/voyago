@@ -35,6 +35,7 @@ import UserPasswordEdit from './components/user/Pages/passwordEdit';
 import EmailVerificationComponent from './components/user/forgotPassword/emailVerification';
 import OTPVerificationComponent from './components/user/forgotPassword/otpVerifcation';
 import ChangePasswordComponent from './components/user/forgotPassword/changePassword';
+import ContactComponent from './components/user/Pages/Contact';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -96,6 +97,10 @@ import ChangePasswordComponent from './components/user/forgotPassword/changePass
             {
                 path:'change-password-with-email/:email',
                 element: <ChangePasswordComponent/>
+            },
+            {
+                path:'contact',
+                element: <ContactComponent/>
             }
         ]
     },

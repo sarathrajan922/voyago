@@ -56,8 +56,8 @@ export const urls = {
   USER_UPDATE_PASSWORD_WITH_EMAIL: "auth/user-password-update-withEmail",
 };
 
-const BASE_URL = "https://voyago.site/api/";
-export const SOCKET_URL = "wss://voyago.site/socket.io/";
-//  const BASE_URL= 'http://localhost:8000/api/';
-// export const SOCKET_URL = "ws://localhost:8000";
+// const BASE_URL = "https://voyago.site/api/";
+// export const SOCKET_URL = "wss://voyago.site/socket.io/";
+ const BASE_URL= 'http://localhost:8000/api/';
+export const SOCKET_URL = "ws://localhost:8000";
 export default BASE_URL;

@@ -324,7 +324,7 @@ function NavList() {
       icon: PhoneIcon,
       action: () => {
         // Action for Account
-        
+        navigate('/contact')
       },
     },
     
