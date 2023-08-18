@@ -36,6 +36,7 @@ import EmailVerificationComponent from './components/user/forgotPassword/emailVe
 import OTPVerificationComponent from './components/user/forgotPassword/otpVerifcation';
 import ChangePasswordComponent from './components/user/forgotPassword/changePassword';
 import ContactComponent from './components/user/Pages/Contact';
+import Login1 from './components/user/Login/Login1';
  const AppRouter = createBrowserRouter([
     {
         path: '/',
@@ -47,7 +48,7 @@ import ContactComponent from './components/user/Pages/Contact';
             },
             {
                 path: 'login',
-                element:<Login/>,
+                element:<Login1/>,
             },
             {
                 path: 'signup',

@@ -21,8 +21,7 @@ const io = new Server<any>(server,{
     cors:{
         origin:true,
         methods:["GET","POST"]
-    },
-    path:'/api'
+    }
   });
   
   socketConfig(io)

@@ -13,12 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-mongoose_1.default.set('strictQuery', true);
+mongoose_1.default.set("strictQuery", true);
 const config_1 = __importDefault(require("../../../config"));
-const mongodbUrl = "mongodb+srv://sarathrajan:cnbvRjsjfyQA90Se@timeshub.l0vdmu5.mongodb.net/test?authSource=timesHub&authMechanism=SCRAM-SHA-1";
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     const dbObject = {
-        dbName: config_1.default.DB_NAME
+        dbName: config_1.default.DB_NAME,
     };
     try {
         yield mongoose_1.default.connect(config_1.default.MONGO_DB_URL, dbObject);
