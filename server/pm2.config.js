@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
       {
-        name: '',
+        name: 'voyago',
         script: 'build/app.js',
         env: {
           NODE_ENV: 'production', 
